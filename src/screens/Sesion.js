@@ -15,7 +15,7 @@ function Sesion({ onNavigate }) {
         {modo === 'video' ? (
           <div className="video-box">
             <iframe
-              src="https://www.youtube.com/embed/IUOl1mV_QGo?rel=0&modestbranding=1"
+              src="https://www.youtube.com/embed/AP5qWR0b7s8?rel=0&modestbranding=1"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               title="Respiración, la base de todo"
