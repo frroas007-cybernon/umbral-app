@@ -25,7 +25,7 @@ function Sesion({ onNavigate }) {
           <div className="audio-player">
             <div className="audio-label">🎧 SOLO AUDIO</div>
             <audio controls controlsList="nodownload">
-              <source src="audio1.mp3" type="audio/mpeg" />
+              <source src="/audio1.mp3" type="audio/mpeg" />
             </audio>
           </div>
         )}
