@@ -5,7 +5,15 @@ import { useRacha } from '../hooks/useRacha';
 function AfirmacionDetalle({ onNavigate }) {
   const [modo, setModo] = useState('video');
   const [showModal, setShowModal] = useState(false);
+  const [guardado, setGuardado] = useState(false);
   const { marcarCompletada } = useRacha();
+
+  const guardarOffline = async () => {
+    if (guardado) return;
+    const cache = await caches.open('umbral-v2');
+    await cache.add('/afirmacion-calma.mp3');
+    setGuardado(true);
+  };
 
   return (
     <div className="screen">
@@ -44,7 +52,21 @@ function AfirmacionDetalle({ onNavigate }) {
               <audio controls controlsList="nodownload">
                 <source src="/afirmacion-calma.mp3" type="audio/mpeg" />
               </audio>
+              <div
+                onClick={guardarOffline}
+                style={{
+                  textAlign: 'center',
+                  marginTop: 12,
+                  fontSize: 12,
+                  color: guardado ? '#8A7A6E' : '#C4977A',
+                  cursor: guardado ? 'default' : 'pointer',
+                  opacity: guardado ? 0.6 : 1
+                }}
+              >
+                {guardado ? '✓ Audio guardado sin conexión' : '📥 Guardar audio para escuchar sin conexión'}
+              </div>
             </div>
+
             <div className="sess-tag">AFIRMACIONES · CALMA</div>
             <div className="sess-title">Frases para<br />reprogramar tu subconsciente</div>
             <div className="sess-desc">
