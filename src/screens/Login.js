@@ -49,9 +49,7 @@ function Login({ onNavigate, onLogin }) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: { name: nombre }
-      }
+      options: { data: { name: nombre } }
     });
     if (error) {
       setError(error.message);
@@ -77,11 +75,11 @@ function Login({ onNavigate, onLogin }) {
 
   return (
     <div className="screen">
-      <div className="screen-content" style={{ justifyContent: 'center', display: 'flex', flexDirection: 'column' }}>
+      <div className="screen-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
         {/* Logo */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24, marginTop: 20 }}>
-          <svg viewBox="0 0 300 175" xmlns="http://www.w3.org/2000/svg" style={{ width: 140, height: 'auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20, marginTop: 20 }}>
+          <svg viewBox="0 0 300 175" xmlns="http://www.w3.org/2000/svg" style={{ width: 120, height: 'auto' }}>
             <ellipse cx="150" cy="120" rx="42" ry="7" fill="#7AACB5" opacity="0.30"/>
             <ellipse cx="150" cy="125" rx="28" ry="4" fill="#7AACB5" opacity="0.18"/>
             <path d="M 110 114 A 40 40 0 0 1 190 114 Z" fill="#C4977A"/>
@@ -98,10 +96,10 @@ function Login({ onNavigate, onLogin }) {
           </svg>
         </div>
 
-        <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 26, color: '#3D3530', textAlign: 'center', marginBottom: 6 }}>
+        <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 26, color: '#3D3530', textAlign: 'center', marginBottom: 4 }}>
           {modo === 'login' ? 'Bienvenido/a de vuelta' : 'Crea tu cuenta'}
         </div>
-        <div style={{ fontSize: 13, color: '#8A7A6E', textAlign: 'center', marginBottom: 32 }}>
+        <div style={{ fontSize: 13, color: '#8A7A6E', textAlign: 'center', marginBottom: 24 }}>
           {modo === 'login' ? 'Inicia sesión para continuar' : 'Es gratis, siempre'}
         </div>
 
@@ -113,20 +111,30 @@ function Login({ onNavigate, onLogin }) {
               onChange={e => setNombre(e.target.value)}
               style={inputStyle}
             />
+
             <select
               value={genero}
               onChange={e => setGenero(e.target.value)}
-              style={{ ...inputStyle, color: genero ? '#3D3530' : '#8A7A6E' }}
+              style={{
+                ...inputStyle,
+                color: genero ? '#3D3530' : '#8A7A6E',
+                appearance: 'auto',
+                WebkitAppearance: 'auto',
+                background: '#F7F3EE',
+              }}
             >
-              <option value="" disabled>Género</option>
+              <option value="" disabled>Género (opcional)</option>
               <option value="masculino">Masculino</option>
               <option value="femenino">Femenino</option>
               <option value="no_binario">No binario</option>
               <option value="prefiero_no_decir">Prefiero no decir</option>
             </select>
-            <div style={{ position: 'relative', marginBottom: 12 }}>
+
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontSize: 11, color: '#8A7A6E', marginBottom: 4, paddingLeft: 2 }}>
+                Fecha de nacimiento (opcional)
+              </div>
               <input
-                placeholder="Fecha de nacimiento"
                 value={fechaNacimiento}
                 onChange={e => setFechaNacimiento(e.target.value)}
                 style={{ ...inputStyle, marginBottom: 0 }}
@@ -134,9 +142,6 @@ function Login({ onNavigate, onLogin }) {
                 max={new Date().toISOString().split('T')[0]}
                 min="1900-01-01"
               />
-              <div style={{ fontSize: 10, color: '#8A7A6E', marginTop: 4, paddingLeft: 4 }}>
-                Fecha de nacimiento (opcional)
-              </div>
             </div>
           </>
         )}
@@ -181,7 +186,7 @@ function Login({ onNavigate, onLogin }) {
 
         <button
           className="btn-main"
-          style={{ marginTop: 8 }}
+          style={{ marginTop: 4 }}
           onClick={modo === 'login' ? handleLogin : handleRegistro}
           disabled={loading}
         >
@@ -203,14 +208,14 @@ function Login({ onNavigate, onLogin }) {
         </button>
 
         <div
-          style={{ textAlign: 'center', marginTop: 20, fontSize: 13, color: '#8A7A6E', cursor: 'pointer' }}
+          style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: '#8A7A6E', cursor: 'pointer' }}
           onClick={() => { setModo(modo === 'login' ? 'registro' : 'login'); setError(''); }}
         >
           {modo === 'login' ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
         </div>
 
         <div
-          style={{ textAlign: 'center', marginTop: 12, fontSize: 12, color: '#8A7A6E', cursor: 'pointer', opacity: 0.5 }}
+          style={{ textAlign: 'center', marginTop: 10, fontSize: 12, color: '#8A7A6E', cursor: 'pointer', opacity: 0.5 }}
           onClick={() => onLogin({ id: 'guest', email: 'guest' })}
         >
           Omitir por ahora
@@ -231,7 +236,8 @@ const inputStyle = {
   color: '#3D3530',
   marginBottom: 12,
   outline: 'none',
-  fontFamily: 'DM Sans, sans-serif'
+  fontFamily: 'DM Sans, sans-serif',
+  boxSizing: 'border-box'
 };
 
 export default Login;
