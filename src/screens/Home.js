@@ -8,6 +8,23 @@ const moods = [
   { key: 'paz', emoji: '🌿', label: 'Paz' },
 ];
 
+const sesiones = [
+  {
+    icon: '🌬️',
+    title: 'Respiración, la base de todo',
+    sub: 'Meditación · Sesión 1 · Libre',
+    screen: 'sesion',
+    color: '#C4977A'
+  },
+  {
+    icon: '🌊',
+    title: 'Afirmaciones: Calma',
+    sub: 'Afirmaciones · Sesión 1 · Libre',
+    screen: 'afirmacion-detalle',
+    color: '#7AACB5'
+  }
+];
+
 function Home({ onNavigate, onMood }) {
   const [selectedMood, setSelectedMood] = useState('bien');
 
@@ -15,6 +32,10 @@ function Home({ onNavigate, onMood }) {
     setSelectedMood(key);
     onMood(key);
   };
+
+  // Sesión del día según día de la semana
+  const diaHoy = new Date().getDay();
+  const sesionDelDia = sesiones[diaHoy % 2];
 
   return (
     <div className="screen">
@@ -69,13 +90,26 @@ function Home({ onNavigate, onMood }) {
           <div className="big-card-emoji">✨</div>
         </div>
 
+        {/* Yoga Hero Card */}
+        <div className="yoga-hero-card">
+          <img src="/yoga2.png" alt="Yoga" className="yoga-hero-img" />
+          <div className="yoga-hero-overlay">
+            <div className="yoga-hero-tag">YOGA · PRÓXIMAMENTE</div>
+            <div className="yoga-hero-title">Clases<br />de yoga</div>
+            <div className="yoga-hero-sub">Mueve tu cuerpo con intención y presencia</div>
+            <div className="yoga-hero-badge">PRONTO</div>
+          </div>
+        </div>
+
         {/* Sesión del día */}
         <div className="section-title">Sesión del día</div>
-        <div className="small-card" onClick={() => onNavigate('sesion')}>
-          <div className="small-icon">🌬️</div>
+        <div className="small-card" onClick={() => onNavigate(sesionDelDia.screen)}>
+          <div className="small-icon" style={{ background: sesionDelDia.color }}>
+            {sesionDelDia.icon}
+          </div>
           <div>
-            <div className="small-title">Respiración, la base de todo</div>
-            <div className="small-sub">Sesión 1 · Libre</div>
+            <div className="small-title">{sesionDelDia.title}</div>
+            <div className="small-sub">{sesionDelDia.sub}</div>
           </div>
         </div>
 
