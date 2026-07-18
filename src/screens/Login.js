@@ -10,6 +10,15 @@ function Login({ onNavigate, onLogin }) {
   const [modo, setModo] = useState('login');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const validarFecha = (fecha) => {
+    if (!fecha) return false;
+    const hoy = new Date();
+    const nacimiento = new Date(fecha);
+    const edad = hoy.getFullYear() - nacimiento.getFullYear();
+    return nacimiento < hoy && edad >= 5 && edad <= 120;
+  };
 
   const handleLogin = async () => {
     setLoading(true);
@@ -24,9 +33,26 @@ function Login({ onNavigate, onLogin }) {
   };
 
   const handleRegistro = async () => {
+    if (!email.includes('@')) return setError('Email no válido');
+    if (password.length < 6) return setError('La contraseña debe tener al menos 6 caracteres');
+    if (fechaNacimiento) {
+      const partes = fechaNacimiento.split('-');
+      if (partes.length !== 3 || partes.some(p => p === '')) {
+        return setError('Completa la fecha de nacimiento con día, mes y año');
+      }
+      if (!validarFecha(fechaNacimiento)) {
+        return setError('Fecha de nacimiento no válida');
+      }
+    }
     setLoading(true);
     setError('');
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name: nombre }
+      }
+    });
     if (error) {
       setError(error.message);
     } else {
@@ -45,9 +71,7 @@ function Login({ onNavigate, onLogin }) {
   const handleGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: {
-        redirectTo: window.location.origin
-      }
+      options: { redirectTo: window.location.origin }
     });
   };
 
@@ -81,7 +105,6 @@ function Login({ onNavigate, onLogin }) {
           {modo === 'login' ? 'Inicia sesión para continuar' : 'Es gratis, siempre'}
         </div>
 
-        {/* Campos registro */}
         {modo === 'registro' && (
           <>
             <input
@@ -101,13 +124,20 @@ function Login({ onNavigate, onLogin }) {
               <option value="no_binario">No binario</option>
               <option value="prefiero_no_decir">Prefiero no decir</option>
             </select>
-            <input
-              placeholder="Fecha de nacimiento"
-              value={fechaNacimiento}
-              onChange={e => setFechaNacimiento(e.target.value)}
-              style={inputStyle}
-              type="date"
-            />
+            <div style={{ position: 'relative', marginBottom: 12 }}>
+              <input
+                placeholder="Fecha de nacimiento"
+                value={fechaNacimiento}
+                onChange={e => setFechaNacimiento(e.target.value)}
+                style={{ ...inputStyle, marginBottom: 0 }}
+                type="date"
+                max={new Date().toISOString().split('T')[0]}
+                min="1900-01-01"
+              />
+              <div style={{ fontSize: 10, color: '#8A7A6E', marginTop: 4, paddingLeft: 4 }}>
+                Fecha de nacimiento (opcional)
+              </div>
+            </div>
           </>
         )}
 
@@ -118,13 +148,30 @@ function Login({ onNavigate, onLogin }) {
           onChange={e => setEmail(e.target.value)}
           style={inputStyle}
         />
-        <input
-          placeholder="Contraseña"
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          style={inputStyle}
-        />
+
+        <div style={{ position: 'relative', marginBottom: 12 }}>
+          <input
+            placeholder="Contraseña"
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            style={{ ...inputStyle, marginBottom: 0, paddingRight: 48 }}
+          />
+          <div
+            onClick={() => setShowPassword(!showPassword)}
+            style={{
+              position: 'absolute',
+              right: 14,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+              fontSize: 16,
+              color: '#8A7A6E'
+            }}
+          >
+            {showPassword ? '🙈' : '👁️'}
+          </div>
+        </div>
 
         {error && (
           <div style={{ color: '#C4977A', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>
@@ -141,21 +188,19 @@ function Login({ onNavigate, onLogin }) {
           {loading ? 'Cargando...' : modo === 'login' ? 'Entrar' : 'Crear cuenta'}
         </button>
 
-        {/* Google - próximamente
-<button
-  className="btn-sec"
-  style={{ marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
-  onClick={handleGoogle}
->
-  <svg width="18" height="18" viewBox="0 0 18 18">
-    <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
-    <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/>
-    <path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/>
-    <path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/>
-  </svg>
-  Continuar con Google
-</button>
-*/}
+        <button
+          className="btn-sec"
+          style={{ marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+          onClick={handleGoogle}
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18">
+            <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
+            <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/>
+            <path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/>
+            <path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/>
+          </svg>
+          Continuar con Google
+        </button>
 
         <div
           style={{ textAlign: 'center', marginTop: 20, fontSize: 13, color: '#8A7A6E', cursor: 'pointer' }}
