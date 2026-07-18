@@ -25,7 +25,7 @@ const sesiones = [
   }
 ];
 
-function Home({ onNavigate, onMood }) {
+function Home({ onNavigate, onMood, user }) {
   const [selectedMood, setSelectedMood] = useState('bien');
 
   const handleMood = (key) => {
@@ -33,9 +33,15 @@ function Home({ onNavigate, onMood }) {
     onMood(key);
   };
 
-  // Sesión del día según día de la semana
   const diaHoy = new Date().getDay();
   const sesionDelDia = sesiones[diaHoy % 2];
+
+  const nombreUsuario = user?.id === 'guest'
+  ? null
+  : user?.user_metadata?.name
+    || user?.user_metadata?.full_name
+    || user?.email?.split('@')[0]
+    || null;
 
   return (
     <div className="screen">
@@ -60,7 +66,9 @@ function Home({ onNavigate, onMood }) {
         </div>
 
         {/* Saludo */}
-        <div className="greeting">Hola, bienvenido/a 🌅</div>
+        <div className="greeting">
+          {nombreUsuario ? `Hola, ${nombreUsuario} 🌅` : 'Hola, bienvenido/a 🌅'}
+        </div>
         <div className="subgreeting">¿Qué sientes hoy?</div>
 
         {/* Moods */}

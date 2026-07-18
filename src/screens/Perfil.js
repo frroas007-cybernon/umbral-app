@@ -1,8 +1,15 @@
 import React from 'react';
 import { useRacha } from '../hooks/useRacha';
 
-function Perfil({ onNavigate }) {
+function Perfil({ onNavigate, user, onLogout }) {
   const { racha, sesiones } = useRacha();
+
+  const nombreUsuario = user?.id === 'guest'
+    ? null
+    : user?.user_metadata?.name
+      || user?.user_metadata?.full_name
+      || user?.email?.split('@')[0]
+      || null;
 
   return (
     <div className="screen">
@@ -11,8 +18,7 @@ function Perfil({ onNavigate }) {
         <div className="page-title">Perfil</div>
 
         <div className="perfil-avatar">👤</div>
-        <div className="perfil-nombre">Bienvenido/a</div>
-        <div className="perfil-plan">Plan gratuito</div>
+        <div className="perfil-nombre">{nombreUsuario || 'Bienvenido/a'}</div>
 
         <div className="stat-card">
           <div className="stat-label">SESIONES COMPLETADAS</div>
@@ -43,6 +49,24 @@ function Perfil({ onNavigate }) {
             Ayúdame a mantenerla gratuita para siempre
           </div>
         </div>
+
+        {/* Cerrar sesión */}
+        {user?.id !== 'guest' && (
+          <div
+            style={{
+              textAlign: 'center',
+              marginTop: 8,
+              marginBottom: 20,
+              fontSize: 12,
+              color: '#8A7A6E',
+              cursor: 'pointer',
+              opacity: 0.6
+            }}
+            onClick={onLogout}
+          >
+            Cerrar sesión
+          </div>
+        )}
 
       </div>
 
