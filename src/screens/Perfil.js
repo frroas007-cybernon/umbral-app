@@ -1,6 +1,9 @@
 import React from 'react';
+import { useRacha } from '../hooks/useRacha';
 
 function Perfil({ onNavigate }) {
+  const { racha, sesiones } = useRacha();
+
   return (
     <div className="screen">
       <div className="screen-content">
@@ -8,17 +11,37 @@ function Perfil({ onNavigate }) {
         <div className="page-title">Perfil</div>
 
         <div className="perfil-avatar">👤</div>
-        <div className="perfil-nombre">Francisco Roa</div>
+        <div className="perfil-nombre">Bienvenido/a</div>
         <div className="perfil-plan">Plan gratuito</div>
 
         <div className="stat-card">
           <div className="stat-label">SESIONES COMPLETADAS</div>
-          <div className="stat-valor">0</div>
+          <div className="stat-valor">{sesiones}</div>
         </div>
 
         <div className="stat-card">
           <div className="stat-label">RACHA ACTUAL</div>
-          <div className="stat-valor">0 días 🔥</div>
+          <div className="stat-valor">{racha} {racha === 1 ? 'día' : 'días'} 🔥</div>
+        </div>
+
+        <div
+          style={{
+            background: '#3D3530',
+            borderRadius: 16,
+            padding: 20,
+            cursor: 'pointer',
+            textAlign: 'center',
+            marginBottom: 14
+          }}
+          onClick={() => window.open('https://ko-fi.com/franciscoroa', '_blank')}
+        >
+          <div style={{ fontSize: 22, marginBottom: 4 }}>☕</div>
+          <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 20, color: '#F7F3EE', marginBottom: 4 }}>
+            Apoya Umbral
+          </div>
+          <div style={{ fontSize: 12, color: 'rgba(247,243,238,0.85)' }}>
+            Ayúdame a mantenerla gratuita para siempre
+          </div>
         </div>
 
       </div>

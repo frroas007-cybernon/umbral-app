@@ -3,6 +3,8 @@ import './App.css';
 import Home from './screens/Home';
 import Meditaciones from './screens/Meditaciones';
 import Sesion from './screens/Sesion';
+import Afirmaciones from './screens/Afirmaciones';
+import AfirmacionDetalle from './screens/AfirmacionDetalle';
 import Perfil from './screens/Perfil';
 import MoodModal from './components/MoodModal';
 import Splash from './components/Splash';
@@ -25,6 +27,8 @@ function App() {
       {screen === 'home' && <Home onNavigate={navigate} onMood={setModalMood} />}
       {screen === 'meditaciones' && <Meditaciones onNavigate={navigate} />}
       {screen === 'sesion' && <Sesion onNavigate={navigate} />}
+      {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} />}
+      {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} />}
       {screen === 'perfil' && <Perfil onNavigate={navigate} />}
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
       <Splash visible={showSplash} />

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 const moods = [
-  { key: 'ansioso', emoji: '😔', label: 'Ansioso' },
-  { key: 'tenso', emoji: '😶', label: 'Tenso' },
-  { key: 'bien', emoji: '🙂', label: 'Bien' },
-  { key: 'tranquilo', emoji: '😌', label: 'Tranquilo' },
-  { key: 'paz', emoji: '🌿', label: 'En paz' },
+  { key: 'ansioso', emoji: '😣', label: 'Ansiedad' },
+  { key: 'tenso', emoji: '😶', label: 'Tensión' },
+  { key: 'bien', emoji: '🙂', label: 'Bienestar' },
+  { key: 'tranquilo', emoji: '😌', label: 'Tranquilidad' },
+  { key: 'paz', emoji: '🌿', label: 'Paz' },
 ];
 
 function Home({ onNavigate, onMood }) {
@@ -39,8 +39,8 @@ function Home({ onNavigate, onMood }) {
         </div>
 
         {/* Saludo */}
-        <div className="greeting">Hola, Francisco 🌅</div>
-        <div className="subgreeting">¿Cómo te sientes hoy?</div>
+        <div className="greeting">Hola, bienvenido/a 🌅</div>
+        <div className="subgreeting">¿Qué sientes hoy?</div>
 
         {/* Moods */}
         <div className="moods">
@@ -56,10 +56,17 @@ function Home({ onNavigate, onMood }) {
 
         {/* Tu práctica */}
         <div className="section-title">Tu práctica</div>
+
         <div className="big-card" onClick={() => onNavigate('meditaciones')}>
           <div className="big-card-title">Meditaciones</div>
           <div className="big-card-sub">Comienza a meditar · 3 sesiones</div>
           <div className="big-card-emoji">🧘</div>
+        </div>
+
+        <div className="big-card" style={{ background: '#7AACB5' }} onClick={() => onNavigate('afirmaciones')}>
+          <div className="big-card-title">Afirmaciones</div>
+          <div className="big-card-sub">Reprograma tu subconsciente · 3 sesiones</div>
+          <div className="big-card-emoji">✨</div>
         </div>
 
         {/* Sesión del día */}

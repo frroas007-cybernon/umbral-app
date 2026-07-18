@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import CompletadaModal from '../components/CompletadaModal';
+import { useRacha } from '../hooks/useRacha';
 
 function Sesion({ onNavigate }) {
   const [modo, setModo] = useState('video');
+  const [showModal, setShowModal] = useState(false);
+  const { marcarCompletada } = useRacha();
 
   return (
     <div className="screen">
@@ -11,38 +15,49 @@ function Sesion({ onNavigate }) {
           ← Volver
         </div>
 
-        {/* Video o Audio */}
         {modo === 'video' ? (
-          <div className="video-box">
-            <iframe
-              src="https://www.youtube.com/embed/AP5qWR0b7s8?rel=0&modestbranding=1"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="Respiración, la base de todo"
-            />
-          </div>
+          <>
+            <div className="video-box">
+              <iframe
+                src="https://www.youtube.com/embed/AP5qWR0b7s8?rel=0&modestbranding=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Respiración, la base de todo"
+              />
+            </div>
+            <div className="sess-tag">SESIÓN 1 · COMIENZA A MEDITAR</div>
+            <div className="sess-title">Respiración,<br />la base de todo</div>
+            <div className="sess-desc">
+              Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 12 minutos que pueden cambiar tu día.
+            </div>
+            <button className="btn-sec" onClick={() => setModo('audio')}>
+              🎧 Solo audio
+            </button>
+            <button className="btn-main" style={{ marginTop: 10 }} onClick={() => setShowModal(true)}>
+              ✓ Marcar como completada
+            </button>
+          </>
         ) : (
-          <div className="audio-player">
-            <div className="audio-label">🎧 SOLO AUDIO</div>
-            <audio controls controlsList="nodownload">
-              <source src="/audio1.mp3" type="audio/mpeg" />
-            </audio>
-          </div>
+          <>
+            <div className="audio-player">
+              <div className="audio-label">🎧 SOLO AUDIO</div>
+              <audio controls controlsList="nodownload">
+                <source src="/audio1.mp3" type="audio/mpeg" />
+              </audio>
+            </div>
+            <div className="sess-tag">SESIÓN 1 · COMIENZA A MEDITAR</div>
+            <div className="sess-title">Respiración,<br />la base de todo</div>
+            <div className="sess-desc">
+              Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 12 minutos que pueden cambiar tu día.
+            </div>
+            <button className="btn-sec" onClick={() => setModo('video')}>
+              ▶ Ver sesión completa
+            </button>
+            <button className="btn-main" style={{ marginTop: 10 }} onClick={() => setShowModal(true)}>
+              ✓ Marcar como completada
+            </button>
+          </>
         )}
-
-        <div className="sess-tag">SESIÓN 1 · COMIENZA A MEDITAR</div>
-        <div className="sess-title">Respiración,<br />la base de todo</div>
-        <div className="sess-desc">
-          Aprende a usar la respiración como ancla al momento presente. 
-          El primer paso de toda práctica meditativa. 12 minutos que pueden cambiar tu día.
-        </div>
-
-        <button className="btn-main" onClick={() => setModo('video')}>
-          ▶ Ver sesión completa
-        </button>
-        <button className="btn-sec" onClick={() => setModo('audio')}>
-          🎧 Escuchar solo audio
-        </button>
 
       </div>
 
@@ -60,6 +75,12 @@ function Sesion({ onNavigate }) {
           <div className="nav-text">Perfil</div>
         </div>
       </nav>
+
+      <CompletadaModal
+        visible={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={(rating) => marcarCompletada(rating)}
+      />
     </div>
   );
 }
