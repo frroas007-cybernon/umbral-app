@@ -7,6 +7,7 @@ import Afirmaciones from './screens/Afirmaciones';
 import AfirmacionDetalle from './screens/AfirmacionDetalle';
 import Perfil from './screens/Perfil';
 import Login from './screens/Login';
+import CompletarPerfil from './screens/CompletarPerfil';
 import MoodModal from './components/MoodModal';
 import Splash from './components/Splash';
 import { supabase } from './supabase';
@@ -17,6 +18,7 @@ function App() {
   const [showSplash, setShowSplash] = useState(false);
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
+  const [needsProfile, setNeedsProfile] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -28,6 +30,23 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!user) {
+      setNeedsProfile(false);
+      return;
+    }
+    setNeedsProfile(null);
+    supabase
+      .from('Perfiles')
+      .select('gender, date_of_birth')
+      .eq('id', user.id)
+      .single()
+      .then(({ data }) => {
+        const incompleto = !data || !data.gender || !data.date_of_birth;
+        setNeedsProfile(incompleto);
+      });
+  }, [user]);
+
   const navigate = (dest) => {
     setShowSplash(true);
     setTimeout(() => {
@@ -36,11 +55,17 @@ function App() {
     }, 400);
   };
 
-  if (loadingAuth) return <div className="app" />;
+  if (loadingAuth || (user && needsProfile === null)) return <div className="app" />;
 
   if (!user) return (
     <div className="app">
       <Login onLogin={setUser} />
+    </div>
+  );
+
+  if (needsProfile) return (
+    <div className="app">
+      <CompletarPerfil user={user} onComplete={() => setNeedsProfile(false)} />
     </div>
   );
 

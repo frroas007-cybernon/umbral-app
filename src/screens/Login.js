@@ -232,7 +232,7 @@ const inputStyle = {
   borderRadius: 12,
   border: '1.5px solid #E8D5B7',
   background: '#F7F3EE',
-  fontSize: 14,
+  fontSize: 16,
   color: '#3D3530',
   marginBottom: 12,
   outline: 'none',
