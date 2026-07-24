@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
+const { trackServerEvent, trackServerError } = require('./_posthog');
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -21,6 +22,7 @@ module.exports = async (req, res) => {
 
     if (!mpRes.ok) {
       console.error('Error consultando pago en Mercado Pago:', payment);
+      await trackServerError(null, new Error(payment.message || 'Error consultando pago MP'), { paymentId });
       return res.status(200).send('ok');
     }
 
@@ -28,15 +30,32 @@ module.exports = async (req, res) => {
     const status = payment.status;
 
     if (apoyoId) {
-      await supabase
+      const { data: apoyoActualizado } = await supabase
         .from('Apoyos')
         .update({ status, mp_payment_id: String(paymentId) })
-        .eq('id', apoyoId);
+        .eq('id', apoyoId)
+        .select('user_id, amount')
+        .single();
+
+      const distinctId = apoyoActualizado?.user_id;
+      const eventoNombre = status === 'approved'
+        ? 'pago_aprobado'
+        : status === 'rejected'
+          ? 'pago_rechazado'
+          : 'pago_estado_actualizado';
+
+      await trackServerEvent(distinctId, eventoNombre, {
+        amount: apoyoActualizado?.amount,
+        status,
+        apoyo_id: apoyoId,
+        mp_payment_id: paymentId
+      });
     }
 
     return res.status(200).send('ok');
   } catch (err) {
     console.error('Error en /api/webhook-mp:', err);
+    await trackServerError(null, err, { origen: 'api/webhook-mp catch' });
     return res.status(200).send('ok');
   }
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CompletadaModal from '../components/CompletadaModal';
 import ApoyoBanner from '../components/ApoyoBanner';
 import { useRacha } from '../hooks/useRacha';
+import { trackEvent, trackError } from '../analytics';
 
 function Sesion({ onNavigate, user }) {
   const [modo, setModo] = useState('video');
@@ -11,9 +12,14 @@ function Sesion({ onNavigate, user }) {
 
   const guardarOffline = async () => {
     if (guardado) return;
-    const cache = await caches.open('umbral-v2');
-    await cache.add('/audio1.mp3');
-    setGuardado(true);
+    try {
+      const cache = await caches.open('umbral-v2');
+      await cache.add('/audio1.mp3');
+      setGuardado(true);
+      trackEvent('audio_guardado_offline', { sesion: 'respiracion' });
+    } catch (err) {
+      trackError(err, { origen: 'guardarOffline Sesion' });
+    }
   };
 
   return (
@@ -106,7 +112,10 @@ function Sesion({ onNavigate, user }) {
       <CompletadaModal
         visible={showModal}
         onClose={() => setShowModal(false)}
-        onConfirm={(rating) => marcarCompletada(rating)}
+        onConfirm={(rating) => {
+          trackEvent('sesion_completada', { tipo: 'meditacion', sesion: 'respiracion', rating, modo });
+          marcarCompletada(rating);
+        }}
       />
     </div>
   );

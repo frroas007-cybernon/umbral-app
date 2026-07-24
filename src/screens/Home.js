@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ApoyoBanner from '../components/ApoyoBanner';
+import { trackEvent } from '../analytics';
 
 const moods = [
   { key: 'ansioso', emoji: '😣', label: 'Ansiedad' },
@@ -31,6 +32,7 @@ function Home({ onNavigate, onMood, user }) {
 
   const handleMood = (key) => {
     setSelectedMood(key);
+    trackEvent('mood_seleccionado', { mood: key });
     onMood(key);
   };
 

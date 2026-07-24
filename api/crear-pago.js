@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
+const { trackServerEvent, trackServerError } = require('./_posthog');
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -33,6 +34,8 @@ module.exports = async (req, res) => {
 
     if (dbError) throw dbError;
 
+    await trackServerEvent(user_id, 'pago_iniciado', { amount: montoNumero, apoyo_id: apoyo.id });
+
     const siteUrl = process.env.SITE_URL || `https://${req.headers.host}`;
 
     const mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {
@@ -65,6 +68,7 @@ module.exports = async (req, res) => {
 
     if (!mpRes.ok) {
       console.error('Error Mercado Pago:', mpData);
+      await trackServerError(req.body?.user_id, new Error(mpData.message || 'Error creando preferencia MP'), { mpData });
       return res.status(500).json({ error: 'No se pudo crear la preferencia de pago' });
     }
 
@@ -76,6 +80,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({ init_point: mpData.init_point });
   } catch (err) {
     console.error('Error en /api/crear-pago:', err);
+    await trackServerError(req.body?.user_id, err, { origen: 'api/crear-pago catch' });
     return res.status(500).json({ error: 'Error inesperado creando el pago' });
   }
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabase';
+import { trackEvent, trackError } from '../analytics';
 
 function CompletarPerfil({ user, onComplete }) {
   const [genero, setGenero] = useState('');
@@ -8,13 +9,18 @@ function CompletarPerfil({ user, onComplete }) {
 
   const handleGuardar = async () => {
     setLoading(true);
-    await supabase.from('Perfiles').upsert({
+    const { error } = await supabase.from('Perfiles').upsert({
       id: user.id,
       email: user.email,
       name: user.user_metadata?.full_name || user.user_metadata?.name || '',
       gender: genero,
       date_of_birth: fechaNacimiento
     });
+    if (error) {
+      trackError(error, { origen: 'CompletarPerfil upsert' });
+    } else {
+      trackEvent('perfil_completado', { genero, tiene_fecha: !!fechaNacimiento });
+    }
     setLoading(false);
     onComplete();
   };
@@ -79,7 +85,7 @@ function CompletarPerfil({ user, onComplete }) {
 
         <div
           style={{ textAlign: 'center', marginTop: 12, fontSize: 12, color: '#8A7A6E', cursor: 'pointer', opacity: 0.5 }}
-          onClick={onComplete}
+          onClick={() => { trackEvent('completar_perfil_omitido'); onComplete(); }}
         >
           Omitir por ahora
         </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CompletadaModal from '../components/CompletadaModal';
 import ApoyoBanner from '../components/ApoyoBanner';
 import { useRacha } from '../hooks/useRacha';
+import { trackEvent, trackError } from '../analytics';
 
 function AfirmacionDetalle({ onNavigate, user }) {
   const [modo, setModo] = useState('video');
@@ -11,9 +12,14 @@ function AfirmacionDetalle({ onNavigate, user }) {
 
   const guardarOffline = async () => {
     if (guardado) return;
-    const cache = await caches.open('umbral-v2');
-    await cache.add('/afirmacion-calma.mp3');
-    setGuardado(true);
+    try {
+      const cache = await caches.open('umbral-v2');
+      await cache.add('/afirmacion-calma.mp3');
+      setGuardado(true);
+      trackEvent('audio_guardado_offline', { sesion: 'afirmacion-calma' });
+    } catch (err) {
+      trackError(err, { origen: 'guardarOffline AfirmacionDetalle' });
+    }
   };
 
   return (
@@ -106,7 +112,10 @@ function AfirmacionDetalle({ onNavigate, user }) {
       <CompletadaModal
         visible={showModal}
         onClose={() => setShowModal(false)}
-        onConfirm={(rating) => marcarCompletada(rating)}
+        onConfirm={(rating) => {
+          trackEvent('sesion_completada', { tipo: 'afirmacion', sesion: 'calma', rating, modo });
+          marcarCompletada(rating);
+        }}
       />
     </div>
   );

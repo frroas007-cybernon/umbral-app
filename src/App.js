@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Home from './screens/Home';
 import Meditaciones from './screens/Meditaciones';
@@ -12,6 +12,7 @@ import MoodModal from './components/MoodModal';
 import ApoyoGraciasModal from './components/ApoyoGraciasModal';
 import Splash from './components/Splash';
 import { supabase } from './supabase';
+import { identifyUser, resetUser, trackPageview, trackEvent } from './analytics';
 
 function App() {
   const [screen, setScreen] = useState('home');
@@ -32,11 +33,19 @@ function App() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      setUser(data.session?.user ?? null);
+      const sessionUser = data.session?.user ?? null;
+      setUser(sessionUser);
       setLoadingAuth(false);
+      if (sessionUser) identifyUser(sessionUser);
     });
     supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const sessionUser = session?.user ?? null;
+      setUser(sessionUser);
+      if (sessionUser) {
+        identifyUser(sessionUser);
+      } else {
+        resetUser();
+      }
     });
   }, []);
 
@@ -61,9 +70,18 @@ function App() {
     setShowSplash(true);
     setTimeout(() => {
       setScreen(dest);
+      trackPageview(dest);
       setTimeout(() => setShowSplash(false), 300);
     }, 400);
   };
+
+  const homeTrackeado = useRef(false);
+  useEffect(() => {
+    if (user && needsProfile === false && !homeTrackeado.current) {
+      homeTrackeado.current = true;
+      trackPageview('home');
+    }
+  }, [user, needsProfile]);
 
   if (loadingAuth || (user && needsProfile === null)) return <div className="app" />;
 
@@ -86,7 +104,7 @@ function App() {
       {screen === 'sesion' && <Sesion onNavigate={navigate} user={user} />}
       {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} user={user} />}
       {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} user={user} />}
-      {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} onLogout={() => { supabase.auth.signOut(); setUser(null); }} />}
+      {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
       <ApoyoGraciasModal visible={showGracias} onClose={() => setShowGracias(false)} />
       <Splash visible={showSplash} />

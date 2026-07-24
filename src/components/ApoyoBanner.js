@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { trackEvent, trackError } from '../analytics';
 
 const montos = [2000, 5000, 10000];
 
@@ -38,6 +39,8 @@ function ApoyoBanner({ user }) {
       const userId = user?.id === 'guest' ? null : user?.id;
       const nombreFinal = nombre.trim() || nombreUsuario;
 
+      trackEvent('apoyo_click_pagar', { monto: montoFinal, tiene_mensaje: !!mensaje });
+
       const res = await fetch('/api/crear-pago', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,6 +57,7 @@ function ApoyoBanner({ user }) {
 
       if (!res.ok || !data.init_point) {
         setError('No se pudo iniciar el pago. Intenta de nuevo.');
+        trackError(new Error(data.error || 'crear-pago respondió sin init_point'), { origen: 'ApoyoBanner handleApoyar', monto: montoFinal });
         setLoading(false);
         return;
       }
@@ -61,6 +65,7 @@ function ApoyoBanner({ user }) {
       window.location.href = data.init_point;
     } catch (err) {
       setError('No se pudo iniciar el pago. Intenta de nuevo.');
+      trackError(err, { origen: 'ApoyoBanner handleApoyar catch', monto: montoFinal });
       setLoading(false);
     }
   };
@@ -68,7 +73,7 @@ function ApoyoBanner({ user }) {
   if (!abierto) {
     return (
       <div
-        onClick={() => setAbierto(true)}
+        onClick={() => { trackEvent('apoyo_banner_abierto'); setAbierto(true); }}
         style={{
           background: '#F7F3EE',
           border: '1.5px solid #E8D5B7',

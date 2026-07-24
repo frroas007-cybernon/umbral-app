@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabase';
+import { trackEvent, trackError } from '../analytics';
 
 function Login({ onNavigate, onLogin }) {
   const [email, setEmail] = useState('');
@@ -23,11 +24,18 @@ function Login({ onNavigate, onLogin }) {
   const handleLogin = async () => {
     setLoading(true);
     setError('');
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      setError('Email o contraseña incorrectos');
-    } else {
-      onLogin(data.user);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setError('Email o contraseña incorrectos');
+        trackEvent('login_fallido', { motivo: error.message });
+      } else {
+        trackEvent('login_exitoso');
+        onLogin(data.user);
+      }
+    } catch (err) {
+      trackError(err, { origen: 'handleLogin' });
+      setError('Ocurrió un error inesperado. Intenta de nuevo.');
     }
     setLoading(false);
   };
@@ -46,31 +54,41 @@ function Login({ onNavigate, onLogin }) {
     }
     setLoading(true);
     setError('');
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { name: nombre } }
-    });
-    if (error) {
-      setError(error.message);
-    } else {
-      await supabase.from('Perfiles').insert({
-        id: data.user.id,
+    try {
+      const { data, error } = await supabase.auth.signUp({
         email,
-        name: nombre,
-        gender: genero,
-        date_of_birth: fechaNacimiento
+        password,
+        options: { data: { name: nombre } }
       });
-      onLogin(data.user);
+      if (error) {
+        setError(error.message);
+        trackEvent('registro_fallido', { motivo: error.message });
+      } else {
+        const { error: perfilError } = await supabase.from('Perfiles').insert({
+          id: data.user.id,
+          email,
+          name: nombre,
+          gender: genero,
+          date_of_birth: fechaNacimiento
+        });
+        if (perfilError) trackError(perfilError, { origen: 'insert Perfiles en registro' });
+        trackEvent('registro_exitoso');
+        onLogin(data.user);
+      }
+    } catch (err) {
+      trackError(err, { origen: 'handleRegistro' });
+      setError('Ocurrió un error inesperado. Intenta de nuevo.');
     }
     setLoading(false);
   };
 
   const handleGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
+    trackEvent('login_google_iniciado');
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: window.location.origin }
     });
+    if (error) trackError(error, { origen: 'handleGoogle' });
   };
 
   return (
@@ -209,14 +227,19 @@ function Login({ onNavigate, onLogin }) {
 
         <div
           style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: '#8A7A6E', cursor: 'pointer' }}
-          onClick={() => { setModo(modo === 'login' ? 'registro' : 'login'); setError(''); }}
+          onClick={() => {
+            const nuevoModo = modo === 'login' ? 'registro' : 'login';
+            trackEvent('cambio_modo_login', { a: nuevoModo });
+            setModo(nuevoModo);
+            setError('');
+          }}
         >
           {modo === 'login' ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
         </div>
 
         <div
           style={{ textAlign: 'center', marginTop: 10, fontSize: 12, color: '#8A7A6E', cursor: 'pointer', opacity: 0.5 }}
-          onClick={() => onLogin({ id: 'guest', email: 'guest' })}
+          onClick={() => { trackEvent('omitir_registro_guest'); onLogin({ id: 'guest', email: 'guest' }); }}
         >
           Omitir por ahora
         </div>
