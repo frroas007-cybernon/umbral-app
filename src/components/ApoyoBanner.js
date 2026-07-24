@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const montos = [2000, 5000, 10000];
 
@@ -9,6 +9,16 @@ function ApoyoBanner({ user }) {
   const [mensaje, setMensaje] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        setLoading(false);
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, []);
 
   const montoFinal = montoCustom ? Number(montoCustom) : monto;
 
