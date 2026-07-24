@@ -72,10 +72,10 @@ function App() {
   return (
     <div className="app">
       {screen === 'home' && <Home onNavigate={navigate} onMood={setModalMood} user={user} />}
-      {screen === 'meditaciones' && <Meditaciones onNavigate={navigate} />}
-      {screen === 'sesion' && <Sesion onNavigate={navigate} />}
-      {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} />}
-      {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} />}
+      {screen === 'meditaciones' && <Meditaciones onNavigate={navigate} user={user} />}
+      {screen === 'sesion' && <Sesion onNavigate={navigate} user={user} />}
+      {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} user={user} />}
+      {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} user={user} />}
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} onLogout={() => { supabase.auth.signOut(); setUser(null); }} />}
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
       <Splash visible={showSplash} />

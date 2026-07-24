@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ApoyoBanner from '../components/ApoyoBanner';
 
 const moods = [
   { key: 'ansioso', emoji: '😣', label: 'Ansiedad' },
@@ -119,6 +120,10 @@ function Home({ onNavigate, onMood, user }) {
             <div className="small-title">{sesionDelDia.title}</div>
             <div className="small-sub">{sesionDelDia.sub}</div>
           </div>
+        </div>
+
+        <div style={{ marginTop: 28 }}>
+          <ApoyoBanner user={user} />
         </div>
 
       </div>

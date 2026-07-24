@@ -1,4 +1,5 @@
 import React from 'react';
+import ApoyoBanner from '../components/ApoyoBanner';
 
 const afirmaciones = [
   {
@@ -31,10 +32,10 @@ const afirmaciones = [
  },
 ];
 
-function Afirmaciones({ onNavigate }) {
+function Afirmaciones({ onNavigate, user }) {
   return (
     <div className="screen">
-      <div className="screen-content">
+      <div className="screen-content" style={{ display: 'flex', flexDirection: 'column' }}>
 
         <div className="page-title">Afirmaciones</div>
 
@@ -64,6 +65,10 @@ function Afirmaciones({ onNavigate }) {
             <div className="s-action">{s.free ? '▶' : '🔒'}</div>
           </div>
         ))}
+
+        <div style={{ marginTop: 'auto', paddingTop: 28 }}>
+          <ApoyoBanner user={user} />
+        </div>
 
       </div>
 

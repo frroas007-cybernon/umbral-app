@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRacha } from '../hooks/useRacha';
+import ApoyoBanner from '../components/ApoyoBanner';
 
 function Perfil({ onNavigate, user, onLogout }) {
   const { racha, sesiones } = useRacha();
@@ -13,7 +14,7 @@ function Perfil({ onNavigate, user, onLogout }) {
 
   return (
     <div className="screen">
-      <div className="screen-content">
+      <div className="screen-content" style={{ display: 'flex', flexDirection: 'column' }}>
 
         <div className="page-title">Perfil</div>
 
@@ -30,33 +31,12 @@ function Perfil({ onNavigate, user, onLogout }) {
           <div className="stat-valor">{racha} {racha === 1 ? 'día' : 'días'} 🔥</div>
         </div>
 
-        <div
-          style={{
-            background: '#3D3530',
-            borderRadius: 16,
-            padding: 20,
-            cursor: 'pointer',
-            textAlign: 'center',
-            marginBottom: 14
-          }}
-          onClick={() => window.open('https://ko-fi.com/franciscoroa', '_blank')}
-        >
-          <div style={{ fontSize: 22, marginBottom: 4 }}>☕</div>
-          <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 20, color: '#F7F3EE', marginBottom: 4 }}>
-            Apoya Umbral
-          </div>
-          <div style={{ fontSize: 12, color: 'rgba(247,243,238,0.85)' }}>
-            Ayúdame a mantenerla gratuita para siempre
-          </div>
-        </div>
-
         {/* Cerrar sesión */}
         {user?.id !== 'guest' && (
           <div
             style={{
               textAlign: 'center',
               marginTop: 8,
-              marginBottom: 20,
               fontSize: 12,
               color: '#8A7A6E',
               cursor: 'pointer',
@@ -67,6 +47,10 @@ function Perfil({ onNavigate, user, onLogout }) {
             Cerrar sesión
           </div>
         )}
+
+        <div style={{ marginTop: 'auto', paddingTop: 28 }}>
+          <ApoyoBanner user={user} />
+        </div>
 
       </div>
 

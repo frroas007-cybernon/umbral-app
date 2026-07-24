@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import CompletadaModal from '../components/CompletadaModal';
+import ApoyoBanner from '../components/ApoyoBanner';
 import { useRacha } from '../hooks/useRacha';
 
-function Sesion({ onNavigate }) {
+function Sesion({ onNavigate, user }) {
   const [modo, setModo] = useState('video');
   const [showModal, setShowModal] = useState(false);
   const [guardado, setGuardado] = useState(false);
@@ -17,7 +18,7 @@ function Sesion({ onNavigate }) {
 
   return (
     <div className="screen">
-      <div className="screen-content">
+      <div className="screen-content" style={{ display: 'flex', flexDirection: 'column' }}>
 
         <div className="back-btn" onClick={() => onNavigate('meditaciones')}>
           ← Volver
@@ -80,6 +81,10 @@ function Sesion({ onNavigate }) {
             </button>
           </>
         )}
+
+        <div style={{ marginTop: 'auto', paddingTop: 28 }}>
+          <ApoyoBanner user={user} />
+        </div>
 
       </div>
 
