@@ -9,6 +9,7 @@ import Perfil from './screens/Perfil';
 import Login from './screens/Login';
 import CompletarPerfil from './screens/CompletarPerfil';
 import MoodModal from './components/MoodModal';
+import ApoyoGraciasModal from './components/ApoyoGraciasModal';
 import Splash from './components/Splash';
 import { supabase } from './supabase';
 
@@ -19,6 +20,15 @@ function App() {
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [needsProfile, setNeedsProfile] = useState(null);
+  const [showGracias, setShowGracias] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('apoyo') === 'exito') {
+      setShowGracias(true);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -78,6 +88,7 @@ function App() {
       {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} user={user} />}
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} onLogout={() => { supabase.auth.signOut(); setUser(null); }} />}
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
+      <ApoyoGraciasModal visible={showGracias} onClose={() => setShowGracias(false)} />
       <Splash visible={showSplash} />
     </div>
   );
