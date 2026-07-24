@@ -6,6 +6,7 @@ function ApoyoBanner({ user }) {
   const [abierto, setAbierto] = useState(false);
   const [monto, setMonto] = useState(5000);
   const [montoCustom, setMontoCustom] = useState('');
+  const [nombre, setNombre] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -35,6 +36,7 @@ function ApoyoBanner({ user }) {
         : (user?.user_metadata?.name || user?.user_metadata?.full_name || null);
       const emailUsuario = user?.id === 'guest' ? null : user?.email;
       const userId = user?.id === 'guest' ? null : user?.id;
+      const nombreFinal = nombre.trim() || nombreUsuario;
 
       const res = await fetch('/api/crear-pago', {
         method: 'POST',
@@ -42,7 +44,7 @@ function ApoyoBanner({ user }) {
         body: JSON.stringify({
           amount: montoFinal,
           message: mensaje || null,
-          name: nombreUsuario,
+          name: nombreFinal,
           email: emailUsuario,
           user_id: userId
         })
@@ -114,6 +116,13 @@ function ApoyoBanner({ user }) {
           Cerrar
         </div>
       </div>
+
+      <input
+        placeholder="Tu nombre (opcional)"
+        value={nombre}
+        onChange={e => setNombre(e.target.value)}
+        style={inputStyle}
+      />
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
         {montos.map(m => (
