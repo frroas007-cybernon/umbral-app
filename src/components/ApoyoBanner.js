@@ -156,14 +156,14 @@ function ApoyoBanner({ user }) {
       />
 
       <textarea
-        placeholder="Deja un mensaje (opcional)"
+        placeholder="Déjanos un mensaje (opcional)"
         value={mensaje}
         onChange={e => setMensaje(e.target.value)}
         rows={2}
         style={{ ...inputStyle, resize: 'none', fontFamily: 'DM Sans, sans-serif' }}
       />
 
-      <div style={{ fontSize: 11, color: '#8A7A6E', marginBottom: 10, marginTop: -2 }}>
+      <div style={{ fontSize: 11, color: '#8A7A6E', marginBottom: 10, marginTop: -2, textAlign: 'center' }}>
         Esto permite mantener siempre gratuita la aplicación
       </div>
 
