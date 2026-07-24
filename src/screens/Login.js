@@ -137,7 +137,7 @@ function Login({ onNavigate, onLogin }) {
               <input
                 value={fechaNacimiento}
                 onChange={e => setFechaNacimiento(e.target.value)}
-                style={{ ...inputStyle, marginBottom: 0 }}
+                style={{ ...inputStyle, marginBottom: 0, WebkitAppearance: 'none', appearance: 'none', height: 50, lineHeight: '20px' }}
                 type="date"
                 max={new Date().toISOString().split('T')[0]}
                 min="1900-01-01"

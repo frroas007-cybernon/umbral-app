@@ -31,7 +31,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!user) {
+    if (!user || user.id === 'guest') {
       setNeedsProfile(false);
       return;
     }

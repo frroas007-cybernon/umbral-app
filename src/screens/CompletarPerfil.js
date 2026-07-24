@@ -64,7 +64,7 @@ function CompletarPerfil({ user, onComplete }) {
           placeholder="Fecha de nacimiento"
           value={fechaNacimiento}
           onChange={e => setFechaNacimiento(e.target.value)}
-          style={inputStyle}
+          style={{ ...inputStyle, WebkitAppearance: 'none', appearance: 'none', height: 50, lineHeight: '20px' }}
           type="date"
         />
 
