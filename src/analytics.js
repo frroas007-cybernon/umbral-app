@@ -1,4 +1,5 @@
 import posthog from 'posthog-js';
+import { Capacitor } from '@capacitor/core';
 
 let inicializado = false;
 
@@ -20,6 +21,13 @@ export function initAnalytics() {
   });
 
   inicializado = true;
+
+  // Marca cada evento con si viene de la app instalada (Capacitor) o del navegador web,
+  // y con el SO nativo (ios/android/web) — así se puede filtrar el dashboard por plataforma.
+  posthog.register({
+    plataforma: Capacitor.isNativePlatform() ? 'app' : 'web',
+    plataforma_so: Capacitor.getPlatform()
+  });
 
   // Errores no capturados en ningún try/catch
   window.addEventListener('error', (event) => {
