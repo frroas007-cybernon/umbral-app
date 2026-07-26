@@ -78,7 +78,18 @@ function Perfil({ onNavigate, user, onLogout }) {
         <div className="page-title">Perfil</div>
 
         <div className="perfil-avatar">👤</div>
-        <div className="perfil-nombre">{nombreUsuario || 'Bienvenido/a'}</div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 4 }}>
+          <div className="perfil-nombre" style={{ marginBottom: 0 }}>{nombreUsuario || 'Bienvenido/a'}</div>
+          {user?.id !== 'guest' && (
+            <div
+              style={{ fontSize: 15, color: '#8A7A6E', cursor: 'pointer', opacity: 0.7 }}
+              onClick={() => { trackEvent('editar_perfil_abierto'); onNavigate('editar-perfil'); }}
+              aria-label="Editar perfil"
+            >
+              ✏️
+            </div>
+          )}
+        </div>
 
         <div className="stat-card">
           <div className="stat-label">SESIONES COMPLETADAS</div>

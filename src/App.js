@@ -8,6 +8,7 @@ import AfirmacionDetalle from './screens/AfirmacionDetalle';
 import Yoga from './screens/Yoga';
 import YogaDetalle from './screens/YogaDetalle';
 import Perfil from './screens/Perfil';
+import EditarPerfil from './screens/EditarPerfil';
 import Login from './screens/Login';
 import CompletarPerfil from './screens/CompletarPerfil';
 import MoodModal from './components/MoodModal';
@@ -109,6 +110,7 @@ function App() {
       {screen === 'yoga' && <Yoga onNavigate={navigate} user={user} />}
       {screen === 'yoga-detalle' && <YogaDetalle onNavigate={navigate} user={user} />}
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
+      {screen === 'editar-perfil' && <EditarPerfil onNavigate={navigate} user={user} />}
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
       <ApoyoGraciasModal visible={showGracias} onClose={() => setShowGracias(false)} />
       <Splash visible={showSplash} />
