@@ -8,7 +8,13 @@ const VIDEO_ID = 'FyG_JPitzUA';
 
 function YogaDetalle({ onNavigate, user }) {
   const [showModal, setShowModal] = useState(false);
-  const { marcarCompletada } = useRacha();
+  const { marcarCompletada, guardarRating } = useRacha(user, 'yoga');
+
+  const handleCompletada = () => {
+    trackEvent('sesion_completada', { tipo: 'yoga', sesion: 'conecta-cuerpo' });
+    marcarCompletada();
+    setShowModal(true);
+  };
 
   return (
     <div className="screen">
@@ -31,7 +37,7 @@ function YogaDetalle({ onNavigate, user }) {
         <div className="sess-desc">
           Una clase corta pensada para todos los niveles. Movimientos simples para volver a habitar tu cuerpo y bajar la velocidad de la mente. 11 minutos para empezar hoy.
         </div>
-        <button className="btn-main" style={{ marginTop: 10 }} onClick={() => setShowModal(true)}>
+        <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
           ✓ Marcar como completada
         </button>
 
@@ -60,8 +66,8 @@ function YogaDetalle({ onNavigate, user }) {
         visible={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={(rating) => {
-          trackEvent('sesion_completada', { tipo: 'yoga', sesion: 'conecta-cuerpo', rating });
-          marcarCompletada(rating);
+          trackEvent('sesion_rating', { tipo: 'yoga', sesion: 'conecta-cuerpo', rating });
+          guardarRating(rating);
         }}
       />
     </div>

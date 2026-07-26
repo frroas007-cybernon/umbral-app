@@ -8,7 +8,13 @@ function Sesion({ onNavigate, user }) {
   const [modo, setModo] = useState('video');
   const [showModal, setShowModal] = useState(false);
   const [guardado, setGuardado] = useState(false);
-  const { marcarCompletada } = useRacha();
+  const { marcarCompletada, guardarRating } = useRacha(user, 'meditacion');
+
+  const handleCompletada = () => {
+    trackEvent('sesion_completada', { tipo: 'meditacion', sesion: 'respiracion', modo });
+    marcarCompletada();
+    setShowModal(true);
+  };
 
   const guardarOffline = async () => {
     if (guardado) return;
@@ -48,7 +54,7 @@ function Sesion({ onNavigate, user }) {
             <button className="btn-sec" onClick={() => setModo('audio')}>
               🎧 Solo audio
             </button>
-            <button className="btn-main" style={{ marginTop: 10 }} onClick={() => setShowModal(true)}>
+            <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
               ✓ Marcar como completada
             </button>
           </>
@@ -82,7 +88,7 @@ function Sesion({ onNavigate, user }) {
             <button className="btn-sec" onClick={() => setModo('video')}>
               ▶ Ver sesión completa
             </button>
-            <button className="btn-main" style={{ marginTop: 10 }} onClick={() => setShowModal(true)}>
+            <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
               ✓ Marcar como completada
             </button>
           </>
@@ -113,8 +119,8 @@ function Sesion({ onNavigate, user }) {
         visible={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={(rating) => {
-          trackEvent('sesion_completada', { tipo: 'meditacion', sesion: 'respiracion', rating, modo });
-          marcarCompletada(rating);
+          trackEvent('sesion_rating', { tipo: 'meditacion', sesion: 'respiracion', rating });
+          guardarRating(rating);
         }}
       />
     </div>

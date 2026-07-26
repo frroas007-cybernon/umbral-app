@@ -6,7 +6,7 @@ import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
 
 function Perfil({ onNavigate, user, onLogout }) {
-  const { racha, sesiones } = useRacha();
+  const { racha, sesiones } = useRacha(user);
   const [showEliminar, setShowEliminar] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [errorEliminar, setErrorEliminar] = useState('');

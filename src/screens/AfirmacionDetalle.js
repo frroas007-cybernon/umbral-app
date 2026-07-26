@@ -8,7 +8,13 @@ function AfirmacionDetalle({ onNavigate, user }) {
   const [modo, setModo] = useState('video');
   const [showModal, setShowModal] = useState(false);
   const [guardado, setGuardado] = useState(false);
-  const { marcarCompletada } = useRacha();
+  const { marcarCompletada, guardarRating } = useRacha(user, 'afirmacion');
+
+  const handleCompletada = () => {
+    trackEvent('sesion_completada', { tipo: 'afirmacion', sesion: 'calma', modo });
+    marcarCompletada();
+    setShowModal(true);
+  };
 
   const guardarOffline = async () => {
     if (guardado) return;
@@ -48,7 +54,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
             <button className="btn-sec" onClick={() => setModo('audio')}>
               🎧 Solo audio
             </button>
-            <button className="btn-main" style={{ marginTop: 10 }} onClick={() => setShowModal(true)}>
+            <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
               ✓ Marcar como completada
             </button>
           </>
@@ -82,7 +88,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
             <button className="btn-sec" onClick={() => setModo('video')}>
               ▶ Ver sesión completa
             </button>
-            <button className="btn-main" style={{ marginTop: 10 }} onClick={() => setShowModal(true)}>
+            <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
               ✓ Marcar como completada
             </button>
           </>
@@ -113,8 +119,8 @@ function AfirmacionDetalle({ onNavigate, user }) {
         visible={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={(rating) => {
-          trackEvent('sesion_completada', { tipo: 'afirmacion', sesion: 'calma', rating, modo });
-          marcarCompletada(rating);
+          trackEvent('sesion_rating', { tipo: 'afirmacion', sesion: 'calma', rating });
+          guardarRating(rating);
         }}
       />
     </div>
