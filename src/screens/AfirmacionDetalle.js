@@ -13,7 +13,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
   const guardarOffline = async () => {
     if (guardado) return;
     try {
-      const cache = await caches.open('umbral-v2');
+      const cache = await caches.open('umbral-v3');
       await cache.add('/afirmacion-calma.mp3');
       setGuardado(true);
       trackEvent('audio_guardado_offline', { sesion: 'afirmacion-calma' });

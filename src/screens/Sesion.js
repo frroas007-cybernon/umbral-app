@@ -13,7 +13,7 @@ function Sesion({ onNavigate, user }) {
   const guardarOffline = async () => {
     if (guardado) return;
     try {
-      const cache = await caches.open('umbral-v2');
+      const cache = await caches.open('umbral-v3');
       await cache.add('/audio1.mp3');
       setGuardado(true);
       trackEvent('audio_guardado_offline', { sesion: 'respiracion' });

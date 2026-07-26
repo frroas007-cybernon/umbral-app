@@ -3,9 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { initAnalytics } from './analytics';
+import { initAnalytics, trackError } from './analytics';
 
 initAnalytics();
+
+// Registro del service worker para que el modo offline funcione de verdad.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      trackError(err, { origen: 'registro service worker' });
+    });
+  });
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
