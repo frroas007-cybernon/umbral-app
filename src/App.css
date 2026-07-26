@@ -320,6 +320,54 @@ body {
 }
 .stat-label { font-size: 10px; color: var(--gris); letter-spacing: 1px; margin-bottom: 6px; font-weight: 500; }
 .stat-valor { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: var(--oscuro); }
+
+/* RECORDATORIO (toggle) */
+.recordatorio-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.recordatorio-info { flex: 1; }
+.recordatorio-titulo { font-size: 14px; color: var(--oscuro); font-weight: 500; margin-bottom: 2px; }
+.recordatorio-sub { font-size: 11px; color: var(--gris); }
+.toggle-switch {
+  width: 46px;
+  height: 26px;
+  border-radius: 20px;
+  background: var(--gris);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  border: none;
+  padding: 0;
+}
+.toggle-switch.on { background: var(--terracota); }
+.toggle-switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--crema);
+  transition: transform 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+.toggle-switch.on .toggle-switch-knob { transform: translateX(20px); }
+.recordatorio-hora-input {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--arena);
+  background: var(--crema);
+  font-size: 15px;
+  color: var(--oscuro);
+  font-family: 'DM Sans', sans-serif;
+  box-sizing: border-box;
+}
 /* MODAL MOOD */
 .modal-overlay {
   position: absolute;

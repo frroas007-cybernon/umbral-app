@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRacha } from '../hooks/useRacha';
+import { useRecordatorio } from '../hooks/useRecordatorio';
 import ApoyoBanner from '../components/ApoyoBanner';
 import EliminarCuentaModal from '../components/EliminarCuentaModal';
 import { supabase } from '../supabase';
@@ -7,9 +8,26 @@ import { trackEvent, trackError } from '../analytics';
 
 function Perfil({ onNavigate, user, onLogout }) {
   const { racha, sesiones } = useRacha(user);
+  const {
+    activo: recordatorioActivo,
+    hora: recordatorioHora,
+    esNativo,
+    permisoDenegado,
+    activarRecordatorio,
+    desactivarRecordatorio,
+    cambiarHora
+  } = useRecordatorio(user);
   const [showEliminar, setShowEliminar] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [errorEliminar, setErrorEliminar] = useState('');
+
+  const handleToggleRecordatorio = async () => {
+    if (recordatorioActivo) {
+      await desactivarRecordatorio();
+    } else {
+      await activarRecordatorio(recordatorioHora);
+    }
+  };
 
   const handleEliminarCuenta = async () => {
     setEliminando(true);
@@ -70,6 +88,38 @@ function Perfil({ onNavigate, user, onLogout }) {
         <div className="stat-card">
           <div className="stat-label">RACHA ACTUAL</div>
           <div className="stat-valor">{racha} {racha === 1 ? 'día' : 'días'} 🔥</div>
+        </div>
+
+        <div className="stat-card">
+          <div className="recordatorio-fila">
+            <div className="recordatorio-info">
+              <div className="recordatorio-titulo">Recordatorio diario</div>
+              <div className="recordatorio-sub">
+                {esNativo
+                  ? (permisoDenegado
+                      ? 'Sin permiso — actívalo en los ajustes del dispositivo'
+                      : 'Una notificación para no perder tu práctica')
+                  : 'Disponible solo en la app instalada'}
+              </div>
+            </div>
+            <button
+              className={`toggle-switch ${recordatorioActivo ? 'on' : ''}`}
+              onClick={handleToggleRecordatorio}
+              disabled={!esNativo}
+              aria-label="Activar recordatorio diario"
+            >
+              <div className="toggle-switch-knob" />
+            </button>
+          </div>
+
+          {esNativo && recordatorioActivo && (
+            <input
+              type="time"
+              className="recordatorio-hora-input"
+              value={recordatorioHora}
+              onChange={(e) => cambiarHora(e.target.value)}
+            />
+          )}
         </div>
 
         {/* Cerrar sesión */}
