@@ -5,6 +5,8 @@ import Meditaciones from './screens/Meditaciones';
 import Sesion from './screens/Sesion';
 import Afirmaciones from './screens/Afirmaciones';
 import AfirmacionDetalle from './screens/AfirmacionDetalle';
+import Yoga from './screens/Yoga';
+import YogaDetalle from './screens/YogaDetalle';
 import Perfil from './screens/Perfil';
 import Login from './screens/Login';
 import CompletarPerfil from './screens/CompletarPerfil';
@@ -104,6 +106,8 @@ function App() {
       {screen === 'sesion' && <Sesion onNavigate={navigate} user={user} />}
       {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} user={user} />}
       {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} user={user} />}
+      {screen === 'yoga' && <Yoga onNavigate={navigate} user={user} />}
+      {screen === 'yoga-detalle' && <YogaDetalle onNavigate={navigate} user={user} />}
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
       <ApoyoGraciasModal visible={showGracias} onClose={() => setShowGracias(false)} />

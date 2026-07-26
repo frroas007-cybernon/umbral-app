@@ -391,7 +391,7 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center 25%;
-  filter: brightness(0.6) saturate(1.1);
+  filter: brightness(0.85) saturate(1.1);
 }
 .yoga-hero-overlay {
   position: absolute;
@@ -411,15 +411,17 @@ body {
 }
 .yoga-hero-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
+  font-size: 34px;
   color: var(--crema);
   line-height: 1.1;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55);
 }
 .yoga-hero-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--arena);
-  opacity: 0.75;
+  opacity: 0.9;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.55);
 }
 .yoga-hero-badge {
   position: absolute;

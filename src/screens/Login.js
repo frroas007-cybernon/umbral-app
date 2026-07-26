@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
 
+// Cambiar a true cuando el provider "Apple" esté configurado en Supabase Auth
+// (Team ID, Key ID, Services ID y private key desde la cuenta Apple Developer).
+const APPLE_SIGNIN_ENABLED = false;
+
 function Login({ onNavigate, onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -237,17 +241,19 @@ function Login({ onNavigate, onLogin }) {
           Continuar con Google
         </button>
 
-        <button
-          className="btn-sec"
-          style={{ marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#000', color: '#fff', border: 'none' }}
-          onClick={handleApple}
-        >
-          <svg width="16" height="18" viewBox="0 0 16 18" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.06 9.55c-.02-2.1 1.72-3.1 1.8-3.15-.98-1.43-2.5-1.63-3.04-1.65-1.3-.13-2.53.76-3.19.76-.66 0-1.68-.74-2.77-.72-1.42.02-2.75.83-3.48 2.11-1.49 2.58-.38 6.4 1.06 8.5.71 1.03 1.56 2.19 2.67 2.15 1.07-.04 1.48-.7 2.78-.7 1.29 0 1.66.7 2.78.68 1.15-.02 1.88-1.05 2.59-2.09.81-1.19 1.15-2.35 1.16-2.41-.03-.01-2.24-.86-2.26-3.38z"/>
-            <path d="M11.13 3.15c.58-.7.97-1.68.86-2.65-.83.03-1.84.55-2.44 1.24-.53.61-1 1.6-.87 2.54.92.07 1.87-.47 2.45-1.13z"/>
-          </svg>
-          Continuar con Apple
-        </button>
+        {APPLE_SIGNIN_ENABLED && (
+          <button
+            className="btn-sec"
+            style={{ marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#000', color: '#fff', border: 'none' }}
+            onClick={handleApple}
+          >
+            <svg width="16" height="18" viewBox="0 0 16 18" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.06 9.55c-.02-2.1 1.72-3.1 1.8-3.15-.98-1.43-2.5-1.63-3.04-1.65-1.3-.13-2.53.76-3.19.76-.66 0-1.68-.74-2.77-.72-1.42.02-2.75.83-3.48 2.11-1.49 2.58-.38 6.4 1.06 8.5.71 1.03 1.56 2.19 2.67 2.15 1.07-.04 1.48-.7 2.78-.7 1.29 0 1.66.7 2.78.68 1.15-.02 1.88-1.05 2.59-2.09.81-1.19 1.15-2.35 1.16-2.41-.03-.01-2.24-.86-2.26-3.38z"/>
+              <path d="M11.13 3.15c.58-.7.97-1.68.86-2.65-.83.03-1.84.55-2.44 1.24-.53.61-1 1.6-.87 2.54.92.07 1.87-.47 2.45-1.13z"/>
+            </svg>
+            Continuar con Apple
+          </button>
+        )}
 
         <div
           style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: '#8A7A6E', cursor: 'pointer' }}

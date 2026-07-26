@@ -24,6 +24,13 @@ const sesiones = [
     sub: 'Afirmaciones · Sesión 1 · Libre',
     screen: 'afirmacion-detalle',
     color: '#7AACB5'
+  },
+  {
+    icon: '🧘',
+    title: 'Conecta con tu cuerpo',
+    sub: 'Yoga · Clase 1 · Libre',
+    screen: 'yoga-detalle',
+    color: '#C4977A'
   }
 ];
 
@@ -37,7 +44,7 @@ function Home({ onNavigate, onMood, user }) {
   };
 
   const diaHoy = new Date().getDay();
-  const sesionDelDia = sesiones[diaHoy % 2];
+  const sesionDelDia = sesiones[diaHoy % sesiones.length];
 
   const nombreUsuario = user?.id === 'guest'
   ? null
@@ -102,13 +109,12 @@ function Home({ onNavigate, onMood, user }) {
         </div>
 
         {/* Yoga Hero Card */}
-        <div className="yoga-hero-card">
+        <div className="yoga-hero-card" style={{ cursor: 'pointer' }} onClick={() => onNavigate('yoga')}>
           <img src="/yoga2.png" alt="Yoga" className="yoga-hero-img" />
           <div className="yoga-hero-overlay">
-            <div className="yoga-hero-tag">YOGA · PRÓXIMAMENTE</div>
             <div className="yoga-hero-title">Clases<br />de yoga</div>
             <div className="yoga-hero-sub">Mueve tu cuerpo con intención y presencia</div>
-            <div className="yoga-hero-badge">PRONTO</div>
+            <div className="yoga-hero-badge">YA DISPONIBLE</div>
           </div>
         </div>
 
