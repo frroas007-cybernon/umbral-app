@@ -26,3 +26,6 @@ yarn-error.log*
 android/keystore.properties
 *.jks
 *.keystore
+
+# fotos originales sin procesar (material de trabajo, no se sirve en el sitio)
+/public/financiamiento/fotos proyecto/
