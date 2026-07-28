@@ -19,6 +19,7 @@ import { identifyUser, resetUser, trackPageview, trackEvent } from './analytics'
 
 function App() {
   const [screen, setScreen] = useState('home');
+  const [screenParam, setScreenParam] = useState(null);
   const [modalMood, setModalMood] = useState(null);
   const [showSplash, setShowSplash] = useState(false);
   const [user, setUser] = useState(null);
@@ -69,10 +70,11 @@ function App() {
       });
   }, [user]);
 
-  const navigate = (dest) => {
+  const navigate = (dest, param = null) => {
     setShowSplash(true);
     setTimeout(() => {
       setScreen(dest);
+      setScreenParam(param);
       trackPageview(dest);
       setTimeout(() => setShowSplash(false), 300);
     }, 400);
@@ -104,7 +106,7 @@ function App() {
     <div className="app">
       {screen === 'home' && <Home onNavigate={navigate} onMood={setModalMood} user={user} />}
       {screen === 'meditaciones' && <Meditaciones onNavigate={navigate} user={user} />}
-      {screen === 'sesion' && <Sesion onNavigate={navigate} user={user} />}
+      {screen === 'sesion' && <Sesion onNavigate={navigate} user={user} sesionId={screenParam} />}
       {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} user={user} />}
       {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} user={user} />}
       {screen === 'yoga' && <Yoga onNavigate={navigate} user={user} />}

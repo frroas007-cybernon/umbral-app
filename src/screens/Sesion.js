@@ -4,14 +4,36 @@ import ApoyoBanner from '../components/ApoyoBanner';
 import { useRacha } from '../hooks/useRacha';
 import { trackEvent, trackError } from '../analytics';
 
-function Sesion({ onNavigate, user }) {
+const SESIONES = {
+  1: {
+    sesionKey: 'respiracion',
+    videoId: 'AP5qWR0b7s8',
+    audio: '/audio1.mp3',
+    numero: 1,
+    tituloLinea1: 'Respiración,',
+    tituloLinea2: 'la base de todo',
+    desc: 'Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 12 minutos que pueden cambiar tu día.',
+  },
+  2: {
+    sesionKey: 'imaginacion',
+    videoId: 'djwiUqtJZ1U',
+    audio: '/audio2.mp3',
+    numero: 2,
+    tituloLinea1: 'Imaginación',
+    tituloLinea2: 'que purifica',
+    desc: 'Usa la imaginación como herramienta de sanación: visualiza una luz que recorre tu cuerpo y libera lo que ya no necesitas cargar. Basada en los principios de Neville Goddard, Joe Dispenza y Louise Hay.',
+  },
+};
+
+function Sesion({ onNavigate, user, sesionId }) {
+  const ses = SESIONES[sesionId] || SESIONES[1];
   const [modo, setModo] = useState('video');
   const [showModal, setShowModal] = useState(false);
   const [guardado, setGuardado] = useState(false);
   const { marcarCompletada, guardarRating } = useRacha(user, 'meditacion');
 
   const handleCompletada = () => {
-    trackEvent('sesion_completada', { tipo: 'meditacion', sesion: 'respiracion', modo });
+    trackEvent('sesion_completada', { tipo: 'meditacion', sesion: ses.sesionKey, modo });
     marcarCompletada();
     setShowModal(true);
   };
@@ -20,9 +42,9 @@ function Sesion({ onNavigate, user }) {
     if (guardado) return;
     try {
       const cache = await caches.open('umbral-v3');
-      await cache.add('/audio1.mp3');
+      await cache.add(ses.audio);
       setGuardado(true);
-      trackEvent('audio_guardado_offline', { sesion: 'respiracion' });
+      trackEvent('audio_guardado_offline', { sesion: ses.sesionKey });
     } catch (err) {
       trackError(err, { origen: 'guardarOffline Sesion' });
     }
@@ -40,16 +62,16 @@ function Sesion({ onNavigate, user }) {
           <>
             <div className="video-box">
               <iframe
-                src="https://www.youtube.com/embed/AP5qWR0b7s8?rel=0&modestbranding=1"
+                src={`https://www.youtube.com/embed/${ses.videoId}?rel=0&modestbranding=1`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                title="Respiración, la base de todo"
+                title={`${ses.tituloLinea1} ${ses.tituloLinea2}`}
               />
             </div>
-            <div className="sess-tag">SESIÓN 1 · COMIENZA A MEDITAR</div>
-            <div className="sess-title">Respiración,<br />la base de todo</div>
+            <div className="sess-tag">SESIÓN {ses.numero} · COMIENZA A MEDITAR</div>
+            <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
             <div className="sess-desc">
-              Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 12 minutos que pueden cambiar tu día.
+              {ses.desc}
             </div>
             <button className="btn-sec" onClick={() => setModo('audio')}>
               🎧 Solo audio
@@ -63,7 +85,7 @@ function Sesion({ onNavigate, user }) {
             <div className="audio-player">
               <div className="audio-label">🎧 SOLO AUDIO</div>
               <audio controls controlsList="nodownload">
-                <source src="/audio1.mp3" type="audio/mpeg" />
+                <source src={ses.audio} type="audio/mpeg" />
               </audio>
               <div
                 onClick={guardarOffline}
@@ -80,10 +102,10 @@ function Sesion({ onNavigate, user }) {
               </div>
             </div>
 
-            <div className="sess-tag">SESIÓN 1 · COMIENZA A MEDITAR</div>
-            <div className="sess-title">Respiración,<br />la base de todo</div>
+            <div className="sess-tag">SESIÓN {ses.numero} · COMIENZA A MEDITAR</div>
+            <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
             <div className="sess-desc">
-              Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 12 minutos que pueden cambiar tu día.
+              {ses.desc}
             </div>
             <button className="btn-sec" onClick={() => setModo('video')}>
               ▶ Ver sesión completa
@@ -119,7 +141,7 @@ function Sesion({ onNavigate, user }) {
         visible={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={(rating) => {
-          trackEvent('sesion_rating', { tipo: 'meditacion', sesion: 'respiracion', rating });
+          trackEvent('sesion_rating', { tipo: 'meditacion', sesion: ses.sesionKey, rating });
           guardarRating(rating);
         }}
       />

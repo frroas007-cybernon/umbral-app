@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Umbral — Ayúdanos a crecer</title>
+<meta name="description" content="Umbral es una app de meditación, afirmaciones y yoga 100% en español, hecha en Chile. Conoce el proyecto y apoya su siguiente etapa." />
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crema: #F7F3EE;
+    --arena: #E8D5B7;
+    --terracota: #C4977A;
+    --terracota-osc: #A8785A;
+    --mar: #7AACB5;
+    --mar-osc: #4F8290;
+    --musgo: #8A9A6E;
+    --mostaza: #D9A441;
+    --oscuro: #2C2621;
+    --oscuro2: #241F1B;
+    --gris: #8A7A6E;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--crema);
+    color: var(--oscuro);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 600; margin: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 28px; position: relative; }
+  section { padding: 84px 0; position: relative; }
+  section.tinted { background: #fff; }
+  section.osc { background: var(--oscuro2); color: var(--crema); }
+  section.osc .tag { color: var(--mostaza); }
+  img { max-width: 100%; }
+
+  .blob {
+    object-fit: cover;
+    display: block;
+  }
+
+  /* NAV */
+  .topnav { display: flex; align-items: center; justify-content: space-between; padding: 22px 28px; max-width: 900px; margin: 0 auto; }
+  .topnav-logo { display: flex; align-items: center; gap: 10px; }
+  .topnav-logo svg { width: 34px; height: auto; }
+  .topnav-logo span { font-family: 'Fraunces', serif; font-size: 15px; letter-spacing: 3px; }
+  .topnav .btn-sec { font-size: 12px; padding: 9px 18px; }
+
+  /* HERO */
+  .hero { padding: 20px 0 100px; overflow: visible; }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
+  .hero h1 {
+    font-size: 52px;
+    line-height: 1.04;
+    letter-spacing: -0.5px;
+    color: var(--oscuro);
+    margin-bottom: 22px;
+  }
+  .hero h1 em { font-style: italic; color: var(--terracota); }
+  .hero p.lead { font-size: 17px; color: var(--gris); max-width: 440px; margin: 0 0 30px; }
+  .hero-visual { position: relative; height: 460px; }
+  .hero-visual img.blob-a {
+    width: 62%;
+    aspect-ratio: 3/4;
+    border-radius: 48% 52% 42% 58% / 55% 45% 55% 45%;
+    position: absolute;
+    top: 0; right: 0;
+    box-shadow: 0 30px 60px rgba(44,38,33,0.22);
+  }
+  .hero-visual img.blob-b {
+    width: 44%;
+    aspect-ratio: 1/1;
+    border-radius: 58% 42% 55% 45% / 45% 55% 45% 55%;
+    position: absolute;
+    bottom: 10px; left: 0;
+    box-shadow: 0 20px 40px rgba(44,38,33,0.2);
+    border: 6px solid var(--crema);
+  }
+  .dot { position: absolute; border-radius: 50%; }
+
+  .btn {
+    display: inline-block;
+    background: var(--terracota);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 15px 32px;
+    border-radius: 30px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(196,151,122,0.35);
+  }
+  .btn-sec {
+    display: inline-block;
+    background: transparent;
+    color: var(--terracota);
+    border: 1.5px solid var(--terracota);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .osc .btn-sec { color: var(--crema); border-color: rgba(247,243,238,0.4); }
+
+  /* SECTION HEADERS */
+  .tag { font-size: 11px; letter-spacing: 3px; color: var(--terracota); font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+  h2.section-title { font-size: 38px; line-height: 1.1; color: var(--oscuro); margin-bottom: 18px; letter-spacing: -0.3px; }
+  .osc h2.section-title { color: var(--crema); }
+  p.section-desc { font-size: 16px; color: var(--gris); max-width: 580px; }
+  .osc p.section-desc { color: rgba(247,243,238,0.75); }
+
+  /* STATEMENT / CITA */
+  .statement { background: var(--terracota); color: #fff; text-align: left; }
+  .statement .wrap { padding: 0 28px; }
+  .statement h2 {
+    font-size: 46px;
+    line-height: 1.08;
+    font-weight: 700;
+    max-width: 780px;
+  }
+  .statement .firma { margin-top: 26px; font-family: 'DM Sans', sans-serif; font-size: 13px; opacity: 0.85; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* PROBLEMA — stat strip (estilo bureo) */
+  .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 40px; border-top: 1px solid rgba(247,243,238,0.15); }
+  .stat-cell { padding: 26px 20px 0 0; border-right: 1px solid rgba(247,243,238,0.15); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num { font-family: 'Fraunces', serif; font-size: 44px; color: var(--mostaza); line-height: 1; }
+  .stat-label { font-size: 12.5px; color: rgba(247,243,238,0.7); margin-top: 10px; max-width: 160px; }
+  .fuente { font-size: 11.5px; color: rgba(247,243,238,0.5); margin-top: 24px; }
+
+  /* SOLUCION cards */
+  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
+  .card {
+    position: relative;
+    border-radius: 26px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    color: #fff;
+    background: var(--arena);
+    box-shadow: 0 20px 40px rgba(44,38,33,0.16);
+    transform: rotate(0deg);
+    transition: transform .2s;
+  }
+  .card:nth-child(2) { transform: translateY(14px); }
+  .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .card .card-scrim { position: absolute; inset: 0; }
+  .card .card-body { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 20px; }
+  .card .emoji { font-size: 26px; margin-bottom: 10px; display: block; }
+  .card h3 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+  .card p { font-size: 13px; opacity: 0.92; margin: 0; line-height: 1.5; }
+  .card.c1 .card-scrim { background: linear-gradient(180deg, rgba(196,151,122,0) 28%, rgba(168,120,90,0.92) 100%); }
+  .card.c2 .card-scrim { background: linear-gradient(180deg, rgba(79,130,144,0) 28%, rgba(79,130,144,0.92) 100%); }
+  .card.c3 .card-scrim { background: linear-gradient(180deg, rgba(138,154,110,0) 28%, rgba(110,124,86,0.92) 100%); }
+
+  /* SCREENSHOTS */
+  .shots { display: flex; gap: 22px; overflow-x: auto; padding: 40px 4px 16px; scroll-snap-type: x mandatory; }
+  .shots img { height: 380px; border-radius: 26px; scroll-snap-align: start; flex-shrink: 0; box-shadow: 0 20px 44px rgba(44,38,33,0.18); }
+  .shots img:nth-child(odd) { transform: rotate(-2deg); }
+  .shots img:nth-child(even) { transform: rotate(2deg); margin-top: 18px; }
+
+  /* GALERIA MOMENTOS */
+  .galeria { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px; }
+  .galeria img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+  }
+  .galeria img:nth-child(1) { border-radius: 50% 50% 40% 60% / 60% 60% 40% 40%; margin-top: 0; }
+  .galeria img:nth-child(2) { border-radius: 40% 60% 55% 45% / 45% 55% 45% 55%; margin-top: 34px; }
+  .galeria img:nth-child(3) { border-radius: 55% 45% 50% 50% / 40% 60% 40% 60%; margin-top: -10px; }
+  .galeria img:nth-child(4) { border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; margin-top: 24px; }
+
+  /* EQUIPO */
+  .equipo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 44px; }
+  .persona-foto-wrap { position: relative; margin-bottom: 20px; }
+  .persona-foto {
+    width: 82%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    background: var(--arena);
+    display: block;
+    border-radius: 50% 50% 45% 55% / 55% 55% 45% 45%;
+    box-shadow: 0 24px 48px rgba(44,38,33,0.16);
+  }
+  .equipo-grid > div:nth-child(1) .persona-foto { border-radius: 45% 55% 50% 50% / 60% 40% 60% 40%; }
+  .equipo-grid > div:nth-child(2) .persona-foto-wrap { display: flex; justify-content: flex-end; }
+  .persona-nombre { font-family: 'Fraunces', serif; font-size: 25px; color: var(--oscuro); }
+  .persona-rol { font-size: 11px; letter-spacing: 1.5px; color: var(--terracota); text-transform: uppercase; font-weight: 700; margin: 4px 0 10px; }
+  .persona-bio { font-size: 14px; color: var(--gris); }
+
+  /* PRESUPUESTO */
+  .gastos-list { margin-top: 32px; }
+  .gasto-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--arena); }
+  .gasto-row:first-child { border-top: 1px solid var(--arena); }
+  .gasto-nombre { font-weight: 700; font-size: 15px; color: var(--oscuro); }
+  .gasto-desc { font-size: 13px; color: var(--gris); margin-top: 4px; max-width: 440px; }
+  .gasto-monto { font-family: 'Fraunces', serif; font-size: 20px; color: var(--terracota); white-space: nowrap; }
+
+  /* APOYAR */
+  #apoyar-section { background: var(--oscuro2); }
+  #apoyar { color: var(--crema); text-align: center; }
+  #apoyar h2 { color: var(--crema); font-size: 44px; margin-bottom: 10px; }
+  #apoyar p.section-desc { color: rgba(247,243,238,0.75); margin: 0 auto 30px; }
+  #apoyar .apoyar-form { text-align: left; margin-left: auto; margin-right: auto; }
+  .montos { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .monto-btn {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    padding: 16px 0;
+    border-radius: 14px;
+    border: 1.5px solid rgba(247,243,238,0.3);
+    background: transparent;
+    color: var(--crema);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .monto-btn.activo { background: var(--mostaza); border-color: var(--mostaza); color: var(--oscuro2); }
+  input, textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(247,243,238,0.25);
+    background: rgba(247,243,238,0.08);
+    color: var(--crema);
+    font-size: 15px;
+    margin-bottom: 12px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+  }
+  input::placeholder, textarea::placeholder { color: rgba(247,243,238,0.5); }
+  .apoyar-form { max-width: 520px; margin-top: 30px; }
+  .apoyar-form .btn { width: 100%; text-align: center; margin-top: 8px; font-size: 16px; padding: 17px 0; background: var(--mostaza); box-shadow: 0 10px 24px rgba(217,164,65,0.3); }
+  .apoyar-nota { font-size: 11.5px; color: rgba(247,243,238,0.5); text-align: center; margin-top: 14px; }
+  .estado-msg { border-radius: 14px; padding: 16px 18px; font-size: 14px; margin-bottom: 22px; max-width: 480px; }
+  .estado-msg.exito { background: rgba(138,154,110,0.18); color: #C9D6B3; border: 1px solid rgba(138,154,110,0.35); }
+  .estado-msg.fallo { background: rgba(196,120,90,0.18); color: #E8B9A5; border: 1px solid rgba(196,120,90,0.35); }
+  .estado-msg.pendiente { background: rgba(217,164,65,0.16); color: #EFCE8E; border: 1px solid rgba(217,164,65,0.35); }
+
+  footer { text-align: center; padding: 46px 28px 70px; font-size: 12.5px; color: var(--gris); background: var(--oscuro2); color: rgba(247,243,238,0.55); }
+  footer a { color: var(--mostaza); text-decoration: none; }
+
+  @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { height: 320px; order: -1; margin-bottom: 10px; }
+    .hero h1 { font-size: 36px; }
+    .statement h2 { font-size: 30px; }
+    .stat-strip { grid-template-columns: 1fr 1fr; row-gap: 26px; }
+    .stat-cell { border-right: none; padding-right: 12px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .card:nth-child(2) { transform: none; }
+    .galeria { grid-template-columns: 1fr 1fr; }
+    .equipo-grid { grid-template-columns: 1fr; }
+    h2.section-title { font-size: 28px; }
+    #apoyar h2 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="topnav">
+    <div class="topnav-logo">
+      <svg viewBox="0 0 300 175" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="150" cy="120" rx="42" ry="7" fill="#7AACB5" opacity="0.30"/>
+        <ellipse cx="150" cy="125" rx="28" ry="4" fill="#7AACB5" opacity="0.18"/>
+        <path d="M 110 114 A 40 40 0 0 1 190 114 Z" fill="#C4977A"/>
+        <line x1="84" y1="114" x2="216" y2="114" stroke="#2C2621" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="150" y1="66" x2="150" y2="82" stroke="#C4977A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="129" y1="71" x2="135.5" y2="86" stroke="#C4977A" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="171" y1="71" x2="164.5" y2="86" stroke="#C4977A" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="111" y1="87" x2="120" y2="98" stroke="#C4977A" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="189" y1="87" x2="180" y2="98" stroke="#C4977A" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="92" y1="108" x2="106" y2="108" stroke="#C4977A" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="208" y1="108" x2="194" y2="108" stroke="#C4977A" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M 124 114 A 26 26 0 0 1 176 114 Z" fill="#7AACB5" opacity="0.22"/>
+      </svg>
+      <span>UMBRAL</span>
+    </div>
+    <a href="#apoyar" class="btn-sec">Apoyar</a>
+  </div>
+
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <h1>Cuidar la mente no debería ser <em>un privilegio.</em></h1>
+        <p class="lead">Umbral es una app de meditación, afirmaciones y yoga hecha en Chile, por dos personas que la usan todos los días. Te contamos el proyecto y cómo puedes ser parte.</p>
+        <a href="#apoyar" class="btn">Quiero apoyar</a>
+      </div>
+      <div class="hero-visual">
+        <img class="blob blob-a" src="/financiamiento/foto-hero-1.jpg" alt="Práctica de meditación" />
+        <img class="blob blob-b" src="/financiamiento/foto-hero-2.jpg" alt="Práctica de yoga" />
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="tag">Qué es Umbral</div>
+      <h2 class="section-title">Meditación, afirmaciones y yoga, sin traducir</h2>
+      <p class="section-desc">
+        Umbral es una plataforma web y app móvil para aprender y mantener una práctica diaria de bienestar: meditaciones guiadas, afirmaciones y clases de yoga, con contenido producido de principio a fin en Chile, en español, con sensibilidad latinoamericana. Nuestra propuesta es simple: acompañar el hábito día a día, no solo entregar contenido suelto — con acceso gratuito y una suscripción accesible para el catálogo completo.
+      </p>
+    </div>
+  </section>
+
+  <section class="statement">
+    <div class="wrap">
+      <h2>"No existía, en Chile ni en Latinoamérica, una plataforma de calidad, en español y a un precio justo."</h2>
+      <div class="firma">— Por eso construimos Umbral</div>
+    </div>
+  </section>
+
+  <section class="osc">
+    <div class="wrap">
+      <div class="tag">El problema</div>
+      <h2 class="section-title">Chile enfrenta una crisis silenciosa de salud mental</h2>
+      <p class="section-desc">Las alternativas internacionales —Calm, Headspace— están en inglés y cuestan más de $60.000 CLP al año.</p>
+      <div class="stat-strip">
+        <div class="stat-cell">
+          <div class="stat-num">25,8%</div>
+          <div class="stat-label">de los chilenos presenta síntomas de ansiedad</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">~2M</div>
+          <div class="stat-label">de personas con síntomas de depresión</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">54%</div>
+          <div class="stat-label">de los trabajadores reporta estrés laboral frecuente</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">30-50</div>
+          <div class="stat-label">años: el segmento adulto más afectado</div>
+        </div>
+      </div>
+      <p class="fuente">Fuente: estudios UC-ACHS.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="tag">La solución</div>
+      <h2 class="section-title">Una app, tres formas de practicar</h2>
+      <div class="cards-grid">
+        <div class="card c1">
+          <img src="/financiamiento/foto-meditacion.jpg" alt="Meditación" />
+          <div class="card-scrim"></div>
+          <div class="card-body">
+            <div class="emoji">🧘</div>
+            <h3>Meditaciones</h3>
+            <p>Programas guiados para construir una práctica real, paso a paso.</p>
+          </div>
+        </div>
+        <div class="card c2">
+          <img src="/financiamiento/foto-afirmaciones.jpg" alt="Afirmaciones" />
+          <div class="card-scrim"></div>
+          <div class="card-body">
+            <div class="emoji">✨</div>
+            <h3>Afirmaciones</h3>
+            <p>Frases diseñadas para reprogramar el diálogo interno.</p>
+          </div>
+        </div>
+        <div class="card c3">
+          <img src="/financiamiento/foto-yoga.jpg" alt="Yoga" />
+          <div class="card-scrim"></div>
+          <div class="card-body">
+            <div class="emoji">🤸</div>
+            <h3>Yoga</h3>
+            <p>Clases para moverte con intención y presencia.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="shots">
+        <img src="/financiamiento/screenshot-home.jpg" alt="Pantalla de inicio de Umbral" />
+        <img src="/financiamiento/screenshot-meditaciones.jpg" alt="Pantalla de meditaciones de Umbral" />
+        <img src="/financiamiento/screenshot-yoga.jpg" alt="Pantalla de yoga de Umbral" />
+        <img src="/financiamiento/screenshot-perfil.jpg" alt="Pantalla de perfil de Umbral" />
+      </div>
+    </div>
+  </section>
+
+  <section class="tinted">
+    <div class="wrap">
+      <div class="tag">Nuestra práctica</div>
+      <h2 class="section-title">Lo que hacemos, lo vivimos</h2>
+      <p class="section-desc">Meditación, yoga, playa, silencio — momentos reales desde donde nace todo esto.</p>
+      <div class="galeria">
+        <img src="/financiamiento/foto-momento-1.jpg" alt="Francisco y Caty en la naturaleza" />
+        <img src="/financiamiento/foto-momento-2.jpg" alt="Francisco y Caty al atardecer" />
+        <img src="/financiamiento/foto-momento-3.jpg" alt="Yoga en la playa" />
+        <img src="/financiamiento/foto-momento-4.jpg" alt="Práctica de yoga" />
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="tag">Quiénes hacemos Umbral</div>
+      <h2 class="section-title">Un proyecto de a dos</h2>
+      <p class="section-desc">Umbral nace de nuestra propia práctica. No es un producto pensado desde una oficina — lo construimos juntos, grabamos el contenido nosotros, y lo usamos a diario.</p>
+      <div class="equipo-grid">
+        <div>
+          <div class="persona-foto-wrap">
+            <img class="persona-foto" src="/financiamiento/foto-francisco.jpg" alt="Francisco Roa" />
+          </div>
+          <div class="persona-nombre">Francisco Roa</div>
+          <div class="persona-rol">Fundador · Meditación y respiración</div>
+          <p class="persona-bio">Creador de Umbral, instructor certificado en meditación, yoga y técnicas de respiración. Diseña, produce y desarrolla la app desde Viña del Mar.</p>
+        </div>
+        <div>
+          <div class="persona-foto-wrap">
+            <img class="persona-foto" src="/financiamiento/foto-caty.jpg" alt="Caty" />
+          </div>
+          <div class="persona-nombre">Caty</div>
+          <div class="persona-rol">Cofundadora de la app</div>
+          <p class="persona-bio">A cargo de las clases de yoga de Umbral — su mirada y su práctica son las que ves en cada clase de la app.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tinted">
+    <div class="wrap">
+      <div class="tag">Por qué pedimos tu apoyo</div>
+      <h2 class="section-title">En qué se usa cada aporte</h2>
+      <p class="section-desc">Umbral ya está construida y funcionando — lo que sigue es dar los pasos formales para publicarla en las tiendas oficiales, proteger la marca, y seguir mejorando la calidad del contenido.</p>
+      <div class="gastos-list">
+        <div class="gasto-row">
+          <div>
+            <div class="gasto-nombre">Cuenta Apple Developer Program</div>
+            <div class="gasto-desc">Obligatoria para publicar en App Store. Se paga cada año.</div>
+          </div>
+          <div class="gasto-monto">US$99/año</div>
+        </div>
+        <div class="gasto-row">
+          <div>
+            <div class="gasto-nombre">Cuenta Google Play Developer</div>
+            <div class="gasto-desc">Pago único, obligatorio para publicar en Google Play.</div>
+          </div>
+          <div class="gasto-monto">US$25</div>
+        </div>
+        <div class="gasto-row">
+          <div>
+            <div class="gasto-nombre">Registro de marca "Umbral" en INAPI</div>
+            <div class="gasto-desc">Protege legalmente el nombre y la app en Chile.</div>
+          </div>
+          <div class="gasto-monto">~$228.000 CLP</div>
+        </div>
+        <div class="gasto-row">
+          <div>
+            <div class="gasto-nombre">Equipamiento audiovisual</div>
+            <div class="gasto-desc">Mejor micrófono, iluminación y acondicionamiento del espacio de grabación, para elevar la calidad del contenido.</div>
+          </div>
+          <div class="gasto-monto">Variable</div>
+        </div>
+        <div class="gasto-row">
+          <div>
+            <div class="gasto-nombre">Gastos administrativos</div>
+            <div class="gasto-desc">Formalización del emprendimiento y operación básica mientras Umbral empieza a generar ingresos propios.</div>
+          </div>
+          <div class="gasto-monto">Variable</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apoyar-section">
+    <div class="wrap" id="apoyar">
+      <div class="tag">Aportar</div>
+      <h2>Ayúdanos a mantener gratis nuestra App</h2>
+      <p class="section-desc">Cualquier monto ayuda a acercarnos a estos objetivos. Gracias por ser parte.</p>
+
+      <div class="apoyar-form">
+        <div id="estado-exito" class="estado-msg exito" style="display:none;">✓ ¡Gracias por tu aporte! Tu pago fue confirmado.</div>
+        <div id="estado-pendiente" class="estado-msg pendiente" style="display:none;">Tu pago quedó pendiente de confirmación. Te avisaremos apenas se acredite.</div>
+        <div id="estado-fallo" class="estado-msg fallo" style="display:none;">No pudimos procesar el pago. Intenta de nuevo cuando quieras.</div>
+
+        <div class="montos" id="montos">
+          <button class="monto-btn activo" data-monto="1000">$1.000</button>
+          <button class="monto-btn" data-monto="5000">$5.000</button>
+          <button class="monto-btn" data-monto="10000">$10.000</button>
+        </div>
+        <input type="number" id="montoCustom" placeholder="Otro monto (CLP)" min="500" />
+        <input type="text" id="nombre" placeholder="Tu nombre (opcional)" />
+        <textarea id="mensaje" placeholder="Déjanos un mensaje (opcional)" rows="2"></textarea>
+
+        <div id="error" style="color:#E8B9A5; font-size:13px; margin-bottom:8px; display:none;"></div>
+
+        <button class="btn" id="btnApoyar">Apoyar con $1.000</button>
+        <div class="apoyar-nota">Pago seguro procesado por Mercado Pago.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Umbral — Meditación en español · <a href="/privacidad.html">Política de privacidad</a><br/>
+    ¿Preguntas? Escríbenos a soporte@umbralapp.lat
+  </footer>
+
+  <script>
+    (function () {
+      var montoSeleccionado = 1000;
+      var montoCustomEl = document.getElementById('montoCustom');
+      var btnApoyar = document.getElementById('btnApoyar');
+      var errorEl = document.getElementById('error');
+      var botones = document.querySelectorAll('.monto-btn');
+
+      function actualizarBoton() {
+        var m = montoCustomEl.value ? Number(montoCustomEl.value) : montoSeleccionado;
+        btnApoyar.textContent = m > 0 ? 'Apoyar con $' + m.toLocaleString('es-CL') : 'Apoyar';
+      }
+
+      botones.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          botones.forEach(function (b) { b.classList.remove('activo'); });
+          btn.classList.add('activo');
+          montoSeleccionado = Number(btn.getAttribute('data-monto'));
+          montoCustomEl.value = '';
+          actualizarBoton();
+        });
+      });
+
+      montoCustomEl.addEventListener('input', function () {
+        if (montoCustomEl.value) {
+          botones.forEach(function (b) { b.classList.remove('activo'); });
+        }
+        actualizarBoton();
+      });
+
+      btnApoyar.addEventListener('click', function () {
+        var monto = montoCustomEl.value ? Number(montoCustomEl.value) : montoSeleccionado;
+        errorEl.style.display = 'none';
+
+        if (!monto || monto < 500) {
+          errorEl.textContent = 'Ingresa un monto válido (mínimo $500).';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        btnApoyar.disabled = true;
+        btnApoyar.textContent = 'Redirigiendo...';
+
+        fetch('/api/crear-pago', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: monto,
+            message: document.getElementById('mensaje').value || null,
+            name: document.getElementById('nombre').value || null,
+            email: null,
+            user_id: null,
+            origen: 'financiamiento'
+          })
+        })
+          .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+          .then(function (r) {
+            if (!r.ok || !r.data.init_point) {
+              errorEl.textContent = 'No se pudo iniciar el pago. Intenta de nuevo.';
+              errorEl.style.display = 'block';
+              btnApoyar.disabled = false;
+              actualizarBoton();
+              return;
+            }
+            window.location.href = r.data.init_point;
+          })
+          .catch(function () {
+            errorEl.textContent = 'No se pudo iniciar el pago. Intenta de nuevo.';
+            errorEl.style.display = 'block';
+            btnApoyar.disabled = false;
+            actualizarBoton();
+          });
+      });
+
+      // Estado de retorno de Mercado Pago (?apoyo=exito|fallo|pendiente) — solo se muestra el que corresponde
+      var params = new URLSearchParams(window.location.search);
+      var estado = params.get('apoyo');
+      if (estado === 'exito') document.getElementById('estado-exito').style.display = 'block';
+      if (estado === 'fallo') document.getElementById('estado-fallo').style.display = 'block';
+      if (estado === 'pendiente') document.getElementById('estado-pendiente').style.display = 'block';
+      if (estado) {
+        window.history.replaceState({}, '', window.location.pathname);
+        document.getElementById('apoyar-section').scrollIntoView({ behavior: 'smooth' });
+      }
+    })();
+  </script>
+
+</body>
+</html>

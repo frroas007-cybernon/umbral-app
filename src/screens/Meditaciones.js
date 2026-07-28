@@ -3,7 +3,7 @@ import ApoyoBanner from '../components/ApoyoBanner';
 
 const sesiones = [
   { id: 1, emoji: '🌬️', titulo: '1. Respiración, la base de todo', duracion: '12 min', tipo: 'Libre', free: true, color: '#C4977A' },
-  { id: 2, emoji: '✨', titulo: '2. Imaginación que purifica', duracion: '15 min', tipo: 'Próximamente', free: false, color: '#7AACB5' },
+  { id: 2, emoji: '✨', titulo: '2. Imaginación que purifica', duracion: '15 min', tipo: 'Libre', free: true, color: '#7AACB5' },
   { id: 3, emoji: '👁️', titulo: '3. Observación que libera', duracion: '18 min', tipo: 'Próximamente', free: false, color: '#7AACB5' },
 ];
 
@@ -31,7 +31,7 @@ function Meditaciones({ onNavigate, user }) {
           <div
             key={s.id}
             className={`session-row ${s.free ? 'free' : 'locked'}`}
-            onClick={() => s.free && onNavigate('sesion')}
+            onClick={() => s.free && onNavigate('sesion', s.id)}
           >
             <div className="s-icon" style={{ background: s.color }}>{s.emoji}</div>
             <div className="s-info">

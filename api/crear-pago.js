@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { amount, message, name, email, user_id } = req.body || {};
+    const { amount, message, name, email, user_id, origen } = req.body || {};
     const montoNumero = Number(amount);
 
     if (!montoNumero || montoNumero <= 0) {
@@ -34,9 +34,12 @@ module.exports = async (req, res) => {
 
     if (dbError) throw dbError;
 
-    await trackServerEvent(user_id, 'pago_iniciado', { amount: montoNumero, apoyo_id: apoyo.id });
+    await trackServerEvent(user_id, 'pago_iniciado', { amount: montoNumero, apoyo_id: apoyo.id, origen: origen || 'app' });
 
     const siteUrl = process.env.SITE_URL || `https://${req.headers.host}`;
+    // La página de financiamiento (no enlazada desde la app) usa su propia
+    // URL de retorno para no mandar a quien dona ahí a la pantalla de login.
+    const returnPath = origen === 'financiamiento' ? '/financiamiento.html' : '/';
 
     const mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {
       method: 'POST',
@@ -55,9 +58,9 @@ module.exports = async (req, res) => {
         ],
         external_reference: apoyo.id,
         back_urls: {
-          success: `${siteUrl}/?apoyo=exito`,
-          failure: `${siteUrl}/?apoyo=fallo`,
-          pending: `${siteUrl}/?apoyo=pendiente`
+          success: `${siteUrl}${returnPath}?apoyo=exito`,
+          failure: `${siteUrl}${returnPath}?apoyo=fallo`,
+          pending: `${siteUrl}${returnPath}?apoyo=pendiente`
         },
         auto_return: 'approved',
         notification_url: `${siteUrl}/api/webhook-mp`
