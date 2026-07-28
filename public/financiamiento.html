@@ -140,12 +140,15 @@
   .fuente { font-size: 11.5px; color: rgba(247,243,238,0.5); margin-top: 24px; }
 
   /* SOLUCION cards */
-  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
+  .cards-grid { display: flex; gap: 20px; overflow-x: auto; padding: 12px 4px 16px; scroll-snap-type: x mandatory; margin-top: 24px; }
   .card {
     position: relative;
     border-radius: 26px;
     overflow: hidden;
+    width: 250px;
     aspect-ratio: 3/4;
+    flex-shrink: 0;
+    scroll-snap-align: start;
     color: #fff;
     background: var(--arena);
     box-shadow: 0 20px 40px rgba(44,38,33,0.16);
@@ -260,7 +263,7 @@
     .statement h2 { font-size: 30px; }
     .stat-strip { grid-template-columns: 1fr 1fr; row-gap: 26px; }
     .stat-cell { border-right: none; padding-right: 12px; }
-    .cards-grid { grid-template-columns: 1fr; }
+    .card { width: 210px; }
     .card:nth-child(2) { transform: none; }
     .galeria { grid-template-columns: 1fr 1fr; }
     .equipo-grid { grid-template-columns: 1fr; }
@@ -311,8 +314,17 @@
       <div class="tag">Qué es Umbral</div>
       <h2 class="section-title">Meditación, afirmaciones y yoga, sin traducir</h2>
       <p class="section-desc">
-        Umbral es una <strong>plataforma web y app móvil para aprender y mantener una práctica diaria de bienestar: meditaciones guiadas, afirmaciones y clases de yoga</strong>, con contenido producido de principio a fin en Chile, en español, con sensibilidad latinoamericana. Nuestra propuesta es simple: <strong>acompañar el hábito día a día, no solo entregar contenido suelto</strong> — <strong>con acceso gratuito y la posibilidad de apoyarnos a financiar el proyecto.</strong>
+        Umbral es una <strong>plataforma web y app móvil para aprender y mantener una práctica diaria de bienestar: meditaciones guiadas, afirmaciones y clases de yoga</strong>. Todo el contenido está producido de principio a fin en Chile, en español, con sensibilidad latinoamericana.
+        <br /><br />
+        Nuestra propuesta es simple: <strong>acompañar el hábito día a día, no solo entregar contenido suelto</strong>, <strong>con acceso gratuito y la posibilidad de apoyarnos a financiar el proyecto.</strong>
       </p>
+
+      <div class="shots">
+        <img src="/financiamiento/screenshot-home.jpg" alt="Pantalla de inicio de Umbral" />
+        <img src="/financiamiento/screenshot-meditaciones.jpg" alt="Pantalla de meditaciones de Umbral" />
+        <img src="/financiamiento/screenshot-yoga.jpg" alt="Pantalla de yoga de Umbral" />
+        <img src="/financiamiento/screenshot-perfil.jpg" alt="Pantalla de perfil de Umbral" />
+      </div>
     </div>
   </section>
 
@@ -382,27 +394,6 @@
             <p>Clases para moverte con intención y presencia.</p>
           </div>
         </div>
-      </div>
-
-      <div class="shots">
-        <img src="/financiamiento/screenshot-home.jpg" alt="Pantalla de inicio de Umbral" />
-        <img src="/financiamiento/screenshot-meditaciones.jpg" alt="Pantalla de meditaciones de Umbral" />
-        <img src="/financiamiento/screenshot-yoga.jpg" alt="Pantalla de yoga de Umbral" />
-        <img src="/financiamiento/screenshot-perfil.jpg" alt="Pantalla de perfil de Umbral" />
-      </div>
-    </div>
-  </section>
-
-  <section class="tinted">
-    <div class="wrap">
-      <div class="tag">Nuestra práctica</div>
-      <h2 class="section-title">Lo que hacemos, lo vivimos</h2>
-      <p class="section-desc">Meditación, yoga, playa, silencio — <strong>momentos reales desde donde nace todo esto.</strong></p>
-      <div class="galeria">
-        <img src="/financiamiento/foto-momento-1.jpg" alt="Francisco y Caty en la naturaleza" />
-        <img src="/financiamiento/foto-momento-2.jpg" alt="Francisco y Caty al atardecer" />
-        <img src="/financiamiento/foto-momento-3.jpg" alt="Yoga en la playa" />
-        <img src="/financiamiento/foto-momento-4.jpg" alt="Práctica de yoga" />
       </div>
     </div>
   </section>
@@ -474,6 +465,20 @@
           </div>
           <div class="gasto-monto">Variable</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tinted">
+    <div class="wrap">
+      <div class="tag">Nuestra práctica</div>
+      <h2 class="section-title">Lo que hacemos, lo vivimos</h2>
+      <p class="section-desc">Meditación, yoga, playa, silencio — <strong>momentos reales desde donde nace todo esto.</strong></p>
+      <div class="galeria">
+        <img src="/financiamiento/foto-momento-1.jpg" alt="Francisco y Caty en la naturaleza" />
+        <img src="/financiamiento/foto-momento-2.jpg" alt="Francisco y Caty al atardecer" />
+        <img src="/financiamiento/foto-momento-3.jpg" alt="Yoga en la playa" />
+        <img src="/financiamiento/foto-momento-4.jpg" alt="Práctica de yoga" />
       </div>
     </div>
   </section>
