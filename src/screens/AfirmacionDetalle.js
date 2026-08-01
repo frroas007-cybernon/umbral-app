@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import CompletadaModal from '../components/CompletadaModal';
-import ApoyoBanner from '../components/ApoyoBanner';
 import { useRacha } from '../hooks/useRacha';
 import { trackEvent, trackError } from '../analytics';
 
@@ -94,10 +93,6 @@ function AfirmacionDetalle({ onNavigate, user }) {
           </>
         )}
 
-        <div style={{ marginTop: 'auto', paddingTop: 28 }}>
-          <ApoyoBanner user={user} />
-        </div>
-
       </div>
 
       <nav className="nav">
@@ -109,9 +104,9 @@ function AfirmacionDetalle({ onNavigate, user }) {
           <div className="nav-icon">🧘</div>
           <div className="nav-text">Meditar</div>
         </div>
-        <div className="nav-item" onClick={() => onNavigate('perfil')}>
-          <div className="nav-icon">👤</div>
-          <div className="nav-text">Perfil</div>
+        <div className="nav-item" onClick={() => onNavigate('apoyar')}>
+          <div className="nav-icon">💛</div>
+          <div className="nav-text">Apoyar</div>
         </div>
       </nav>
 

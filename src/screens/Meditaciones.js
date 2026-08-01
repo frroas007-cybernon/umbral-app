@@ -1,5 +1,4 @@
 import React from 'react';
-import ApoyoBanner from '../components/ApoyoBanner';
 
 const sesiones = [
   { id: 1, emoji: '🌬️', titulo: '1. Respiración, la base de todo', duracion: '12 min', tipo: 'Libre', free: true, color: '#C4977A' },
@@ -42,10 +41,6 @@ function Meditaciones({ onNavigate, user }) {
           </div>
         ))}
 
-        <div style={{ marginTop: 'auto', paddingTop: 28 }}>
-          <ApoyoBanner user={user} />
-        </div>
-
       </div>
 
       <nav className="nav">
@@ -57,9 +52,9 @@ function Meditaciones({ onNavigate, user }) {
           <div className="nav-icon">🧘</div>
           <div className="nav-text">Meditar</div>
         </div>
-        <div className="nav-item" onClick={() => onNavigate('perfil')}>
-          <div className="nav-icon">👤</div>
-          <div className="nav-text">Perfil</div>
+        <div className="nav-item" onClick={() => onNavigate('apoyar')}>
+          <div className="nav-icon">💛</div>
+          <div className="nav-text">Apoyar</div>
         </div>
       </nav>
     </div>

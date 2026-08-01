@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRacha } from '../hooks/useRacha';
 import { useRecordatorio } from '../hooks/useRecordatorio';
-import ApoyoBanner from '../components/ApoyoBanner';
 import EliminarCuentaModal from '../components/EliminarCuentaModal';
 import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
 
-function Perfil({ onNavigate, user, onLogout }) {
+function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
   const { racha, sesiones } = useRacha(user);
   const {
     activo: recordatorioActivo,
@@ -20,6 +19,61 @@ function Perfil({ onNavigate, user, onLogout }) {
   const [showEliminar, setShowEliminar] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [errorEliminar, setErrorEliminar] = useState('');
+  const [subiendoFoto, setSubiendoFoto] = useState(false);
+  const [errorFoto, setErrorFoto] = useState('');
+  const fileInputRef = useRef(null);
+
+  const handleFotoClick = () => {
+    if (user?.id === 'guest' || subiendoFoto) return;
+    fileInputRef.current?.click();
+  };
+
+  const handleFotoChange = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setErrorFoto('Elige un archivo de imagen');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setErrorFoto('La imagen no puede pesar más de 5MB');
+      return;
+    }
+
+    setSubiendoFoto(true);
+    setErrorFoto('');
+    try {
+      const ext = file.name.split('.').pop() || 'jpg';
+      const path = `${user.id}/avatar.${ext}`;
+
+      const { error: uploadError } = await supabase
+        .storage
+        .from('avatars')
+        .upload(path, file, { upsert: true, contentType: file.type });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path);
+      const urlConCache = `${publicUrl}?t=${Date.now()}`;
+
+      const { error: updateError } = await supabase
+        .from('Perfiles')
+        .update({ avatar_url: urlConCache })
+        .eq('id', user.id);
+
+      if (updateError) throw updateError;
+
+      onAvatarChange?.(urlConCache);
+      trackEvent('foto_perfil_actualizada');
+    } catch (err) {
+      trackError(err, { origen: 'Perfil handleFotoChange' });
+      setErrorFoto('No se pudo subir la foto. Intenta de nuevo.');
+    } finally {
+      setSubiendoFoto(false);
+    }
+  };
 
   const handleToggleRecordatorio = async () => {
     if (recordatorioActivo) {
@@ -77,7 +131,30 @@ function Perfil({ onNavigate, user, onLogout }) {
 
         <div className="page-title">Perfil</div>
 
-        <div className="perfil-avatar">👤</div>
+        <div
+          className="perfil-avatar-circle"
+          onClick={handleFotoClick}
+          style={{ cursor: user?.id === 'guest' ? 'default' : 'pointer', opacity: subiendoFoto ? 0.6 : 1 }}
+          aria-label="Cambiar foto de perfil"
+        >
+          {avatarUrl ? <img src={avatarUrl} alt="Foto de perfil" /> : '👤'}
+          {user?.id !== 'guest' && (
+            <div className="perfil-avatar-camara">{subiendoFoto ? '…' : '📷'}</div>
+          )}
+        </div>
+        {user?.id !== 'guest' && (
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFotoChange}
+            style={{ display: 'none' }}
+          />
+        )}
+        {errorFoto && (
+          <div style={{ color: '#C0392B', fontSize: 11, textAlign: 'center', marginBottom: 8 }}>{errorFoto}</div>
+        )}
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 4 }}>
           <div className="perfil-nombre" style={{ marginBottom: 0 }}>{nombreUsuario || 'Bienvenido/a'}</div>
           {user?.id !== 'guest' && (
@@ -90,6 +167,22 @@ function Perfil({ onNavigate, user, onLogout }) {
             </div>
           )}
         </div>
+
+        {user?.id === 'guest' && (
+          <div
+            className="stat-card"
+            style={{ cursor: 'pointer' }}
+            onClick={() => { trackEvent('crear_cuenta_click_perfil'); onNavigate('login'); }}
+          >
+            <div className="recordatorio-fila">
+              <div className="recordatorio-info">
+                <div className="recordatorio-titulo">Crear cuenta o iniciar sesión</div>
+                <div className="recordatorio-sub">Guarda tu racha y accede desde cualquier dispositivo</div>
+              </div>
+              <div style={{ fontSize: 20, color: '#C4977A' }}>→</div>
+            </div>
+          </div>
+        )}
 
         <div className="stat-card">
           <div className="stat-label">SESIONES COMPLETADAS</div>
@@ -169,10 +262,6 @@ function Perfil({ onNavigate, user, onLogout }) {
           </div>
         )}
 
-        <div style={{ marginTop: 'auto', paddingTop: 28 }}>
-          <ApoyoBanner user={user} />
-        </div>
-
       </div>
 
       <EliminarCuentaModal
@@ -192,9 +281,9 @@ function Perfil({ onNavigate, user, onLogout }) {
           <div className="nav-icon">🧘</div>
           <div className="nav-text">Meditar</div>
         </div>
-        <div className="nav-item active">
-          <div className="nav-icon">👤</div>
-          <div className="nav-text">Perfil</div>
+        <div className="nav-item" onClick={() => onNavigate('apoyar')}>
+          <div className="nav-icon">💛</div>
+          <div className="nav-text">Apoyar</div>
         </div>
       </nav>
     </div>

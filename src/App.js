@@ -9,6 +9,7 @@ import Yoga from './screens/Yoga';
 import YogaDetalle from './screens/YogaDetalle';
 import Perfil from './screens/Perfil';
 import EditarPerfil from './screens/EditarPerfil';
+import Apoyar from './screens/Apoyar';
 import Login from './screens/Login';
 import CompletarPerfil from './screens/CompletarPerfil';
 import MoodModal from './components/MoodModal';
@@ -26,6 +27,7 @@ function App() {
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [needsProfile, setNeedsProfile] = useState(null);
   const [showGracias, setShowGracias] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -53,6 +55,14 @@ function App() {
     });
   }, []);
 
+  // Sin sesión real: se entra directo como invitado, sin pantalla de login de por medio.
+  // Crear cuenta / iniciar sesión queda disponible desde Perfil cuando la persona lo decida.
+  useEffect(() => {
+    if (!loadingAuth && !user) {
+      setUser({ id: 'guest', email: 'guest' });
+    }
+  }, [loadingAuth, user]);
+
   useEffect(() => {
     if (!user || user.id === 'guest') {
       setNeedsProfile(false);
@@ -61,12 +71,13 @@ function App() {
     setNeedsProfile(null);
     supabase
       .from('Perfiles')
-      .select('gender, date_of_birth')
+      .select('gender, date_of_birth, avatar_url')
       .eq('id', user.id)
       .single()
       .then(({ data }) => {
         const incompleto = !data || !data.gender || !data.date_of_birth;
         setNeedsProfile(incompleto);
+        setAvatarUrl(data?.avatar_url || null);
       });
   }, [user]);
 
@@ -88,13 +99,7 @@ function App() {
     }
   }, [user, needsProfile]);
 
-  if (loadingAuth || (user && needsProfile === null)) return <div className="app" />;
-
-  if (!user) return (
-    <div className="app">
-      <Login onLogin={setUser} />
-    </div>
-  );
+  if (loadingAuth || !user || (user.id !== 'guest' && needsProfile === null)) return <div className="app" />;
 
   if (needsProfile) return (
     <div className="app">
@@ -104,15 +109,25 @@ function App() {
 
   return (
     <div className="app">
-      {screen === 'home' && <Home onNavigate={navigate} onMood={setModalMood} user={user} />}
+      {screen === 'home' && <Home onNavigate={navigate} onMood={setModalMood} user={user} avatarUrl={avatarUrl} />}
       {screen === 'meditaciones' && <Meditaciones onNavigate={navigate} user={user} />}
       {screen === 'sesion' && <Sesion onNavigate={navigate} user={user} sesionId={screenParam} />}
       {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} user={user} />}
       {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} user={user} />}
       {screen === 'yoga' && <Yoga onNavigate={navigate} user={user} />}
       {screen === 'yoga-detalle' && <YogaDetalle onNavigate={navigate} user={user} />}
-      {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
+      {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} avatarUrl={avatarUrl} onAvatarChange={setAvatarUrl} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
       {screen === 'editar-perfil' && <EditarPerfil onNavigate={navigate} user={user} />}
+      {screen === 'apoyar' && <Apoyar onNavigate={navigate} user={user} />}
+      {screen === 'login' && (
+        <Login
+          onNavigate={navigate}
+          onLogin={(u) => {
+            setUser(u);
+            navigate('perfil');
+          }}
+        />
+      )}
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
       <ApoyoGraciasModal visible={showGracias} onClose={() => setShowGracias(false)} />
       <Splash visible={showSplash} />

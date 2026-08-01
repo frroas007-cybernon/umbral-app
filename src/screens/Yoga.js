@@ -1,5 +1,4 @@
 import React from 'react';
-import ApoyoBanner from '../components/ApoyoBanner';
 
 const clases = [
   { id: 1, emoji: '🧘', titulo: '1. Conecta con tu cuerpo', duracion: '11 min', tipo: 'Libre', free: true, color: '#7AACB5' },
@@ -41,10 +40,6 @@ function Yoga({ onNavigate, user }) {
           </div>
         ))}
 
-        <div style={{ marginTop: 'auto', paddingTop: 28 }}>
-          <ApoyoBanner user={user} />
-        </div>
-
       </div>
 
       <nav className="nav">
@@ -56,9 +51,9 @@ function Yoga({ onNavigate, user }) {
           <div className="nav-icon">🧘</div>
           <div className="nav-text">Meditar</div>
         </div>
-        <div className="nav-item" onClick={() => onNavigate('perfil')}>
-          <div className="nav-icon">👤</div>
-          <div className="nav-text">Perfil</div>
+        <div className="nav-item" onClick={() => onNavigate('apoyar')}>
+          <div className="nav-icon">💛</div>
+          <div className="nav-text">Apoyar</div>
         </div>
       </nav>
     </div>

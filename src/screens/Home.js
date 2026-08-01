@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ApoyoBanner from '../components/ApoyoBanner';
 import { trackEvent } from '../analytics';
 
 const moods = [
@@ -34,7 +33,7 @@ const sesiones = [
   }
 ];
 
-function Home({ onNavigate, onMood, user }) {
+function Home({ onNavigate, onMood, user, avatarUrl }) {
   const [selectedMood, setSelectedMood] = useState('bien');
 
   const handleMood = (key) => {
@@ -57,7 +56,7 @@ function Home({ onNavigate, onMood, user }) {
     <div className="screen">
       <div className="screen-content">
 
-        {/* Logo */}
+        {/* Logo (solo, centrado) */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12, marginTop: 4 }}>
           <svg viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg" style={{ width: 100, height: 'auto' }}>
             <ellipse cx="150" cy="120" rx="42" ry="7" fill="#7AACB5" opacity="0.30"/>
@@ -75,11 +74,22 @@ function Home({ onNavigate, onMood, user }) {
           </svg>
         </div>
 
-        {/* Saludo */}
-        <div className="greeting">
-          {nombreUsuario ? `Hola, ${nombreUsuario} 🌅` : 'Hola, bienvenido/a 🌅'}
+        {/* Saludo + acceso a Perfil */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
+          <div>
+            <div className="greeting">
+              {nombreUsuario ? `Hola, ${nombreUsuario} 🌅` : 'Hola, bienvenido/a 🌅'}
+            </div>
+            <div className="subgreeting">¿Qué sientes hoy?</div>
+          </div>
+          <div
+            className="perfil-avatar-mini"
+            onClick={() => { trackEvent('perfil_abierto_home'); onNavigate('perfil'); }}
+            aria-label="Ir a Perfil"
+          >
+            {avatarUrl ? <img src={avatarUrl} alt="Perfil" /> : '👤'}
+          </div>
         </div>
-        <div className="subgreeting">¿Qué sientes hoy?</div>
 
         {/* Moods */}
         <div className="moods">
@@ -130,10 +140,6 @@ function Home({ onNavigate, onMood, user }) {
           </div>
         </div>
 
-        <div style={{ marginTop: 28 }}>
-          <ApoyoBanner user={user} />
-        </div>
-
       </div>
 
       <nav className="nav">
@@ -145,9 +151,9 @@ function Home({ onNavigate, onMood, user }) {
           <div className="nav-icon">🧘</div>
           <div className="nav-text">Meditar</div>
         </div>
-        <div className="nav-item" onClick={() => onNavigate('perfil')}>
-          <div className="nav-icon">👤</div>
-          <div className="nav-text">Perfil</div>
+        <div className="nav-item" onClick={() => onNavigate('apoyar')}>
+          <div className="nav-icon">💛</div>
+          <div className="nav-text">Apoyar</div>
         </div>
       </nav>
     </div>
