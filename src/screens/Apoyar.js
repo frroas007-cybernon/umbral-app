@@ -84,21 +84,21 @@ function Apoyar({ onNavigate, user }) {
             marginBottom: 16
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginBottom: 14 }}>
             <img
               src="/financiamiento/foto-francisco.jpg"
               alt="Francisco Roa"
-              style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', border: '2px solid #E8D5B7' }}
+              style={{ width: 84, height: 84, borderRadius: '50%', objectFit: 'cover', border: '2px solid #E8D5B7' }}
             />
             <img
               src="/financiamiento/foto-momento-3.jpg"
               alt="Francisco y Caty"
-              style={{ width: 72, height: 72, borderRadius: 12, objectFit: 'cover', border: '2px solid #C4977A' }}
+              style={{ width: 108, height: 108, borderRadius: 16, objectFit: 'cover', border: '2px solid #C4977A' }}
             />
             <img
               src="/financiamiento/foto-caty.jpg"
               alt="Caty"
-              style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', border: '2px solid #E8D5B7' }}
+              style={{ width: 84, height: 84, borderRadius: '50%', objectFit: 'cover', border: '2px solid #E8D5B7' }}
             />
           </div>
 

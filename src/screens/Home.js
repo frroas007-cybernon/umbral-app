@@ -106,10 +106,14 @@ function Home({ onNavigate, onMood, user, avatarUrl }) {
         {/* Tu práctica */}
         <div className="section-title">Tu práctica</div>
 
-        <div className="big-card" onClick={() => onNavigate('meditaciones')}>
-          <div className="big-card-title">Meditaciones</div>
-          <div className="big-card-sub">Comienza a meditar · 3 sesiones</div>
-          <div className="big-card-emoji">🧘</div>
+        {/* Meditaciones Hero Card */}
+        <div className="yoga-hero-card" style={{ cursor: 'pointer' }} onClick={() => onNavigate('meditaciones')}>
+          <img src="/financiamiento/foto-meditacion-roca-final.jpg" alt="Meditaciones" className="yoga-hero-img" />
+          <div className="yoga-hero-overlay">
+            <div className="yoga-hero-title">Comienza a<br />meditar</div>
+            <div className="yoga-hero-sub">Tu punto de partida hacia la calma</div>
+            <div className="yoga-hero-badge">3 SESIONES</div>
+          </div>
         </div>
 
         <div className="big-card" style={{ background: '#7AACB5' }} onClick={() => onNavigate('afirmaciones')}>
