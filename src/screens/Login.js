@@ -111,6 +111,10 @@ function Login({ onNavigate, onLogin }) {
     <div className="screen">
       <div className="screen-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
+        <div className="back-btn" onClick={() => onNavigate('perfil')}>
+          ← Volver
+        </div>
+
         {/* Logo */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20, marginTop: 20 }}>
           <svg viewBox="0 0 300 175" xmlns="http://www.w3.org/2000/svg" style={{ width: 120, height: 'auto' }}>
@@ -134,7 +138,7 @@ function Login({ onNavigate, onLogin }) {
           {modo === 'login' ? 'Bienvenido/a de vuelta' : 'Crea tu cuenta'}
         </div>
         <div style={{ fontSize: 13, color: '#8A7A6E', textAlign: 'center', marginBottom: 24 }}>
-          {modo === 'login' ? 'Inicia sesión para continuar' : 'Es gratis, siempre'}
+          {modo === 'login' ? 'Inicia sesión para guardar tu progreso' : 'Es gratis, siempre'}
         </div>
 
         {modo === 'registro' && (
@@ -265,13 +269,6 @@ function Login({ onNavigate, onLogin }) {
           }}
         >
           {modo === 'login' ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
-        </div>
-
-        <div
-          style={{ textAlign: 'center', marginTop: 10, fontSize: 12, color: '#8A7A6E', cursor: 'pointer', opacity: 0.5 }}
-          onClick={() => { trackEvent('omitir_registro_guest'); onLogin({ id: 'guest', email: 'guest' }); }}
-        >
-          Omitir por ahora
         </div>
 
       </div>
