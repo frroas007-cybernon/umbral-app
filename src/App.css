@@ -311,15 +311,15 @@ body {
 /* PERFIL */
 .perfil-avatar { font-size: 64px; text-align: center; margin-bottom: 12px; margin-top: 16px; }
 .perfil-avatar-circle {
-  width: 96px;
-  height: 96px;
+  width: 148px;
+  height: 148px;
   border-radius: 50%;
   background: var(--arena);
-  border: 2px solid var(--terracota);
+  border: 2.5px solid var(--terracota);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
+  font-size: 64px;
   overflow: hidden;
   margin: 16px auto 12px;
   position: relative;
@@ -327,18 +327,18 @@ body {
 .perfil-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
 .perfil-avatar-camara {
   position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 28px;
-  height: 28px;
+  bottom: 2px;
+  right: 2px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--terracota);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  border: 2px solid var(--crema);
+  font-size: 17px;
+  border: 2.5px solid var(--crema);
 }
 .perfil-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
 .perfil-avatar-mini {
