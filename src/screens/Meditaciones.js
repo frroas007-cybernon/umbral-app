@@ -3,7 +3,7 @@ import React from 'react';
 const sesiones = [
   { id: 1, emoji: '🌬️', titulo: '1. Respiración, la base de todo', duracion: '12 min', tipo: 'Libre', free: true, color: '#C4977A' },
   { id: 2, emoji: '✨', titulo: '2. Imaginación que purifica', duracion: '15 min', tipo: 'Libre', free: true, color: '#7AACB5' },
-  { id: 3, emoji: '👁️', titulo: '3. Observación que libera', duracion: '18 min', tipo: 'Próximamente', free: false, color: '#7AACB5' },
+  { id: 3, emoji: '👁️', titulo: '3. Observación que libera', duracion: '18 min', tipo: 'Libre', free: true, color: '#7AACB5' },
 ];
 
 function Meditaciones({ onNavigate, user }) {

@@ -22,6 +22,15 @@ const SESIONES = {
     tituloLinea2: 'que purifica',
     desc: 'Usa la imaginación como herramienta de sanación: visualiza una luz que recorre tu cuerpo y libera lo que ya no necesitas cargar. Basada en los principios de Neville Goddard, Joe Dispenza y Louise Hay.',
   },
+  3: {
+    sesionKey: 'observacion',
+    videoId: 'A-oYWoZX6g8',
+    audio: '/audio3.mp3',
+    numero: 3,
+    tituloLinea1: 'Observación',
+    tituloLinea2: 'que libera',
+    desc: 'Conviértete en el observador de tus pensamientos y conecta con la conciencia que hay detrás de ellos. Desde ese espacio de calma, usa la imaginación para sentir ya la realidad que quieres crear.',
+  },
 };
 
 function Sesion({ onNavigate, user, sesionId }) {
