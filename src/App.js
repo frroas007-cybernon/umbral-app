@@ -10,6 +10,7 @@ import YogaDetalle from './screens/YogaDetalle';
 import Perfil from './screens/Perfil';
 import EditarPerfil from './screens/EditarPerfil';
 import Apoyar from './screens/Apoyar';
+import Privacy from './screens/Privacy';
 import Login from './screens/Login';
 import CompletarPerfil from './screens/CompletarPerfil';
 import MoodModal from './components/MoodModal';
@@ -119,6 +120,7 @@ function App() {
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} avatarUrl={avatarUrl} onAvatarChange={setAvatarUrl} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
       {screen === 'editar-perfil' && <EditarPerfil onNavigate={navigate} user={user} />}
       {screen === 'apoyar' && <Apoyar onNavigate={navigate} user={user} />}
+      {screen === 'privacy' && <Privacy onNavigate={navigate} />}
       {screen === 'login' && (
         <Login
           onNavigate={navigate}

@@ -262,6 +262,21 @@ function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
           </div>
         )}
 
+        <div
+          style={{
+            textAlign: 'center',
+            marginTop: 20,
+            fontSize: 11,
+            color: '#8A7A6E',
+            cursor: 'pointer',
+            textDecoration: 'underline',
+            opacity: 0.7
+          }}
+          onClick={() => onNavigate('privacy')}
+        >
+          Política de Privacidad
+        </div>
+
       </div>
 
       <EliminarCuentaModal
