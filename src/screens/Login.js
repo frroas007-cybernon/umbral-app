@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
 
-// Cambiar a true cuando el provider "Apple" esté configurado en Supabase Auth
-// (Team ID, Key ID, Services ID y private key desde la cuenta Apple Developer).
-const APPLE_SIGNIN_ENABLED = false;
-
 function Login({ onNavigate, onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -86,26 +82,7 @@ function Login({ onNavigate, onLogin }) {
     setLoading(false);
   };
 
-  const handleGoogle = async () => {
-    trackEvent('login_google_iniciado');
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: window.location.origin }
-    });
-    if (error) trackError(error, { origen: 'handleGoogle' });
-  };
 
-  // Requiere que "Apple" esté configurado como provider en Supabase Auth
-  // (Team ID, Key ID, Services ID y private key desde la cuenta Apple Developer).
-  // El código queda listo; hasta que eso esté configurado, Supabase devolverá error.
-  const handleApple = async () => {
-    trackEvent('login_apple_iniciado');
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'apple',
-      options: { redirectTo: window.location.origin }
-    });
-    if (error) trackError(error, { origen: 'handleApple' });
-  };
 
   return (
     <div className="screen">
@@ -231,33 +208,7 @@ function Login({ onNavigate, onLogin }) {
           {loading ? 'Cargando...' : modo === 'login' ? 'Entrar' : 'Crear cuenta'}
         </button>
 
-        <button
-          className="btn-sec"
-          style={{ marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
-          onClick={handleGoogle}
-        >
-          <svg width="18" height="18" viewBox="0 0 18 18">
-            <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
-            <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/>
-            <path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/>
-            <path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/>
-          </svg>
-          Continuar con Google
-        </button>
 
-        {APPLE_SIGNIN_ENABLED && (
-          <button
-            className="btn-sec"
-            style={{ marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#000', color: '#fff', border: 'none' }}
-            onClick={handleApple}
-          >
-            <svg width="16" height="18" viewBox="0 0 16 18" fill="#fff" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.06 9.55c-.02-2.1 1.72-3.1 1.8-3.15-.98-1.43-2.5-1.63-3.04-1.65-1.3-.13-2.53.76-3.19.76-.66 0-1.68-.74-2.77-.72-1.42.02-2.75.83-3.48 2.11-1.49 2.58-.38 6.4 1.06 8.5.71 1.03 1.56 2.19 2.67 2.15 1.07-.04 1.48-.7 2.78-.7 1.29 0 1.66.7 2.78.68 1.15-.02 1.88-1.05 2.59-2.09.81-1.19 1.15-2.35 1.16-2.41-.03-.01-2.24-.86-2.26-3.38z"/>
-              <path d="M11.13 3.15c.58-.7.97-1.68.86-2.65-.83.03-1.84.55-2.44 1.24-.53.61-1 1.6-.87 2.54.92.07 1.87-.47 2.45-1.13z"/>
-            </svg>
-            Continuar con Apple
-          </button>
-        )}
 
         <div
           style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: '#8A7A6E', cursor: 'pointer' }}

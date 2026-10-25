@@ -9,12 +9,10 @@ import Yoga from './screens/Yoga';
 import YogaDetalle from './screens/YogaDetalle';
 import Perfil from './screens/Perfil';
 import EditarPerfil from './screens/EditarPerfil';
-import Apoyar from './screens/Apoyar';
 import Privacy from './screens/Privacy';
 import Login from './screens/Login';
 import CompletarPerfil from './screens/CompletarPerfil';
 import MoodModal from './components/MoodModal';
-import ApoyoGraciasModal from './components/ApoyoGraciasModal';
 import Splash from './components/Splash';
 import { supabase } from './supabase';
 import { identifyUser, resetUser, trackPageview, trackEvent } from './analytics';
@@ -27,16 +25,8 @@ function App() {
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [needsProfile, setNeedsProfile] = useState(null);
-  const [showGracias, setShowGracias] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('apoyo') === 'exito') {
-      setShowGracias(true);
-      window.history.replaceState({}, '', window.location.pathname);
-    }
-  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -119,7 +109,6 @@ function App() {
       {screen === 'yoga-detalle' && <YogaDetalle onNavigate={navigate} user={user} />}
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} avatarUrl={avatarUrl} onAvatarChange={setAvatarUrl} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
       {screen === 'editar-perfil' && <EditarPerfil onNavigate={navigate} user={user} />}
-      {screen === 'apoyar' && <Apoyar onNavigate={navigate} user={user} />}
       {screen === 'privacy' && <Privacy onNavigate={navigate} />}
       {screen === 'login' && (
         <Login
@@ -131,7 +120,6 @@ function App() {
         />
       )}
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
-      <ApoyoGraciasModal visible={showGracias} onClose={() => setShowGracias(false)} />
       <Splash visible={showSplash} />
     </div>
   );

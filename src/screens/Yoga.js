@@ -51,10 +51,6 @@ function Yoga({ onNavigate, user }) {
           <div className="nav-icon">🧘</div>
           <div className="nav-text">Meditar</div>
         </div>
-        <div className="nav-item" onClick={() => onNavigate('apoyar')}>
-          <div className="nav-icon">💛</div>
-          <div className="nav-text">Apoyar</div>
-        </div>
       </nav>
     </div>
   );
