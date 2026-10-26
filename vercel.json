@@ -1,8 +1,24 @@
 {
   "rewrites": [
-    { "source": "/apoyar", "destination": "/financiamiento.html" },
-    { "source": "/privacidad", "destination": "/privacidad.html" },
-    { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/terminos", "destination": "/terminos.html" }
+    {
+      "source": "/apoyar",
+      "destination": "/financiamiento.html"
+    },
+    {
+      "source": "/privacidad",
+      "destination": "/privacidad.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/terminos",
+      "destination": "/terminos.html"
+    },
+    {
+      "source": "/eliminar-cuenta",
+      "destination": "/eliminar-cuenta.html"
+    }
   ]
 }

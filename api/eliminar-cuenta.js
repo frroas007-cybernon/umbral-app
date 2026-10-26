@@ -33,6 +33,12 @@ module.exports = async (req, res) => {
       .update({ user_id: null, name: null, email: null, message: null })
       .eq('user_id', userId);
 
+    // Elimina la foto de perfil (bucket 'avatars', carpeta <userId>/)
+    const { data: archivos } = await supabase.storage.from('avatars').list(userId);
+    if (archivos && archivos.length > 0) {
+      await supabase.storage.from('avatars').remove(archivos.map((a) => `${userId}/${a.name}`));
+    }
+
     // Elimina el perfil
     await supabase.from('Perfiles').delete().eq('id', userId);
 
