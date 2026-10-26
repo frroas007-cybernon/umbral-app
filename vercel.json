@@ -1,5 +1,8 @@
 {
   "rewrites": [
-    { "source": "/apoyar", "destination": "/financiamiento.html" }
+    { "source": "/apoyar", "destination": "/financiamiento.html" },
+    { "source": "/privacidad", "destination": "/privacidad.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terminos", "destination": "/terminos.html" }
   ]
 }
