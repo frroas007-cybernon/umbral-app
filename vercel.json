@@ -19,6 +19,10 @@
     {
       "source": "/eliminar-cuenta",
       "destination": "/eliminar-cuenta.html"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }

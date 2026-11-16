@@ -16,10 +16,18 @@ import MoodModal from './components/MoodModal';
 import Splash from './components/Splash';
 import { supabase } from './supabase';
 import { identifyUser, resetUser, trackPageview, trackEvent } from './analytics';
+import { pathDe, pantallaDe } from './routes';
+
+// Pantalla inicial según la URL con que se abre la app (ej. un enlace compartido).
+// Una URL desconocida lleva al inicio.
+const inicial = pantallaDe(window.location.pathname) || { screen: 'home', param: null };
+if (!pantallaDe(window.location.pathname)) {
+  window.history.replaceState(null, '', '/' + window.location.search + window.location.hash);
+}
 
 function App() {
-  const [screen, setScreen] = useState('home');
-  const [screenParam, setScreenParam] = useState(null);
+  const [screen, setScreen] = useState(inicial.screen);
+  const [screenParam, setScreenParam] = useState(inicial.param);
   const [modalMood, setModalMood] = useState(null);
   const [showSplash, setShowSplash] = useState(false);
   const [user, setUser] = useState(null);
@@ -77,16 +85,33 @@ function App() {
     setTimeout(() => {
       setScreen(dest);
       setScreenParam(param);
+      const nuevoPath = pathDe(dest, param);
+      if (nuevoPath !== window.location.pathname) {
+        window.history.pushState({ screen: dest, param }, '', nuevoPath);
+      }
+      window.scrollTo(0, 0);
       trackPageview(dest);
       setTimeout(() => setShowSplash(false), 300);
     }, 400);
   };
 
-  const homeTrackeado = useRef(false);
+  // Botón "atrás" / "adelante" del navegador.
   useEffect(() => {
-    if (user && needsProfile === false && !homeTrackeado.current) {
-      homeTrackeado.current = true;
-      trackPageview('home');
+    const onPopState = () => {
+      const destino = pantallaDe(window.location.pathname) || { screen: 'home', param: null };
+      setScreen(destino.screen);
+      setScreenParam(destino.param);
+      trackPageview(destino.screen);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  const primeraVistaTrackeada = useRef(false);
+  useEffect(() => {
+    if (user && needsProfile === false && !primeraVistaTrackeada.current) {
+      primeraVistaTrackeada.current = true;
+      trackPageview(inicial.screen);
     }
   }, [user, needsProfile]);
 
