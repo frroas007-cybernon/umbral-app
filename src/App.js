@@ -81,6 +81,7 @@ function App() {
   }, [user]);
 
   const navigate = (dest, param = null) => {
+    if (dest === screen && param === screenParam) return; // ya estamos ahí
     setShowSplash(true);
     setTimeout(() => {
       setScreen(dest);

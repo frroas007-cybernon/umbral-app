@@ -4,6 +4,7 @@ import { useRecordatorio } from '../hooks/useRecordatorio';
 import EliminarCuentaModal from '../components/EliminarCuentaModal';
 import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
+import NavBar from '../components/NavBar';
 
 function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
   const { racha, sesiones } = useRacha(user);
@@ -159,7 +160,7 @@ function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
           <div className="perfil-nombre" style={{ marginBottom: 0 }}>{nombreUsuario || 'Bienvenido/a'}</div>
           {user?.id !== 'guest' && (
             <div
-              style={{ fontSize: 15, color: '#8A7A6E', cursor: 'pointer', opacity: 0.7 }}
+              style={{ fontSize: 15, color: '#7A6C62', cursor: 'pointer' }}
               onClick={() => { trackEvent('editar_perfil_abierto'); onNavigate('editar-perfil'); }}
               aria-label="Editar perfil"
             >
@@ -179,7 +180,7 @@ function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
                 <div className="recordatorio-titulo">Crear cuenta o iniciar sesión</div>
                 <div className="recordatorio-sub">Guarda tu racha y accede desde cualquier dispositivo</div>
               </div>
-              <div style={{ fontSize: 20, color: '#C4977A' }}>→</div>
+              <div style={{ fontSize: 20, color: '#A06A47' }}>→</div>
             </div>
           </div>
         )}
@@ -226,55 +227,32 @@ function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
           )}
         </div>
 
-        {/* Cerrar sesión */}
-        {user?.id !== 'guest' && (
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: 8,
-              fontSize: 12,
-              color: '#8A7A6E',
-              cursor: 'pointer',
-              opacity: 0.6
-            }}
-            onClick={onLogout}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+          {user?.id !== 'guest' && (
+            <button className="btn-sec" onClick={onLogout}>
+              Cerrar sesión
+            </button>
+          )}
+          {user?.id !== 'guest' && (
+            <button
+              type="button"
+              className="btn-texto btn-peligro"
+              onClick={() => {
+                trackEvent('eliminar_cuenta_iniciado');
+                setShowEliminar(true);
+              }}
+            >
+              Eliminar cuenta
+            </button>
+          )}
+          <button
+            type="button"
+            className="btn-texto"
+            style={{ color: 'var(--gris)', fontSize: 15, textDecoration: 'underline' }}
+            onClick={() => onNavigate('privacy')}
           >
-            Cerrar sesión
-          </div>
-        )}
-
-        {user?.id !== 'guest' && (
-          <div
-            style={{
-              textAlign: 'center',
-              marginTop: 12,
-              fontSize: 11,
-              color: '#C0392B',
-              cursor: 'pointer',
-              opacity: 0.5
-            }}
-            onClick={() => {
-              trackEvent('eliminar_cuenta_iniciado');
-              setShowEliminar(true);
-            }}
-          >
-            Eliminar cuenta
-          </div>
-        )}
-
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 20,
-            fontSize: 11,
-            color: '#8A7A6E',
-            cursor: 'pointer',
-            textDecoration: 'underline',
-            opacity: 0.7
-          }}
-          onClick={() => onNavigate('privacy')}
-        >
-          Política de Privacidad
+            Política de Privacidad
+          </button>
         </div>
 
       </div>
@@ -287,16 +265,7 @@ function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
         onConfirm={handleEliminarCuenta}
       />
 
-      <nav className="nav">
-        <div className="nav-item" onClick={() => onNavigate('home')}>
-          <div className="nav-icon">🏠</div>
-          <div className="nav-text">Inicio</div>
-        </div>
-        <div className="nav-item" onClick={() => onNavigate('meditaciones')}>
-          <div className="nav-icon">🧘</div>
-          <div className="nav-text">Meditar</div>
-        </div>
-      </nav>
+      <NavBar active="perfil" onNavigate={onNavigate} />
     </div>
   );
 }

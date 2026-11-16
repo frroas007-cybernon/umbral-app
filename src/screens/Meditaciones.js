@@ -1,4 +1,5 @@
 import React from 'react';
+import NavBar from '../components/NavBar';
 
 const sesiones = [
   { id: 1, emoji: '🌬️', titulo: '1. Respiración, la base de todo', duracion: '12 min', tipo: 'Libre', free: true, color: '#C4977A' },
@@ -43,16 +44,7 @@ function Meditaciones({ onNavigate, user }) {
 
       </div>
 
-      <nav className="nav">
-        <div className="nav-item" onClick={() => onNavigate('home')}>
-          <div className="nav-icon">🏠</div>
-          <div className="nav-text">Inicio</div>
-        </div>
-        <div className="nav-item active">
-          <div className="nav-icon">🧘</div>
-          <div className="nav-text">Meditar</div>
-        </div>
-      </nav>
+      <NavBar active="meditar" onNavigate={onNavigate} />
     </div>
   );
 }

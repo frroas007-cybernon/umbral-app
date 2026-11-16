@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CompletadaModal from '../components/CompletadaModal';
 import { useRacha } from '../hooks/useRacha';
 import { trackEvent, trackError } from '../analytics';
+import NavBar from '../components/NavBar';
 
 const SESIONES = {
   1: {
@@ -126,16 +127,7 @@ function Sesion({ onNavigate, user, sesionId }) {
 
       </div>
 
-      <nav className="nav">
-        <div className="nav-item" onClick={() => onNavigate('home')}>
-          <div className="nav-icon">🏠</div>
-          <div className="nav-text">Inicio</div>
-        </div>
-        <div className="nav-item active">
-          <div className="nav-icon">🧘</div>
-          <div className="nav-text">Meditar</div>
-        </div>
-      </nav>
+      <NavBar active="meditar" onNavigate={onNavigate} />
 
       <CompletadaModal
         visible={showModal}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { trackEvent, trackError } from '../analytics';
+import NavBar from '../components/NavBar';
 
 const montos = [2000, 5000, 10000];
 
@@ -203,20 +204,7 @@ function Apoyar({ onNavigate, user }) {
 
       </div>
 
-      <nav className="nav">
-        <div className="nav-item" onClick={() => onNavigate('home')}>
-          <div className="nav-icon">🏠</div>
-          <div className="nav-text">Inicio</div>
-        </div>
-        <div className="nav-item" onClick={() => onNavigate('meditaciones')}>
-          <div className="nav-icon">🧘</div>
-          <div className="nav-text">Meditar</div>
-        </div>
-        <div className="nav-item active">
-          <div className="nav-icon">💛</div>
-          <div className="nav-text">Apoyar</div>
-        </div>
-      </nav>
+      <NavBar active="meditar" onNavigate={onNavigate} />
     </div>
   );
 }

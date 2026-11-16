@@ -1,4 +1,5 @@
 import React from 'react';
+import NavBar from '../components/NavBar';
 
 const afirmaciones = [
   {
@@ -67,16 +68,7 @@ function Afirmaciones({ onNavigate, user }) {
 
       </div>
 
-      <nav className="nav">
-        <div className="nav-item" onClick={() => onNavigate('home')}>
-          <div className="nav-icon">🏠</div>
-          <div className="nav-text">Inicio</div>
-        </div>
-        <div className="nav-item" onClick={() => onNavigate('meditaciones')}>
-          <div className="nav-icon">🧘</div>
-          <div className="nav-text">Meditar</div>
-        </div>
-      </nav>
+      <NavBar active="meditar" onNavigate={onNavigate} />
     </div>
   );
 }
