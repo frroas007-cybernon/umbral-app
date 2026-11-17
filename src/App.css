@@ -586,7 +586,7 @@ body {
 .estrella { width: 48px; height: 48px; border: none; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .estrella-label { text-align: center; font-size: 15px; color: var(--gris); min-height: 20px; margin-bottom: 20px; }
 .session-row { width: 100%; text-align: left; font-family: 'DM Sans', sans-serif; min-height: 72px; }
-.s-num { width: 40px; height: 40px; border-radius: 50%; background: var(--arena); color: var(--gris-arena); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; flex-shrink: 0; }
+.s-num { width: 40px; height: 40px; border-radius: 50%; background: var(--arena); color: var(--gris-arena); display: flex; align-items: center; justify-content: center; font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 700; flex-shrink: 0; }
 .s-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .s-pronto { font-size: 12px; font-weight: 500; color: var(--gris-arena); background: var(--arena); border-radius: 999px; padding: 2px 10px; }
 .program-card.con-foto { padding: 0; overflow: hidden; }
@@ -595,3 +595,5 @@ body {
 .program-card-body .program-title { font-weight: 500; }
 .program-card-body .hoy-btn { margin-top: 14px; }
 .program-tag { text-transform: uppercase; }
+/* En pantallas con contenido en columna, ningún bloque se aplasta: se hace scroll */
+.screen-content > * { flex-shrink: 0; }
