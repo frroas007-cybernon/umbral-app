@@ -83,10 +83,14 @@ function Home({ onNavigate, onMood, user }) {
         {/* Tu sesión de hoy */}
         <h2 className="section-title">Para hoy</h2>
         <div className="hoy-card">
-          <SolRacha dias={7} className="sol-hoy" etiqueta="El sol de Umbral saliendo sobre el mar" />
           <div className="hoy-body">
-            <div className="hoy-title">{sesionDelDia.title}</div>
-            <div className="hoy-meta">{sesionDelDia.sub}</div>
+            <div className="hoy-fila">
+              <div>
+                <div className="hoy-title">{sesionDelDia.title}</div>
+                <div className="hoy-meta">{sesionDelDia.sub}</div>
+              </div>
+              <SolRacha dias={7} className="sol-hoy" etiqueta="El sol de Umbral saliendo sobre el mar" />
+            </div>
             <button type="button" className="hoy-btn" onClick={() => onNavigate(sesionDelDia.screen)}>
               Comenzar
             </button>
@@ -96,14 +100,14 @@ function Home({ onNavigate, onMood, user }) {
         {/* Tu práctica */}
         <h2 className="section-title">Tu práctica</h2>
         <div className="cat-grid">
-          <button type="button" className="cat-card" style={{ background: 'var(--tarjeta)', color: 'var(--tarjeta-texto)' }} onClick={() => onNavigate('meditaciones')}>
+          <button type="button" className="cat-card" onClick={() => onNavigate('meditaciones')}>
             <img src="/financiamiento/foto-meditacion-roca-final.jpg" alt="" style={{ objectPosition: '45% 60%' }} />
             <span className="cat-card-body">
               <span className="cat-card-title">Meditaciones</span>
               <span className="cat-card-sub">3 sesiones</span>
             </span>
           </button>
-          <button type="button" className="cat-card" style={{ background: 'var(--mar-fuerte)', color: '#FFFFFF' }} onClick={() => onNavigate('afirmaciones')}>
+          <button type="button" className="cat-card" onClick={() => onNavigate('afirmaciones')}>
             <img src="/financiamiento/foto-afirmaciones.jpg" alt="" style={{ objectPosition: '50% 40%' }} />
             <span className="cat-card-body">
               <span className="cat-card-title">Afirmaciones</span>

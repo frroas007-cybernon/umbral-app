@@ -38,7 +38,7 @@ function Programa({ imagen, imagenPos, titulo, subtitulo, unidad, items, colorNu
           <>
             <span
               className="s-num"
-              style={s.free ? { background: 'var(--accion)', color: 'var(--accion-texto)' } : undefined}
+              style={s.free ? { borderColor: 'var(--accion)', color: 'var(--accion)' } : undefined}
               aria-hidden="true"
             >
               {i + 1}

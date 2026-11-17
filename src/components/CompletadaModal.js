@@ -41,7 +41,7 @@ function CompletadaModal({ visible, onClose, onConfirm }) {
             <line x1="72" y1="22" x2="80" y2="34" /><line x1="188" y1="22" x2="180" y2="34" />
             <line x1="36" y1="58" x2="49" y2="64" /><line x1="224" y1="58" x2="211" y2="64" />
           </g>
-          <g clipPath="url(#hz-completada)"><circle cx="130" cy="104" r="62" style={{ fill: 'var(--sol)' }} /></g>
+          <g clipPath="url(#hz-completada)"><circle cx="130" cy="104" r="60" strokeWidth="5" style={{ fill: 'none', stroke: 'var(--sol)' }} /></g>
           <line x1="16" y1="104" x2="244" y2="104" strokeWidth="4" strokeLinecap="round" style={{ stroke: 'var(--mar)' }} />
           <path d="M70 122 Q 95 114 120 122 T 170 122 T 210 122" fill="none" strokeWidth="3" strokeLinecap="round" opacity="0.6" style={{ stroke: 'var(--mar)' }} />
         </svg>

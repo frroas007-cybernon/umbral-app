@@ -23,9 +23,9 @@ function SolRacha({ dias, className = 'sol-racha', etiqueta }) {
         );
       })}
       <g clipPath={`url(#sol-hz-${className})`}>
-        <circle cx={cx} cy={cy} r="48" style={{ fill: dias > 0 ? 'var(--sol)' : 'var(--apagado)' }} />
+        <circle cx={cx} cy={cy} r="46" strokeWidth="5" style={{ fill: 'none', stroke: dias > 0 ? 'var(--sol)' : 'var(--linea-fuerte)' }} />
       </g>
-      <line x1="20" y1={cy} x2="240" y2={cy} strokeWidth="4" strokeLinecap="round" style={{ stroke: 'var(--mar)' }} />
+      <line x1="20" y1={cy} x2="240" y2={cy} strokeWidth="3" strokeLinecap="round" style={{ stroke: 'var(--mar)' }} />
       <path d={`M78 ${cy + 16} Q 102 ${cy + 9} 126 ${cy + 16} T 174 ${cy + 16} T 200 ${cy + 16}`} strokeWidth="3" strokeLinecap="round" opacity="0.55" style={{ fill: 'none', stroke: 'var(--mar)' }} />
     </svg>
   );
