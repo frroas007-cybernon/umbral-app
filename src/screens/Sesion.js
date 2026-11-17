@@ -77,16 +77,16 @@ function Sesion({ onNavigate, user, sesionId }) {
                 title={`${ses.tituloLinea1} ${ses.tituloLinea2}`}
               />
             </div>
-            <div className="sess-tag">Sesión {ses.numero} de 3</div>
             <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
+            <div className="sess-meta">Sesión {ses.numero} de 3</div>
             <div className="sess-desc">
               {ses.desc}
             </div>
             <button className="btn-sec" onClick={() => setModo('audio')}>
-              🎧 Solo audio
+              Solo audio
             </button>
             <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              ✓ Marcar como completada
+              Marcar como completada
             </button>
           </>
         ) : (
@@ -107,20 +107,20 @@ function Sesion({ onNavigate, user, sesionId }) {
                   opacity: guardado ? 0.6 : 1
                 }}
               >
-                {guardado ? '✓ Audio guardado sin conexión' : '📥 Guardar audio para escuchar sin conexión'}
+                {guardado ? 'Audio guardado para escuchar sin conexión' : 'Guardar audio para escuchar sin conexión'}
               </div>
             </div>
 
-            <div className="sess-tag">Sesión {ses.numero} de 3</div>
             <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
+            <div className="sess-meta">Sesión {ses.numero} de 3</div>
             <div className="sess-desc">
               {ses.desc}
             </div>
             <button className="btn-sec" onClick={() => setModo('video')}>
-              ▶ Ver sesión completa
+              Ver sesión completa
             </button>
             <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              ✓ Marcar como completada
+              Marcar como completada
             </button>
           </>
         )}

@@ -7,7 +7,7 @@ function EliminarCuentaModal({ visible, onClose, onConfirm, loading, error }) {
     <div className="modal-overlay" onClick={loading ? undefined : onClose}>
       <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
         <div className="modal-handle" />
-        <div className="modal-emoji">⚠️</div>
+        
         <div className="modal-estado">Eliminar cuenta</div>
         <div className="modal-frase">
           Esta acción es permanente. Se eliminará tu perfil, tus datos personales y tu historial de práctica. No podrás recuperar tu cuenta.

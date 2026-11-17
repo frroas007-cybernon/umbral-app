@@ -11,7 +11,7 @@ function IconoPlay() {
   );
 }
 
-function Programa({ imagen, imagenPos, tag, titulo, subtitulo, unidad, items, colorNumero, onAbrir }) {
+function Programa({ imagen, imagenPos, titulo, subtitulo, unidad, items, colorNumero, onAbrir }) {
   const disponibles = items.filter(s => s.free);
   const primera = disponibles[0];
 
@@ -20,13 +20,9 @@ function Programa({ imagen, imagenPos, tag, titulo, subtitulo, unidad, items, co
       <div className="program-card con-foto">
         <img src={imagen} alt="" style={{ objectPosition: imagenPos || 'center' }} />
         <div className="program-card-body">
-          <div className="program-tag">{tag}</div>
           <h2 className="program-title">{titulo}</h2>
           <div className="program-sub">{subtitulo}</div>
-          <div className="prog-bar-bg" role="progressbar" aria-valuemin={0} aria-valuemax={items.length} aria-valuenow={0} aria-label="Progreso del programa">
-            <div className="prog-bar-fill" style={{ width: '0%' }} />
-          </div>
-          <div className="prog-meta">0 de {items.length} {unidad} completadas</div>
+          <div className="prog-meta">{items.length} {unidad}</div>
           {primera && (
             <button type="button" className="hoy-btn" onClick={() => onAbrir(primera)}>
               Comenzar

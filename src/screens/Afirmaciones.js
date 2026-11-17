@@ -43,7 +43,6 @@ function Afirmaciones({ onNavigate, user }) {
         <Programa
           imagen="/financiamiento/foto-afirmaciones.jpg"
           imagenPos="50% 40%"
-          tag="3 sesiones"
           titulo="Reprograma tu subconsciente"
           subtitulo="Frases diseñadas para transformar tu mente desde adentro."
           unidad="sesiones"

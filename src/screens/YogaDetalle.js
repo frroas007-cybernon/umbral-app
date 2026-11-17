@@ -49,9 +49,9 @@ function YogaDetalle({ onNavigate, user }) {
           )}
         </div>
 
-        <div className="sess-tag">Clase 1 de 3</div>
         <h1 className="sess-title" style={{ fontWeight: 500 }}>Conecta con tu cuerpo</h1>
         <div className="chips">
+          <span className="chip">Clase 1 de 3</span>
           <span className="chip">11 min</span>
           <span className="chip">Todos los niveles</span>
           <span className="chip">Necesitas un mat</span>

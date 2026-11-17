@@ -80,10 +80,10 @@ function Home({ onNavigate, onMood, user }) {
         </div>
 
         {/* Tu sesión de hoy */}
+        <h2 className="section-title">Para hoy</h2>
         <div className="hoy-card">
           <img src="/banner-umbral.jpg" alt="Umbral: Medita. Respira. Transforma." />
           <div className="hoy-body">
-            <div className="hoy-tag">Tu sesión de hoy</div>
             <div className="hoy-title">{sesionDelDia.title}</div>
             <div className="hoy-meta">{sesionDelDia.sub}</div>
             <button type="button" className="hoy-btn" onClick={() => onNavigate(sesionDelDia.screen)}>
@@ -93,7 +93,7 @@ function Home({ onNavigate, onMood, user }) {
         </div>
 
         {/* Tu práctica */}
-        <div className="section-title">Tu práctica</div>
+        <h2 className="section-title">Tu práctica</h2>
         <div className="cat-grid">
           <button type="button" className="cat-card" style={{ background: 'var(--terracota-fuerte)' }} onClick={() => onNavigate('meditaciones')}>
             <img src="/financiamiento/foto-meditacion-roca-final.jpg" alt="" style={{ objectPosition: '45% 60%' }} />

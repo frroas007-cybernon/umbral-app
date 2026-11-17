@@ -175,26 +175,34 @@ function Login({ onNavigate, onLogin }) {
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={e => setPassword(e.target.value)}
-            style={{ ...inputStyle, marginBottom: 0, paddingRight: 48 }}
+            style={{ ...inputStyle, marginBottom: 0, paddingRight: 92 }}
           />
-          <div
+          <button
+            type="button"
             onClick={() => setShowPassword(!showPassword)}
+            aria-pressed={showPassword}
             style={{
               position: 'absolute',
-              right: 14,
+              right: 4,
               top: '50%',
               transform: 'translateY(-50%)',
+              minHeight: 44,
+              padding: '0 12px',
+              border: 'none',
+              background: 'none',
               cursor: 'pointer',
-              fontSize: 16,
-              color: '#8A7A6E'
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 15,
+              fontWeight: 500,
+              color: '#A06A47'
             }}
           >
-            {showPassword ? '🙈' : '👁️'}
-          </div>
+            {showPassword ? 'Ocultar' : 'Mostrar'}
+          </button>
         </div>
 
         {error && (
-          <div style={{ color: '#C4977A', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>
+          <div style={{ color: '#A8322D', fontSize: 14, textAlign: 'center', marginBottom: 12 }}>
             {error}
           </div>
         )}

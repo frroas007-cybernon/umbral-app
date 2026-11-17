@@ -126,7 +126,7 @@ function EditarPerfil({ onNavigate, user }) {
               onClick={handleGuardar}
               disabled={guardando}
             >
-              {guardando ? 'Guardando...' : guardado ? 'Guardado ✓' : 'Guardar cambios'}
+              {guardando ? 'Guardando...' : guardado ? 'Cambios guardados' : 'Guardar cambios'}
             </button>
           </>
         )}

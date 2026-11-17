@@ -46,16 +46,16 @@ function AfirmacionDetalle({ onNavigate, user }) {
                 title="Afirmaciones: Calma"
               />
             </div>
-            <div className="sess-tag">Afirmaciones</div>
             <div className="sess-title">Frases para<br />reprogramar tu subconsciente</div>
+            <div className="sess-meta">Afirmaciones para la calma</div>
             <div className="sess-desc">
               Afirmaciones diseñadas para instalar la calma como tu estado natural. Escúchalas con los ojos cerrados y déjalas llegar más allá de tu mente consciente.
             </div>
             <button className="btn-sec" onClick={() => setModo('audio')}>
-              🎧 Solo audio
+              Solo audio
             </button>
             <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              ✓ Marcar como completada
+              Marcar como completada
             </button>
           </>
         ) : (
@@ -76,20 +76,20 @@ function AfirmacionDetalle({ onNavigate, user }) {
                   opacity: guardado ? 0.6 : 1
                 }}
               >
-                {guardado ? '✓ Audio guardado sin conexión' : '📥 Guardar audio para escuchar sin conexión'}
+                {guardado ? 'Audio guardado para escuchar sin conexión' : 'Guardar audio para escuchar sin conexión'}
               </div>
             </div>
 
-            <div className="sess-tag">Afirmaciones</div>
             <div className="sess-title">Frases para<br />reprogramar tu subconsciente</div>
+            <div className="sess-meta">Afirmaciones para la calma</div>
             <div className="sess-desc">
               Afirmaciones diseñadas para instalar la calma como tu estado natural. Escúchalas con los ojos cerrados y déjalas llegar más allá de tu mente consciente.
             </div>
             <button className="btn-sec" onClick={() => setModo('video')}>
-              ▶ Ver sesión completa
+              Ver sesión completa
             </button>
             <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              ✓ Marcar como completada
+              Marcar como completada
             </button>
           </>
         )}

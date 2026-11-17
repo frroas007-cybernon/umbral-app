@@ -18,7 +18,6 @@ function Yoga({ onNavigate, user }) {
         <Programa
           imagen="/yoga2.png"
           imagenPos="55% 20%"
-          tag="3 clases"
           titulo="Clases de yoga"
           subtitulo="Mueve tu cuerpo con intención y presencia."
           unidad="clases"

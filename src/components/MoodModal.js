@@ -138,7 +138,6 @@ function MoodModal({ mood, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-sheet" onClick={e => e.stopPropagation()}>
         <div className="modal-handle" />
-        <div className="modal-emoji">{data.emoji}</div>
         <div className="modal-estado">{data.label}</div>
         <div className="modal-frase">{frase}</div>
         <button className="btn-main" onClick={onClose}>
