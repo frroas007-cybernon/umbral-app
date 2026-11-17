@@ -6,6 +6,55 @@ import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
 import NavBar from '../components/NavBar';
 
+// El sol de Umbral: un rayo por cada día seguido de práctica (hasta siete).
+function SolRacha({ dias }) {
+  const RAYOS = 7;
+  const encendidos = Math.min(dias, RAYOS);
+  const cx = 130, cy = 108;
+  return (
+    <svg viewBox="0 0 260 150" className="sol-racha" role="img"
+      aria-label={`Racha de ${dias} ${dias === 1 ? 'día' : 'días'}`}>
+      <defs><clipPath id="sol-hz"><rect x="0" y="0" width="260" height={cy} /></clipPath></defs>
+      {Array.from({ length: RAYOS }).map((_, i) => {
+        const ang = Math.PI - (i + 0.5) * (Math.PI / RAYOS);
+        const r1 = 62, r2 = 86;
+        const on = i < encendidos;
+        return (
+          <line key={i}
+            x1={cx + r1 * Math.cos(ang)} y1={cy - r1 * Math.sin(ang)}
+            x2={cx + r2 * Math.cos(ang)} y2={cy - r2 * Math.sin(ang)}
+            className={on ? 'rayo on' : 'rayo'}
+            style={{ transitionDelay: `${i * 90}ms` }}
+            strokeLinecap="round" />
+        );
+      })}
+      <g clipPath="url(#sol-hz)">
+        <circle cx={cx} cy={cy} r="48" fill={dias > 0 ? 'var(--terracota-fuerte)' : 'var(--arena)'} />
+      </g>
+      <line x1="20" y1={cy} x2="240" y2={cy} stroke="var(--mar-fuerte)" strokeWidth="4" strokeLinecap="round" />
+      <path d={`M78 ${cy + 16} Q 102 ${cy + 9} 126 ${cy + 16} T 174 ${cy + 16} T 200 ${cy + 16}`} fill="none" stroke="var(--mar-fuerte)" strokeWidth="3" strokeLinecap="round" opacity="0.55" />
+    </svg>
+  );
+}
+
+function IconoPersona() {
+  return (
+    <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" fill="none" stroke="var(--gris-arena)" strokeWidth="1.6" strokeLinecap="round">
+      <circle cx="12" cy="8.5" r="3.8" />
+      <path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4" />
+    </svg>
+  );
+}
+
+function IconoCamara() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="#fff" strokeWidth="2" strokeLinejoin="round">
+      <path d="M4 8h3l1.5-2h7L17 8h3v11H4z" />
+      <circle cx="12" cy="13" r="3.2" />
+    </svg>
+  );
+}
+
 function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
   const { racha, sesiones } = useRacha(user);
   const {
@@ -119,31 +168,53 @@ function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
     }
   };
 
-  const nombreUsuario = user?.id === 'guest'
+  const esInvitado = user?.id === 'guest';
+  const nombreUsuario = esInvitado
     ? null
     : user?.user_metadata?.name
       || user?.user_metadata?.full_name
       || user?.email?.split('@')[0]
       || null;
+  const inicial = nombreUsuario ? nombreUsuario.trim().charAt(0).toUpperCase() : null;
+  const correo = !esInvitado && user?.email && user.email !== 'guest' ? user.email : null;
 
   return (
     <div className="screen">
       <div className="screen-content" style={{ display: 'flex', flexDirection: 'column' }}>
 
-        <div className="page-title">Perfil</div>
-
-        <div
-          className="perfil-avatar-circle"
-          onClick={handleFotoClick}
-          style={{ cursor: user?.id === 'guest' ? 'default' : 'pointer', opacity: subiendoFoto ? 0.6 : 1 }}
-          aria-label="Cambiar foto de perfil"
-        >
-          {avatarUrl ? <img src={avatarUrl} alt="Foto de perfil" /> : '👤'}
-          {user?.id !== 'guest' && (
-            <div className="perfil-avatar-camara">{subiendoFoto ? '…' : '📷'}</div>
+        <div className="perfil-cab">
+          <button
+            type="button"
+            className="perfil-foto"
+            onClick={handleFotoClick}
+            disabled={esInvitado || subiendoFoto}
+            style={{ opacity: subiendoFoto ? 0.6 : 1 }}
+            aria-label={esInvitado ? 'Foto de perfil' : 'Cambiar foto de perfil'}
+          >
+            {avatarUrl
+              ? <img src={avatarUrl} alt="" />
+              : inicial
+                ? <span className="perfil-inicial">{inicial}</span>
+                : <IconoPersona />}
+            {!esInvitado && (
+              <span className="perfil-foto-camara" aria-hidden="true"><IconoCamara /></span>
+            )}
+          </button>
+          <div className="perfil-cab-texto">
+            <h1 className="perfil-nombre">{nombreUsuario || 'Invitado'}</h1>
+            <div className="perfil-sub">{correo || 'Practicas sin cuenta'}</div>
+          </div>
+          {!esInvitado && (
+            <button
+              type="button"
+              className="perfil-editar"
+              onClick={() => { trackEvent('editar_perfil_abierto'); onNavigate('editar-perfil'); }}
+            >
+              Editar
+            </button>
           )}
         </div>
-        {user?.id !== 'guest' && (
+        {!esInvitado && (
           <input
             ref={fileInputRef}
             type="file"
@@ -152,78 +223,70 @@ function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
             style={{ display: 'none' }}
           />
         )}
-        {errorFoto && (
-          <div style={{ color: '#C0392B', fontSize: 11, textAlign: 'center', marginBottom: 8 }}>{errorFoto}</div>
-        )}
+        {errorFoto && <div className="perfil-error" role="alert">{errorFoto}</div>}
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 4 }}>
-          <div className="perfil-nombre" style={{ marginBottom: 0 }}>{nombreUsuario || 'Bienvenido/a'}</div>
-          {user?.id !== 'guest' && (
-            <div
-              style={{ fontSize: 15, color: '#7A6C62', cursor: 'pointer' }}
-              onClick={() => { trackEvent('editar_perfil_abierto'); onNavigate('editar-perfil'); }}
-              aria-label="Editar perfil"
+        <section className="racha" aria-labelledby="racha-titulo">
+          <SolRacha dias={racha} />
+          <h2 id="racha-titulo" className="racha-titulo">
+            {racha === 0
+              ? 'Tu racha empieza hoy'
+              : `${racha} ${racha === 1 ? 'día' : 'días'} seguidos`}
+          </h2>
+          <p className="racha-sub">Cada día que practicas enciende un rayo.</p>
+        </section>
+
+        {esInvitado && (
+          <div className="perfil-invitado">
+            <p>Crea una cuenta para guardar tu racha y seguir desde cualquier dispositivo.</p>
+            <button
+              type="button"
+              className="btn-main"
+              onClick={() => { trackEvent('crear_cuenta_click_perfil'); onNavigate('login'); }}
             >
-              ✏️
-            </div>
-          )}
-        </div>
-
-        {user?.id === 'guest' && (
-          <div
-            className="stat-card"
-            style={{ cursor: 'pointer' }}
-            onClick={() => { trackEvent('crear_cuenta_click_perfil'); onNavigate('login'); }}
-          >
-            <div className="recordatorio-fila">
-              <div className="recordatorio-info">
-                <div className="recordatorio-titulo">Crear cuenta o iniciar sesión</div>
-                <div className="recordatorio-sub">Guarda tu racha y accede desde cualquier dispositivo</div>
-              </div>
-              <div style={{ fontSize: 20, color: '#A06A47' }}>→</div>
-            </div>
+              Crear cuenta o ingresar
+            </button>
           </div>
         )}
 
-        <div className="stat-card">
-          <div className="stat-label">SESIONES COMPLETADAS</div>
-          <div className="stat-valor">{sesiones}</div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-label">RACHA ACTUAL</div>
-          <div className="stat-valor">{racha} {racha === 1 ? 'día' : 'días'} 🔥</div>
-        </div>
-
-        <div className="stat-card">
-          <div className="recordatorio-fila">
+        <div className="perfil-lista">
+          <div className="perfil-fila">
+            <span className="perfil-fila-titulo">Sesiones completadas</span>
+            <span className="perfil-fila-valor">{sesiones}</span>
+          </div>
+          <div className="perfil-fila">
             <div className="recordatorio-info">
-              <div className="recordatorio-titulo">Recordatorio diario</div>
+              <div className="perfil-fila-titulo">Recordatorio diario</div>
               <div className="recordatorio-sub">
                 {esNativo
                   ? (permisoDenegado
-                      ? 'Sin permiso — actívalo en los ajustes del dispositivo'
+                      ? 'Sin permiso. Actívalo en los ajustes del teléfono.'
                       : 'Una notificación para no perder tu práctica')
-                  : 'Disponible solo en la app instalada'}
+                  : 'Disponible en la app instalada'}
               </div>
             </div>
             <button
+              type="button"
+              role="switch"
+              aria-checked={recordatorioActivo}
               className={`toggle-switch ${recordatorioActivo ? 'on' : ''}`}
               onClick={handleToggleRecordatorio}
               disabled={!esNativo}
-              aria-label="Activar recordatorio diario"
+              aria-label="Recordatorio diario"
             >
               <div className="toggle-switch-knob" />
             </button>
           </div>
-
           {esNativo && recordatorioActivo && (
-            <input
-              type="time"
-              className="recordatorio-hora-input"
-              value={recordatorioHora}
-              onChange={(e) => cambiarHora(e.target.value)}
-            />
+            <div className="perfil-fila">
+              <label className="perfil-fila-titulo" htmlFor="hora-recordatorio">Hora</label>
+              <input
+                id="hora-recordatorio"
+                type="time"
+                className="recordatorio-hora-input"
+                value={recordatorioHora}
+                onChange={(e) => cambiarHora(e.target.value)}
+              />
+            </div>
           )}
         </div>
 
@@ -251,7 +314,7 @@ function Perfil({ onNavigate, user, onLogout, avatarUrl, onAvatarChange }) {
             style={{ color: 'var(--gris)', fontSize: 15, textDecoration: 'underline' }}
             onClick={() => onNavigate('privacy')}
           >
-            Política de Privacidad
+            Política de privacidad
           </button>
         </div>
 

@@ -46,7 +46,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
                 title="Afirmaciones: Calma"
               />
             </div>
-            <div className="sess-tag">AFIRMACIONES · CALMA</div>
+            <div className="sess-tag">Afirmaciones</div>
             <div className="sess-title">Frases para<br />reprogramar tu subconsciente</div>
             <div className="sess-desc">
               Afirmaciones diseñadas para instalar la calma como tu estado natural. Escúchalas con los ojos cerrados y déjalas llegar más allá de tu mente consciente.
@@ -61,7 +61,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
         ) : (
           <>
             <div className="audio-player">
-              <div className="audio-label">🎧 SOLO AUDIO</div>
+              <div className="audio-label">Solo audio</div>
               <audio controls controlsList="nodownload">
                 <source src="/afirmacion-calma.mp3" type="audio/mpeg" />
               </audio>
@@ -80,7 +80,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
               </div>
             </div>
 
-            <div className="sess-tag">AFIRMACIONES · CALMA</div>
+            <div className="sess-tag">Afirmaciones</div>
             <div className="sess-title">Frases para<br />reprogramar tu subconsciente</div>
             <div className="sess-desc">
               Afirmaciones diseñadas para instalar la calma como tu estado natural. Escúchalas con los ojos cerrados y déjalas llegar más allá de tu mente consciente.

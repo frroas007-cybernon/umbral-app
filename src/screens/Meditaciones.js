@@ -18,7 +18,7 @@ function Meditaciones({ onNavigate, user }) {
         <Programa
           imagen="/financiamiento/foto-meditacion-roca-final.jpg"
           imagenPos="45% 60%"
-          tag="Programa · 3 sesiones"
+          tag="3 sesiones"
           titulo="Comienza a meditar"
           subtitulo="Tu punto de partida hacia la calma."
           unidad="sesiones"

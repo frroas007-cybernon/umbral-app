@@ -49,7 +49,7 @@ function YogaDetalle({ onNavigate, user }) {
           )}
         </div>
 
-        <div className="sess-tag">YOGA · CLASE 1 DE 3</div>
+        <div className="sess-tag">Clase 1 de 3</div>
         <h1 className="sess-title" style={{ fontWeight: 500 }}>Conecta con tu cuerpo</h1>
         <div className="chips">
           <span className="chip">11 min</span>

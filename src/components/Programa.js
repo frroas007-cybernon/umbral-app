@@ -35,7 +35,7 @@ function Programa({ imagen, imagenPos, tag, titulo, subtitulo, unidad, items, co
         </div>
       </div>
 
-      <div className="sessions-label">{unidad.toUpperCase()}</div>
+      <div className="sessions-label">{unidad.charAt(0).toUpperCase() + unidad.slice(1)}</div>
 
       {items.map((s, i) => {
         const contenido = (

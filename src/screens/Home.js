@@ -14,21 +14,21 @@ const sesiones = [
   {
     icon: '🌬️',
     title: 'Respiración, la base de todo',
-    sub: '12 min · Meditación guiada',
+    sub: 'Meditación guiada, 12 min',
     screen: 'sesion',
     color: '#C4977A'
   },
   {
     icon: '🌊',
     title: 'Calma',
-    sub: '10 min · Afirmaciones',
+    sub: 'Afirmaciones, 10 min',
     screen: 'afirmacion-detalle',
     color: '#7AACB5'
   },
   {
     icon: '🧘',
     title: 'Conecta con tu cuerpo',
-    sub: '11 min · Clase de yoga',
+    sub: 'Clase de yoga, 11 min',
     screen: 'yoga-detalle',
     color: '#C4977A'
   }

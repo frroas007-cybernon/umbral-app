@@ -77,7 +77,7 @@ function Sesion({ onNavigate, user, sesionId }) {
                 title={`${ses.tituloLinea1} ${ses.tituloLinea2}`}
               />
             </div>
-            <div className="sess-tag">SESIÓN {ses.numero} · COMIENZA A MEDITAR</div>
+            <div className="sess-tag">Sesión {ses.numero} de 3</div>
             <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
             <div className="sess-desc">
               {ses.desc}
@@ -92,7 +92,7 @@ function Sesion({ onNavigate, user, sesionId }) {
         ) : (
           <>
             <div className="audio-player">
-              <div className="audio-label">🎧 SOLO AUDIO</div>
+              <div className="audio-label">Solo audio</div>
               <audio controls controlsList="nodownload">
                 <source src={ses.audio} type="audio/mpeg" />
               </audio>
@@ -111,7 +111,7 @@ function Sesion({ onNavigate, user, sesionId }) {
               </div>
             </div>
 
-            <div className="sess-tag">SESIÓN {ses.numero} · COMIENZA A MEDITAR</div>
+            <div className="sess-tag">Sesión {ses.numero} de 3</div>
             <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
             <div className="sess-desc">
               {ses.desc}

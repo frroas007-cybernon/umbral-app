@@ -2,7 +2,7 @@ import React from 'react';
 
 const frases = {
   ansioso: {
-    emoji: '😔', label: 'ANSIEDAD',
+    emoji: '😔', label: 'Ansiedad',
     lista: [
       'Tu respiración es el ancla. Vuelve a ella.',
       'Este momento pasará. Siempre pasa.',
@@ -27,7 +27,7 @@ const frases = {
     ]
   },
   tenso: {
-    emoji: '😶', label: 'TENSIÓN',
+    emoji: '😶', label: 'Tensión',
     lista: [
       'El cuerpo guarda lo que la mente no procesa. Suéltalo.',
       'Relaja los hombros. Siempre están más tensos de lo que crees.',
@@ -52,7 +52,7 @@ const frases = {
     ]
   },
   bien: {
-    emoji: '🙂', label: 'BIENESTAR',
+    emoji: '🙂', label: 'Bienestar',
     lista: [
       'Este es un buen punto de partida.',
       'Sentirte bien también merece atención.',
@@ -77,7 +77,7 @@ const frases = {
     ]
   },
   tranquilo: {
-    emoji: '😌', label: 'TRANQUILIDAD',
+    emoji: '😌', label: 'Tranquilidad',
     lista: [
       'La tranquilidad no es vacío. Es presencia plena.',
       'Quédate aquí un momento más antes de seguir.',
@@ -102,7 +102,7 @@ const frases = {
     ]
   },
   paz: {
-    emoji: '🌿', label: 'PAZ',
+    emoji: '🌿', label: 'Paz',
     lista: [
       'La paz no es un destino. Es este momento exacto.',
       'Nada falta aquí.',
