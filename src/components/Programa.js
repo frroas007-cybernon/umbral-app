@@ -5,8 +5,8 @@ import React from 'react';
 function IconoPlay() {
   return (
     <svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">
-      <circle cx="20" cy="20" r="20" fill="#E8D5B7" />
-      <path d="M16 13v14l11-7z" fill="#3D3530" />
+      <circle cx="20" cy="20" r="20" style={{ fill: 'var(--apagado)' }} />
+      <path d="M16 13v14l11-7z" style={{ fill: 'var(--tinta)' }} />
     </svg>
   );
 }
@@ -38,7 +38,7 @@ function Programa({ imagen, imagenPos, titulo, subtitulo, unidad, items, colorNu
           <>
             <span
               className="s-num"
-              style={s.free ? { background: colorNumero, color: '#FFFFFF' } : undefined}
+              style={s.free ? { background: 'var(--accion)', color: 'var(--accion-texto)' } : undefined}
               aria-hidden="true"
             >
               {i + 1}

@@ -7,8 +7,8 @@ function Estrella({ llena }) {
     <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true">
       <path
         d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"
-        fill={llena ? '#A06A47' : 'none'}
-        stroke="#A06A47"
+        style={{ fill: llena ? 'var(--accion)' : 'none', stroke: 'var(--accion)' }}
+       
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
@@ -36,14 +36,14 @@ function CompletadaModal({ visible, onClose, onConfirm }) {
       <div className="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="completada-titulo" onClick={e => e.stopPropagation()}>
         <svg viewBox="0 0 260 150" width="180" height="104" role="img" aria-label="El sol sale sobre el horizonte" style={{ display: 'block', margin: '0 auto 8px' }}>
           <defs><clipPath id="hz-completada"><rect x="0" y="0" width="260" height="104" /></clipPath></defs>
-          <g stroke="#A06A47" strokeWidth="5" strokeLinecap="round">
+          <g strokeWidth="5" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}>
             <line x1="130" y1="6" x2="130" y2="20" />
             <line x1="72" y1="22" x2="80" y2="34" /><line x1="188" y1="22" x2="180" y2="34" />
             <line x1="36" y1="58" x2="49" y2="64" /><line x1="224" y1="58" x2="211" y2="64" />
           </g>
-          <g clipPath="url(#hz-completada)"><circle cx="130" cy="104" r="62" fill="#A06A47" /></g>
-          <line x1="16" y1="104" x2="244" y2="104" stroke="#4B7D86" strokeWidth="4" strokeLinecap="round" />
-          <path d="M70 122 Q 95 114 120 122 T 170 122 T 210 122" fill="none" stroke="#4B7D86" strokeWidth="3" strokeLinecap="round" opacity="0.6" />
+          <g clipPath="url(#hz-completada)"><circle cx="130" cy="104" r="62" style={{ fill: 'var(--sol)' }} /></g>
+          <line x1="16" y1="104" x2="244" y2="104" strokeWidth="4" strokeLinecap="round" style={{ stroke: 'var(--mar)' }} />
+          <path d="M70 122 Q 95 114 120 122 T 170 122 T 210 122" fill="none" strokeWidth="3" strokeLinecap="round" opacity="0.6" style={{ stroke: 'var(--mar)' }} />
         </svg>
         <div id="completada-titulo" className="modal-frase" style={{ marginBottom: 4, fontSize: 30 }}>Sesión completada</div>
         <div style={{ textAlign: 'center', fontSize: 16, color: 'var(--gris)', marginBottom: 12 }}>¿Cómo te sentiste?</div>

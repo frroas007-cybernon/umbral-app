@@ -42,7 +42,7 @@ function YogaDetalle({ onNavigate, user }) {
                 aria-label="Reproducir clase"
                 onClick={() => { trackEvent('video_reproducido', { tipo: 'yoga', sesion: 'conecta-cuerpo' }); setReproduciendo(true); }}
               >
-                <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="#3D3530" /></svg>
+                <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" style={{ fill: 'var(--tinta)' }} /></svg>
               </button>
               <span className="poster-dur">11 min</span>
             </>

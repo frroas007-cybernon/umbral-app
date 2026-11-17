@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { trackEvent } from '../analytics';
 import NavBar from '../components/NavBar';
+import SolRacha from '../components/SolRacha';
 
 const moods = [
   { key: 'ansioso', emoji: '😣', label: 'Ansiedad' },
@@ -16,21 +17,21 @@ const sesiones = [
     title: 'Respiración, la base de todo',
     sub: 'Meditación guiada, 12 min',
     screen: 'sesion',
-    color: '#C4977A'
+    color: 'var(--sol)'
   },
   {
     icon: '🌊',
     title: 'Calma',
     sub: 'Afirmaciones, 10 min',
     screen: 'afirmacion-detalle',
-    color: '#7AACB5'
+    color: 'var(--mar)'
   },
   {
     icon: '🧘',
     title: 'Conecta con tu cuerpo',
     sub: 'Clase de yoga, 11 min',
     screen: 'yoga-detalle',
-    color: '#C4977A'
+    color: 'var(--sol)'
   }
 ];
 
@@ -82,7 +83,7 @@ function Home({ onNavigate, onMood, user }) {
         {/* Tu sesión de hoy */}
         <h2 className="section-title">Para hoy</h2>
         <div className="hoy-card">
-          <img src="/banner-umbral.jpg" alt="Umbral: Medita. Respira. Transforma." />
+          <SolRacha dias={7} className="sol-hoy" etiqueta="El sol de Umbral saliendo sobre el mar" />
           <div className="hoy-body">
             <div className="hoy-title">{sesionDelDia.title}</div>
             <div className="hoy-meta">{sesionDelDia.sub}</div>
@@ -95,14 +96,14 @@ function Home({ onNavigate, onMood, user }) {
         {/* Tu práctica */}
         <h2 className="section-title">Tu práctica</h2>
         <div className="cat-grid">
-          <button type="button" className="cat-card" style={{ background: 'var(--terracota-fuerte)' }} onClick={() => onNavigate('meditaciones')}>
+          <button type="button" className="cat-card" style={{ background: 'var(--tarjeta)', color: 'var(--tarjeta-texto)' }} onClick={() => onNavigate('meditaciones')}>
             <img src="/financiamiento/foto-meditacion-roca-final.jpg" alt="" style={{ objectPosition: '45% 60%' }} />
             <span className="cat-card-body">
               <span className="cat-card-title">Meditaciones</span>
               <span className="cat-card-sub">3 sesiones</span>
             </span>
           </button>
-          <button type="button" className="cat-card" style={{ background: 'var(--mar-fuerte)' }} onClick={() => onNavigate('afirmaciones')}>
+          <button type="button" className="cat-card" style={{ background: 'var(--mar-fuerte)', color: '#FFFFFF' }} onClick={() => onNavigate('afirmaciones')}>
             <img src="/financiamiento/foto-afirmaciones.jpg" alt="" style={{ objectPosition: '50% 40%' }} />
             <span className="cat-card-body">
               <span className="cat-card-title">Afirmaciones</span>

@@ -29,7 +29,7 @@ function App() {
   const [screen, setScreen] = useState(inicial.screen);
   const [screenParam, setScreenParam] = useState(inicial.param);
   const [modalMood, setModalMood] = useState(null);
-  const [showSplash, setShowSplash] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [needsProfile, setNeedsProfile] = useState(null);
@@ -82,19 +82,21 @@ function App() {
 
   const navigate = (dest, param = null) => {
     if (dest === screen && param === screenParam) return; // ya estamos ahí
-    setShowSplash(true);
-    setTimeout(() => {
-      setScreen(dest);
-      setScreenParam(param);
-      const nuevoPath = pathDe(dest, param);
-      if (nuevoPath !== window.location.pathname) {
-        window.history.pushState({ screen: dest, param }, '', nuevoPath);
-      }
-      window.scrollTo(0, 0);
-      trackPageview(dest);
-      setTimeout(() => setShowSplash(false), 300);
-    }, 400);
+    setScreen(dest);
+    setScreenParam(param);
+    const nuevoPath = pathDe(dest, param);
+    if (nuevoPath !== window.location.pathname) {
+      window.history.pushState({ screen: dest, param }, '', nuevoPath);
+    }
+    window.scrollTo(0, 0);
+    trackPageview(dest);
   };
+
+  // El splash aparece solo al abrir la app, no al cambiar de pantalla.
+  useEffect(() => {
+    const t = setTimeout(() => setShowSplash(false), 1200);
+    return () => clearTimeout(t);
+  }, []);
 
   // Botón "atrás" / "adelante" del navegador.
   useEffect(() => {
@@ -116,7 +118,7 @@ function App() {
     }
   }, [user, needsProfile]);
 
-  if (loadingAuth || !user || (user.id !== 'guest' && needsProfile === null)) return <div className="app" />;
+  if (loadingAuth || !user || (user.id !== 'guest' && needsProfile === null)) return <div className="app"><Splash visible /></div>;
 
   if (needsProfile) return (
     <div className="app">

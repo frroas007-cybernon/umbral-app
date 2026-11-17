@@ -75,7 +75,7 @@ function EditarPerfil({ onNavigate, user }) {
         <div className="page-title">Editar perfil</div>
 
         {cargando ? (
-          <div style={{ textAlign: 'center', color: '#8A7A6E', fontSize: 13, marginTop: 20 }}>
+          <div style={{ textAlign: 'center', color: 'var(--tinta-sec)', fontSize: 13, marginTop: 20 }}>
             Cargando...
           </div>
         ) : (
@@ -89,7 +89,7 @@ function EditarPerfil({ onNavigate, user }) {
             />
 
             <div style={labelStyle}>Correo</div>
-            <div style={{ ...inputStyle, color: '#8A7A6E', opacity: 0.7 }}>
+            <div style={{ ...inputStyle, color: 'var(--tinta-sec)', opacity: 0.7 }}>
               {user?.email}
             </div>
 
@@ -97,7 +97,7 @@ function EditarPerfil({ onNavigate, user }) {
             <select
               value={genero}
               onChange={e => setGenero(e.target.value)}
-              style={{ ...inputStyle, color: genero ? '#3D3530' : '#8A7A6E' }}
+              style={{ ...inputStyle, color: genero ? 'var(--tinta)' : 'var(--tinta-sec)' }}
             >
               <option value="" disabled>Selecciona una opción</option>
               <option value="masculino">Masculino</option>
@@ -115,7 +115,7 @@ function EditarPerfil({ onNavigate, user }) {
             />
 
             {error && (
-              <div style={{ color: '#C0392B', fontSize: 12, textAlign: 'center', marginBottom: 10 }}>
+              <div style={{ color: 'var(--error)', fontSize: 12, textAlign: 'center', marginBottom: 10 }}>
                 {error}
               </div>
             )}
@@ -138,7 +138,7 @@ function EditarPerfil({ onNavigate, user }) {
 
 const labelStyle = {
   fontSize: 11,
-  color: '#8A7A6E',
+  color: 'var(--tinta-sec)',
   letterSpacing: 1,
   fontWeight: 500,
   marginBottom: 6,
@@ -149,10 +149,10 @@ const inputStyle = {
   width: '100%',
   padding: '14px 16px',
   borderRadius: 12,
-  border: '1.5px solid #E8D5B7',
-  background: '#F7F3EE',
+  border: '1.5px solid var(--linea-fuerte)',
+  background: 'var(--superficie)',
   fontSize: 15,
-  color: '#3D3530',
+  color: 'var(--tinta)',
   marginBottom: 16,
   outline: 'none',
   fontFamily: 'DM Sans, sans-serif',

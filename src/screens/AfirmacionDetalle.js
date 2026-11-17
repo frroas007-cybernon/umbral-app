@@ -71,7 +71,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
                   textAlign: 'center',
                   marginTop: 12,
                   fontSize: 12,
-                  color: guardado ? '#8A7A6E' : '#C4977A',
+                  color: guardado ? 'var(--tinta-sec)' : 'var(--sol)',
                   cursor: guardado ? 'default' : 'pointer',
                   opacity: guardado ? 0.6 : 1
                 }}

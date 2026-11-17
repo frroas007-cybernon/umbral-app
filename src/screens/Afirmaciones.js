@@ -10,7 +10,7 @@ const afirmaciones = [
     duracion: '10 min',
     tipo: 'Libre',
     free: true,
-    color: '#7AACB5',
+    color: 'var(--mar)',
     videoId: 'AP5qWR0b7s8'
   },
  {
@@ -20,7 +20,7 @@ const afirmaciones = [
    duracion: '12 min',
    tipo: 'Próximamente',
    free: false,
-   color: '#C4977A'
+   color: 'var(--sol)'
  },
  {
    id: 3,
@@ -29,7 +29,7 @@ const afirmaciones = [
    duracion: '15 min',
    tipo: 'Próximamente',
    free: false,
-   color: '#C4977A'
+   color: 'var(--sol)'
  },
 ];
 

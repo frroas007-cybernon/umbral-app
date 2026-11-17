@@ -9,10 +9,10 @@ function Privacy({ onNavigate }) {
           ← Volver
         </div>
 
-        <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 28, color: '#3D3530', marginBottom: 6 }}>
+        <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 28, color: 'var(--tinta)', marginBottom: 6 }}>
           Política de Privacidad
         </div>
-        <div style={{ fontSize: 11, color: '#8A7A6E', marginBottom: 28 }}>
+        <div style={{ fontSize: 11, color: 'var(--tinta-sec)', marginBottom: 28 }}>
           Última actualización: octubre de 2026
         </div>
 
@@ -62,7 +62,7 @@ function Privacy({ onNavigate }) {
             <div style={{
               fontFamily: 'Cormorant Garamond, serif',
               fontSize: 16,
-              color: '#3D3530',
+              color: 'var(--tinta)',
               fontWeight: 600,
               marginBottom: 8
             }}>
@@ -70,7 +70,7 @@ function Privacy({ onNavigate }) {
             </div>
             <div style={{
               fontSize: 13,
-              color: '#5A4A42',
+              color: 'var(--tinta-sec)',
               lineHeight: 1.7
             }}>
               {section.text}

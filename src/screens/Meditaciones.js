@@ -3,9 +3,9 @@ import NavBar from '../components/NavBar';
 import Programa from '../components/Programa';
 
 const sesiones = [
-  { id: 1, emoji: '🌬️', titulo: 'Respiración, la base de todo', duracion: '12 min', tipo: 'Libre', free: true, color: '#C4977A' },
-  { id: 2, emoji: '✨', titulo: 'Imaginación que purifica', duracion: '15 min', tipo: 'Libre', free: true, color: '#7AACB5' },
-  { id: 3, emoji: '👁️', titulo: 'Observación que libera', duracion: '18 min', tipo: 'Libre', free: true, color: '#7AACB5' },
+  { id: 1, emoji: '🌬️', titulo: 'Respiración, la base de todo', duracion: '12 min', tipo: 'Libre', free: true, color: 'var(--sol)' },
+  { id: 2, emoji: '✨', titulo: 'Imaginación que purifica', duracion: '15 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
+  { id: 3, emoji: '👁️', titulo: 'Observación que libera', duracion: '18 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
 ];
 
 function Meditaciones({ onNavigate, user }) {
