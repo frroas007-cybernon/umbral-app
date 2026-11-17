@@ -1,11 +1,12 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
+import Programa from '../components/Programa';
 
 const afirmaciones = [
   {
     id: 1,
     emoji: '🌊',
-    titulo: '1. Calma',
+    titulo: 'Calma',
     duracion: '10 min',
     tipo: 'Libre',
     free: true,
@@ -15,7 +16,7 @@ const afirmaciones = [
  {
    id: 2,
    emoji: '🦁',
-   titulo: '2. Confianza',
+   titulo: 'Confianza',
    duracion: '12 min',
    tipo: 'Próximamente',
    free: false,
@@ -24,7 +25,7 @@ const afirmaciones = [
  {
    id: 3,
    emoji: '🌟',
-   titulo: '3. Abundancia',
+   titulo: 'Abundancia',
    duracion: '15 min',
    tipo: 'Próximamente',
    free: false,
@@ -39,32 +40,17 @@ function Afirmaciones({ onNavigate, user }) {
 
         <div className="page-title">Afirmaciones</div>
 
-        <div className="program-card">
-          <div className="program-tag">PROGRAMA · 3 SESIONES</div>
-          <div className="program-title">Reprograma tu subconsciente</div>
-          <div className="program-sub">Frases diseñadas para transformar tu mente desde adentro.</div>
-          <div className="prog-bar-bg">
-            <div className="prog-bar-fill" style={{ width: '0%' }} />
-          </div>
-          <div className="prog-meta">0 de 3 sesiones completadas</div>
-        </div>
-
-        <div className="sessions-label">SESIONES</div>
-
-        {afirmaciones.map(s => (
-          <div
-            key={s.id}
-            className={`session-row ${s.free ? 'free' : 'locked'}`}
-            onClick={() => s.free && onNavigate('afirmacion-detalle')}
-          >
-            <div className="s-icon" style={{ background: s.color }}>{s.emoji}</div>
-            <div className="s-info">
-              <div className="s-title">{s.titulo}</div>
-              <div className="s-meta">{s.duracion} · {s.tipo}</div>
-            </div>
-            <div className="s-action">{s.free ? '▶' : '🔒'}</div>
-          </div>
-        ))}
+        <Programa
+          imagen="/financiamiento/foto-afirmaciones.jpg"
+          imagenPos="50% 40%"
+          tag="Programa · 3 sesiones"
+          titulo="Reprograma tu subconsciente"
+          subtitulo="Frases diseñadas para transformar tu mente desde adentro."
+          unidad="sesiones"
+          items={afirmaciones}
+          colorNumero="var(--mar-fuerte)"
+          onAbrir={() => onNavigate('afirmacion-detalle')}
+        />
 
       </div>
 
