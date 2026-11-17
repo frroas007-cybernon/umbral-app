@@ -5,7 +5,7 @@
 //
 // IMPORTANTE: si se cambia esta lógica, subir el número de versión de CACHE
 // para que 'activate' limpie la caché vieja.
-const CACHE = 'umbral-v3';
+const CACHE = 'umbral-v4';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -54,6 +54,14 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       })
-      .catch(() => caches.match(request))
+      .catch(() =>
+        caches.match(request).then((cached) => {
+          // Sin conexión, cualquier página de la app (ej. /meditaciones/...)
+          // se resuelve con el index.html guardado.
+          if (cached) return cached;
+          if (request.mode === 'navigate') return caches.match('/index.html');
+          return undefined;
+        })
+      )
   );
 });

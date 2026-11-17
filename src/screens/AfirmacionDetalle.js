@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CompletadaModal from '../components/CompletadaModal';
 import { useRacha } from '../hooks/useRacha';
 import { trackEvent, trackError } from '../analytics';
+import NavBar from '../components/NavBar';
 
 function AfirmacionDetalle({ onNavigate, user }) {
   const [modo, setModo] = useState('video');
@@ -45,22 +46,22 @@ function AfirmacionDetalle({ onNavigate, user }) {
                 title="Afirmaciones: Calma"
               />
             </div>
-            <div className="sess-tag">AFIRMACIONES · CALMA</div>
             <div className="sess-title">Frases para<br />reprogramar tu subconsciente</div>
+            <div className="sess-meta">Afirmaciones para la calma</div>
             <div className="sess-desc">
               Afirmaciones diseñadas para instalar la calma como tu estado natural. Escúchalas con los ojos cerrados y déjalas llegar más allá de tu mente consciente.
             </div>
             <button className="btn-sec" onClick={() => setModo('audio')}>
-              🎧 Solo audio
+              Solo audio
             </button>
             <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              ✓ Marcar como completada
+              Marcar como completada
             </button>
           </>
         ) : (
           <>
             <div className="audio-player">
-              <div className="audio-label">🎧 SOLO AUDIO</div>
+              <div className="audio-label">Solo audio</div>
               <audio controls controlsList="nodownload">
                 <source src="/afirmacion-calma.mp3" type="audio/mpeg" />
               </audio>
@@ -70,41 +71,32 @@ function AfirmacionDetalle({ onNavigate, user }) {
                   textAlign: 'center',
                   marginTop: 12,
                   fontSize: 12,
-                  color: guardado ? '#8A7A6E' : '#C4977A',
+                  color: guardado ? 'var(--tinta-sec)' : 'var(--sol)',
                   cursor: guardado ? 'default' : 'pointer',
                   opacity: guardado ? 0.6 : 1
                 }}
               >
-                {guardado ? '✓ Audio guardado sin conexión' : '📥 Guardar audio para escuchar sin conexión'}
+                {guardado ? 'Audio guardado para escuchar sin conexión' : 'Guardar audio para escuchar sin conexión'}
               </div>
             </div>
 
-            <div className="sess-tag">AFIRMACIONES · CALMA</div>
             <div className="sess-title">Frases para<br />reprogramar tu subconsciente</div>
+            <div className="sess-meta">Afirmaciones para la calma</div>
             <div className="sess-desc">
               Afirmaciones diseñadas para instalar la calma como tu estado natural. Escúchalas con los ojos cerrados y déjalas llegar más allá de tu mente consciente.
             </div>
             <button className="btn-sec" onClick={() => setModo('video')}>
-              ▶ Ver sesión completa
+              Ver sesión completa
             </button>
             <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              ✓ Marcar como completada
+              Marcar como completada
             </button>
           </>
         )}
 
       </div>
 
-      <nav className="nav">
-        <div className="nav-item" onClick={() => onNavigate('home')}>
-          <div className="nav-icon">🏠</div>
-          <div className="nav-text">Inicio</div>
-        </div>
-        <div className="nav-item active">
-          <div className="nav-icon">🧘</div>
-          <div className="nav-text">Meditar</div>
-        </div>
-      </nav>
+      <NavBar active="meditar" onNavigate={onNavigate} />
 
       <CompletadaModal
         visible={showModal}

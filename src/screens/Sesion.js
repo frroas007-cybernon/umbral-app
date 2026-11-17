@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CompletadaModal from '../components/CompletadaModal';
 import { useRacha } from '../hooks/useRacha';
 import { trackEvent, trackError } from '../analytics';
+import NavBar from '../components/NavBar';
 
 const SESIONES = {
   1: {
@@ -76,22 +77,22 @@ function Sesion({ onNavigate, user, sesionId }) {
                 title={`${ses.tituloLinea1} ${ses.tituloLinea2}`}
               />
             </div>
-            <div className="sess-tag">SESIÓN {ses.numero} · COMIENZA A MEDITAR</div>
             <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
+            <div className="sess-meta">Sesión {ses.numero} de 3</div>
             <div className="sess-desc">
               {ses.desc}
             </div>
             <button className="btn-sec" onClick={() => setModo('audio')}>
-              🎧 Solo audio
+              Solo audio
             </button>
             <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              ✓ Marcar como completada
+              Marcar como completada
             </button>
           </>
         ) : (
           <>
             <div className="audio-player">
-              <div className="audio-label">🎧 SOLO AUDIO</div>
+              <div className="audio-label">Solo audio</div>
               <audio controls controlsList="nodownload">
                 <source src={ses.audio} type="audio/mpeg" />
               </audio>
@@ -101,41 +102,32 @@ function Sesion({ onNavigate, user, sesionId }) {
                   textAlign: 'center',
                   marginTop: 12,
                   fontSize: 12,
-                  color: guardado ? '#8A7A6E' : '#C4977A',
+                  color: guardado ? 'var(--tinta-sec)' : 'var(--sol)',
                   cursor: guardado ? 'default' : 'pointer',
                   opacity: guardado ? 0.6 : 1
                 }}
               >
-                {guardado ? '✓ Audio guardado sin conexión' : '📥 Guardar audio para escuchar sin conexión'}
+                {guardado ? 'Audio guardado para escuchar sin conexión' : 'Guardar audio para escuchar sin conexión'}
               </div>
             </div>
 
-            <div className="sess-tag">SESIÓN {ses.numero} · COMIENZA A MEDITAR</div>
             <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
+            <div className="sess-meta">Sesión {ses.numero} de 3</div>
             <div className="sess-desc">
               {ses.desc}
             </div>
             <button className="btn-sec" onClick={() => setModo('video')}>
-              ▶ Ver sesión completa
+              Ver sesión completa
             </button>
             <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              ✓ Marcar como completada
+              Marcar como completada
             </button>
           </>
         )}
 
       </div>
 
-      <nav className="nav">
-        <div className="nav-item" onClick={() => onNavigate('home')}>
-          <div className="nav-icon">🏠</div>
-          <div className="nav-text">Inicio</div>
-        </div>
-        <div className="nav-item active">
-          <div className="nav-icon">🧘</div>
-          <div className="nav-text">Meditar</div>
-        </div>
-      </nav>
+      <NavBar active="meditar" onNavigate={onNavigate} />
 
       <CompletadaModal
         visible={showModal}

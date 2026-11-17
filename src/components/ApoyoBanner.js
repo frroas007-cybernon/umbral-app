@@ -75,7 +75,7 @@ function ApoyoBanner({ user }) {
       <div
         onClick={() => { trackEvent('apoyo_banner_abierto'); setAbierto(true); }}
         style={{
-          background: '#F7F3EE',
+          background: 'var(--fondo)',
           border: '1.5px solid #E8D5B7',
           borderRadius: 16,
           padding: '16px 18px',
@@ -88,14 +88,14 @@ function ApoyoBanner({ user }) {
       >
         <div style={{ fontSize: 26 }}>💛</div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 14, color: '#3D3530' }}>
+          <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 14, color: 'var(--tinta)' }}>
             ¿Te gusta Umbral?
           </div>
-          <div style={{ fontSize: 12, color: '#8A7A6E', marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: 'var(--tinta-sec)', marginTop: 2 }}>
             Ayúdanos a mantenerla gratis
           </div>
         </div>
-        <div style={{ fontSize: 12, color: '#C4977A', fontWeight: 600 }}>Apoyar →</div>
+        <div style={{ fontSize: 12, color: 'var(--sol)', fontWeight: 600 }}>Apoyar →</div>
       </div>
     );
   }
@@ -103,7 +103,7 @@ function ApoyoBanner({ user }) {
   return (
     <div
       style={{
-        background: '#F7F3EE',
+        background: 'var(--fondo)',
         border: '1.5px solid #E8D5B7',
         borderRadius: 16,
         padding: 18,
@@ -111,12 +111,12 @@ function ApoyoBanner({ user }) {
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-        <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 14, color: '#3D3530' }}>
+        <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 14, color: 'var(--tinta)' }}>
           💛 Apoya a Umbral
         </div>
         <div
           onClick={() => setAbierto(false)}
-          style={{ fontSize: 13, color: '#8A7A6E', cursor: 'pointer' }}
+          style={{ fontSize: 13, color: 'var(--tinta-sec)', cursor: 'pointer' }}
         >
           Cerrar
         </div>
@@ -139,9 +139,9 @@ function ApoyoBanner({ user }) {
               textAlign: 'center',
               padding: '10px 0',
               borderRadius: 10,
-              border: `1.5px solid ${!montoCustom && monto === m ? '#C4977A' : '#E8D5B7'}`,
-              background: !montoCustom && monto === m ? '#C4977A' : '#fff',
-              color: !montoCustom && monto === m ? '#fff' : '#3D3530',
+              border: `1.5px solid ${!montoCustom && monto === m ? 'var(--sol)' : 'var(--apagado)'}`,
+              background: !montoCustom && monto === m ? 'var(--sol)' : '#fff',
+              color: !montoCustom && monto === m ? '#fff' : 'var(--tinta)',
               fontSize: 13,
               fontWeight: 600,
               cursor: 'pointer'
@@ -168,12 +168,12 @@ function ApoyoBanner({ user }) {
         style={{ ...inputStyle, resize: 'none', fontFamily: 'DM Sans, sans-serif' }}
       />
 
-      <div style={{ fontSize: 11, color: '#8A7A6E', marginBottom: 10, marginTop: -2, textAlign: 'center' }}>
+      <div style={{ fontSize: 11, color: 'var(--tinta-sec)', marginBottom: 10, marginTop: -2, textAlign: 'center' }}>
         Esto permite mantener siempre gratuita la aplicación
       </div>
 
       {error && (
-        <div style={{ color: '#C4977A', fontSize: 12, marginBottom: 8 }}>{error}</div>
+        <div style={{ color: 'var(--sol)', fontSize: 12, marginBottom: 8 }}>{error}</div>
       )}
 
       <button
@@ -195,7 +195,7 @@ const inputStyle = {
   border: '1.5px solid #E8D5B7',
   background: '#fff',
   fontSize: 16,
-  color: '#3D3530',
+  color: 'var(--tinta)',
   marginBottom: 10,
   outline: 'none',
   boxSizing: 'border-box'

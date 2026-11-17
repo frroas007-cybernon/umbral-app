@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { trackEvent, trackError } from '../analytics';
+import NavBar from '../components/NavBar';
 
 const montos = [2000, 5000, 10000];
 
@@ -102,10 +103,10 @@ function Apoyar({ onNavigate, user }) {
             />
           </div>
 
-          <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 15, color: '#3D3530', textAlign: 'center', marginBottom: 6 }}>
+          <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 15, color: 'var(--tinta)', textAlign: 'center', marginBottom: 6 }}>
             Somos Francisco y Catherine
           </div>
-          <p style={{ fontSize: 12.5, color: '#8A7A6E', textAlign: 'center', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 12.5, color: 'var(--tinta-sec)', textAlign: 'center', lineHeight: 1.5, margin: 0 }}>
             Umbral nace de <strong>nuestra propia práctica.</strong> Lo <strong>construimos juntos</strong>, grabamos el contenido nosotros, y lo usamos a diario. Francisco <strong>guía las meditaciones y desarrolla la app</strong>; Caty está <strong>a cargo de las clases de yoga y contenido</strong> que ves aquí.
             <br /><br />
             Queremos que <strong>meditar y hacer yoga en español</strong>, con calidez y cercanía, esté <strong>al alcance de todos</strong>. Si Umbral te ha servido, <strong>tu aporte nos ayuda a seguir construyéndola y a mantenerla siempre gratuita.</strong>
@@ -114,7 +115,7 @@ function Apoyar({ onNavigate, user }) {
 
         <div
           style={{
-            background: '#F7F3EE',
+            background: 'var(--fondo)',
             border: '1.5px solid #E8D5B7',
             borderRadius: 16,
             padding: 18,
@@ -124,10 +125,10 @@ function Apoyar({ onNavigate, user }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
             <div style={{ fontSize: 26 }}>💛</div>
             <div>
-              <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 14, color: '#3D3530' }}>
+              <div style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 600, fontSize: 14, color: 'var(--tinta)' }}>
                 ¿Te gusta Umbral?
               </div>
-              <div style={{ fontSize: 12, color: '#8A7A6E', marginTop: 2 }}>
+              <div style={{ fontSize: 12, color: 'var(--tinta-sec)', marginTop: 2 }}>
                 Ayúdanos a mantenerla gratis
               </div>
             </div>
@@ -150,9 +151,9 @@ function Apoyar({ onNavigate, user }) {
                   textAlign: 'center',
                   padding: '10px 0',
                   borderRadius: 10,
-                  border: `1.5px solid ${!montoCustom && monto === m ? '#C4977A' : '#E8D5B7'}`,
-                  background: !montoCustom && monto === m ? '#C4977A' : '#fff',
-                  color: !montoCustom && monto === m ? '#fff' : '#3D3530',
+                  border: `1.5px solid ${!montoCustom && monto === m ? 'var(--sol)' : 'var(--apagado)'}`,
+                  background: !montoCustom && monto === m ? 'var(--sol)' : '#fff',
+                  color: !montoCustom && monto === m ? '#fff' : 'var(--tinta)',
                   fontSize: 13,
                   fontWeight: 600,
                   cursor: 'pointer'
@@ -179,12 +180,12 @@ function Apoyar({ onNavigate, user }) {
             style={{ ...inputStyle, resize: 'none', fontFamily: 'DM Sans, sans-serif' }}
           />
 
-          <div style={{ fontSize: 11, color: '#8A7A6E', marginBottom: 10, marginTop: -2, textAlign: 'center' }}>
+          <div style={{ fontSize: 11, color: 'var(--tinta-sec)', marginBottom: 10, marginTop: -2, textAlign: 'center' }}>
             Esto permite mantener siempre gratuita la aplicación
           </div>
 
           {error && (
-            <div style={{ color: '#C4977A', fontSize: 12, marginBottom: 8 }}>{error}</div>
+            <div style={{ color: 'var(--sol)', fontSize: 12, marginBottom: 8 }}>{error}</div>
           )}
 
           <button
@@ -196,27 +197,14 @@ function Apoyar({ onNavigate, user }) {
             {loading ? 'Redirigiendo...' : `Apoyar con $${montoFinal ? montoFinal.toLocaleString('es-CL') : '0'}`}
           </button>
 
-          <div style={{ fontSize: 11, color: '#8A7A6E', textAlign: 'center', marginTop: 10 }}>
+          <div style={{ fontSize: 11, color: 'var(--tinta-sec)', textAlign: 'center', marginTop: 10 }}>
             Pago seguro procesado por Mercado Pago
           </div>
         </div>
 
       </div>
 
-      <nav className="nav">
-        <div className="nav-item" onClick={() => onNavigate('home')}>
-          <div className="nav-icon">🏠</div>
-          <div className="nav-text">Inicio</div>
-        </div>
-        <div className="nav-item" onClick={() => onNavigate('meditaciones')}>
-          <div className="nav-icon">🧘</div>
-          <div className="nav-text">Meditar</div>
-        </div>
-        <div className="nav-item active">
-          <div className="nav-icon">💛</div>
-          <div className="nav-text">Apoyar</div>
-        </div>
-      </nav>
+      <NavBar active="meditar" onNavigate={onNavigate} />
     </div>
   );
 }
@@ -228,7 +216,7 @@ const inputStyle = {
   border: '1.5px solid #E8D5B7',
   background: '#fff',
   fontSize: 16,
-  color: '#3D3530',
+  color: 'var(--tinta)',
   marginBottom: 10,
   outline: 'none',
   boxSizing: 'border-box'

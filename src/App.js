@@ -16,12 +16,20 @@ import MoodModal from './components/MoodModal';
 import Splash from './components/Splash';
 import { supabase } from './supabase';
 import { identifyUser, resetUser, trackPageview, trackEvent } from './analytics';
+import { pathDe, pantallaDe } from './routes';
+
+// Pantalla inicial según la URL con que se abre la app (ej. un enlace compartido).
+// Una URL desconocida lleva al inicio.
+const inicial = pantallaDe(window.location.pathname) || { screen: 'home', param: null };
+if (!pantallaDe(window.location.pathname)) {
+  window.history.replaceState(null, '', '/' + window.location.search + window.location.hash);
+}
 
 function App() {
-  const [screen, setScreen] = useState('home');
-  const [screenParam, setScreenParam] = useState(null);
+  const [screen, setScreen] = useState(inicial.screen);
+  const [screenParam, setScreenParam] = useState(inicial.param);
   const [modalMood, setModalMood] = useState(null);
-  const [showSplash, setShowSplash] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [needsProfile, setNeedsProfile] = useState(null);
@@ -73,24 +81,44 @@ function App() {
   }, [user]);
 
   const navigate = (dest, param = null) => {
-    setShowSplash(true);
-    setTimeout(() => {
-      setScreen(dest);
-      setScreenParam(param);
-      trackPageview(dest);
-      setTimeout(() => setShowSplash(false), 300);
-    }, 400);
+    if (dest === screen && param === screenParam) return; // ya estamos ahí
+    setScreen(dest);
+    setScreenParam(param);
+    const nuevoPath = pathDe(dest, param);
+    if (nuevoPath !== window.location.pathname) {
+      window.history.pushState({ screen: dest, param }, '', nuevoPath);
+    }
+    window.scrollTo(0, 0);
+    trackPageview(dest);
   };
 
-  const homeTrackeado = useRef(false);
+  // El splash aparece solo al abrir la app, no al cambiar de pantalla.
   useEffect(() => {
-    if (user && needsProfile === false && !homeTrackeado.current) {
-      homeTrackeado.current = true;
-      trackPageview('home');
+    const t = setTimeout(() => setShowSplash(false), 1200);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Botón "atrás" / "adelante" del navegador.
+  useEffect(() => {
+    const onPopState = () => {
+      const destino = pantallaDe(window.location.pathname) || { screen: 'home', param: null };
+      setScreen(destino.screen);
+      setScreenParam(destino.param);
+      trackPageview(destino.screen);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  const primeraVistaTrackeada = useRef(false);
+  useEffect(() => {
+    if (user && needsProfile === false && !primeraVistaTrackeada.current) {
+      primeraVistaTrackeada.current = true;
+      trackPageview(inicial.screen);
     }
   }, [user, needsProfile]);
 
-  if (loadingAuth || !user || (user.id !== 'guest' && needsProfile === null)) return <div className="app" />;
+  if (loadingAuth || !user || (user.id !== 'guest' && needsProfile === null)) return <div className="app"><Splash visible /></div>;
 
   if (needsProfile) return (
     <div className="app">

@@ -2,7 +2,7 @@ import React from 'react';
 
 const frases = {
   ansioso: {
-    emoji: '😔', label: 'ANSIEDAD',
+    emoji: '😔', label: 'Ansiedad',
     lista: [
       'Tu respiración es el ancla. Vuelve a ella.',
       'Este momento pasará. Siempre pasa.',
@@ -27,7 +27,7 @@ const frases = {
     ]
   },
   tenso: {
-    emoji: '😶', label: 'TENSIÓN',
+    emoji: '😶', label: 'Tensión',
     lista: [
       'El cuerpo guarda lo que la mente no procesa. Suéltalo.',
       'Relaja los hombros. Siempre están más tensos de lo que crees.',
@@ -52,7 +52,7 @@ const frases = {
     ]
   },
   bien: {
-    emoji: '🙂', label: 'BIENESTAR',
+    emoji: '🙂', label: 'Bienestar',
     lista: [
       'Este es un buen punto de partida.',
       'Sentirte bien también merece atención.',
@@ -77,7 +77,7 @@ const frases = {
     ]
   },
   tranquilo: {
-    emoji: '😌', label: 'TRANQUILIDAD',
+    emoji: '😌', label: 'Tranquilidad',
     lista: [
       'La tranquilidad no es vacío. Es presencia plena.',
       'Quédate aquí un momento más antes de seguir.',
@@ -102,7 +102,7 @@ const frases = {
     ]
   },
   paz: {
-    emoji: '🌿', label: 'PAZ',
+    emoji: '🌿', label: 'Paz',
     lista: [
       'La paz no es un destino. Es este momento exacto.',
       'Nada falta aquí.',
@@ -138,7 +138,6 @@ function MoodModal({ mood, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-sheet" onClick={e => e.stopPropagation()}>
         <div className="modal-handle" />
-        <div className="modal-emoji">{data.emoji}</div>
         <div className="modal-estado">{data.label}</div>
         <div className="modal-frase">{frase}</div>
         <button className="btn-main" onClick={onClose}>
@@ -146,19 +145,19 @@ function MoodModal({ mood, onClose }) {
         </button>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20, opacity: 0.35 }}>
           <svg viewBox="0 0 300 175" xmlns="http://www.w3.org/2000/svg" style={{ width: 64, height: 'auto' }}>
-            <ellipse cx="150" cy="120" rx="42" ry="7" fill="#7AACB5" opacity="0.30"/>
-            <ellipse cx="150" cy="125" rx="28" ry="4" fill="#7AACB5" opacity="0.18"/>
-            <path d="M 110 114 A 40 40 0 0 1 190 114 Z" fill="#C4977A"/>
-            <line x1="84" y1="114" x2="216" y2="114" stroke="#3D3530" strokeWidth="1.8" strokeLinecap="round"/>
-            <line x1="150" y1="66" x2="150" y2="82" stroke="#C4977A" strokeWidth="2" strokeLinecap="round"/>
-            <line x1="129" y1="71" x2="135.5" y2="86" stroke="#C4977A" strokeWidth="1.7" strokeLinecap="round"/>
-            <line x1="171" y1="71" x2="164.5" y2="86" stroke="#C4977A" strokeWidth="1.7" strokeLinecap="round"/>
-            <line x1="111" y1="87" x2="120" y2="98" stroke="#C4977A" strokeWidth="1.4" strokeLinecap="round"/>
-            <line x1="189" y1="87" x2="180" y2="98" stroke="#C4977A" strokeWidth="1.4" strokeLinecap="round"/>
-            <line x1="92" y1="108" x2="106" y2="108" stroke="#C4977A" strokeWidth="1.2" strokeLinecap="round"/>
-            <line x1="208" y1="108" x2="194" y2="108" stroke="#C4977A" strokeWidth="1.2" strokeLinecap="round"/>
-            <path d="M 124 114 A 26 26 0 0 1 176 114 Z" fill="#7AACB5" opacity="0.22"/>
-            <text x="150" y="158" textAnchor="middle" fontFamily="Georgia, serif" fontSize="17" fill="#3D3530" letterSpacing="9">UMBRAL</text>
+            <ellipse cx="150" cy="120" rx="42" ry="7" opacity="0.30" style={{ fill: 'var(--mar)' }}/>
+            <ellipse cx="150" cy="125" rx="28" ry="4" opacity="0.18" style={{ fill: 'var(--mar)' }}/>
+            <path d="M 110 114 A 40 40 0 0 1 190 114 Z" style={{ fill: 'var(--sol)' }}/>
+            <line x1="84" y1="114" x2="216" y2="114" strokeWidth="1.8" strokeLinecap="round" style={{ stroke: 'var(--tinta)' }}/>
+            <line x1="150" y1="66" x2="150" y2="82" strokeWidth="2" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
+            <line x1="129" y1="71" x2="135.5" y2="86" strokeWidth="1.7" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
+            <line x1="171" y1="71" x2="164.5" y2="86" strokeWidth="1.7" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
+            <line x1="111" y1="87" x2="120" y2="98" strokeWidth="1.4" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
+            <line x1="189" y1="87" x2="180" y2="98" strokeWidth="1.4" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
+            <line x1="92" y1="108" x2="106" y2="108" strokeWidth="1.2" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
+            <line x1="208" y1="108" x2="194" y2="108" strokeWidth="1.2" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
+            <path d="M 124 114 A 26 26 0 0 1 176 114 Z" opacity="0.22" style={{ fill: 'var(--mar)' }}/>
+            <text x="150" y="158" textAnchor="middle" fontFamily="Georgia, serif" fontSize="17" letterSpacing="9" style={{ fill: 'var(--tinta)' }}>UMBRAL</text>
           </svg>
         </div>
       </div>
