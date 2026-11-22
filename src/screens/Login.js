@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Volver from '../components/Volver';
 import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
 
@@ -88,9 +89,7 @@ function Login({ onNavigate, onLogin }) {
     <div className="screen">
       <div className="screen-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
-        <div className="back-btn" onClick={() => onNavigate('perfil')}>
-          ← Volver
-        </div>
+        <Volver texto="Perfil" onClick={() => onNavigate('perfil')} />
 
         {/* Logo */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20, marginTop: 20 }}>
@@ -107,7 +106,7 @@ function Login({ onNavigate, onLogin }) {
             <line x1="92" y1="108" x2="106" y2="108" strokeWidth="1.2" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
             <line x1="208" y1="108" x2="194" y2="114" strokeWidth="1.2" strokeLinecap="round" style={{ stroke: 'var(--sol)' }}/>
             <path d="M 124 114 A 26 26 0 0 1 176 114 Z" opacity="0.22" style={{ fill: 'var(--mar)' }}/>
-            <text x="150" y="158" textAnchor="middle" fontFamily="Georgia, serif" fontSize="17" letterSpacing="9" style={{ fill: 'var(--tinta)' }}>UMBRAL</text>
+            <text x="150" y="158" textAnchor="middle" fontFamily="'Cormorant Garamond', serif" fontSize="17" letterSpacing="9" style={{ fill: 'var(--tinta)' }}>UMBRAL</text>
           </svg>
         </div>
 

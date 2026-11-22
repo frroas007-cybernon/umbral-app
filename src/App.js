@@ -11,6 +11,7 @@ import Perfil from './screens/Perfil';
 import EditarPerfil from './screens/EditarPerfil';
 import Privacy from './screens/Privacy';
 import Login from './screens/Login';
+import Respirar from './screens/Respirar';
 import CompletarPerfil from './screens/CompletarPerfil';
 import MoodModal from './components/MoodModal';
 import Splash from './components/Splash';
@@ -138,6 +139,7 @@ function App() {
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} avatarUrl={avatarUrl} onAvatarChange={setAvatarUrl} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
       {screen === 'editar-perfil' && <EditarPerfil onNavigate={navigate} user={user} />}
       {screen === 'privacy' && <Privacy onNavigate={navigate} />}
+      {screen === 'respirar' && <Respirar onNavigate={navigate} />}
       {screen === 'login' && (
         <Login
           onNavigate={navigate}

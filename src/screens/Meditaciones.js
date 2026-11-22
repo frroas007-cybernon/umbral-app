@@ -3,26 +3,25 @@ import NavBar from '../components/NavBar';
 import Programa from '../components/Programa';
 
 const sesiones = [
-  { id: 1, emoji: '🌬️', titulo: 'Respiración, la base de todo', duracion: '12 min', tipo: 'Libre', free: true, color: 'var(--sol)' },
-  { id: 2, emoji: '✨', titulo: 'Imaginación que purifica', duracion: '15 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
-  { id: 3, emoji: '👁️', titulo: 'Observación que libera', duracion: '18 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
+  { id: 1, emoji: '🌬️', titulo: 'Respiración, la base de todo', imagen: '/ritual/respiracion.webp', duracion: '11 min', tipo: 'Libre', free: true, color: 'var(--sol)' },
+  { id: 2, emoji: '✨', titulo: 'Imaginación que purifica', imagen: '/ritual/imaginacion.webp', duracion: '15 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
+  { id: 3, emoji: '👁️', titulo: 'Observación que libera', imagen: '/ritual/observacion.webp', duracion: '18 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
 ];
 
 function Meditaciones({ onNavigate, user }) {
   return (
-    <div className="screen">
-      <div className="screen-content" style={{ display: 'flex', flexDirection: 'column' }}>
-
-        <div className="page-title">Meditaciones</div>
+    <div className="screen screen-programa">
+      <div className="screen-content">
 
         <Programa
-          imagen="/financiamiento/foto-meditacion-roca-final.jpg"
+          nombre="Meditaciones"
+          imagen="/ritual/roca.webp"
           imagenPos="45% 60%"
           titulo="Comienza a meditar"
-          subtitulo="Tu punto de partida hacia la calma."
+          subtitulo="Tu punto de partida hacia la calma"
           unidad="sesiones"
           items={sesiones}
-          colorNumero="var(--terracota-fuerte)"
+          singular="sesión"
           onAbrir={(s) => onNavigate('sesion', s.id)}
         />
 
