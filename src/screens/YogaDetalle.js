@@ -23,7 +23,7 @@ export const CLASES_YOGA = {
     imagen: '/ritual/yoga-clase-2.webp',
     imagenPos: '50% 40%',
     chips: ['Todos los niveles', 'Necesitas un mat'],
-    desc: 'PENDIENTE',
+    desc: 'Una clase de 13 minutos para soltar lo que el cuerpo viene cargando. Movimientos fluidos guiados por la respiración, para liberar tensión acumulada y terminar más liviano.',
     videoId: 'PENDIENTE',
   },
 };
