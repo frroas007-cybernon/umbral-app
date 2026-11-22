@@ -17,6 +17,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
       desc="Afirmaciones diseñadas para instalar la calma como tu estado natural. Escúchalas con los ojos cerrados y déjalas llegar más allá de tu mente consciente."
       audio="/afirmacion-calma.mp3"
       videoId="nNmXbkYOE88"
+      guia={{ nombre: 'Francisco', usuario: 'franciscoroa.7', foto: '/ritual/guia-francisco.webp' }}
     />
   );
 }
