@@ -6,7 +6,7 @@ const afirmaciones = [
   {
     id: 1,
     emoji: '🌊',
-    titulo: 'Calma',
+    titulo: 'Calma', imagen: '/ritual/calma.jpg',
     duracion: '10 min',
     tipo: 'Libre',
     free: true,
@@ -35,19 +35,18 @@ const afirmaciones = [
 
 function Afirmaciones({ onNavigate, user }) {
   return (
-    <div className="screen">
-      <div className="screen-content" style={{ display: 'flex', flexDirection: 'column' }}>
-
-        <div className="page-title">Afirmaciones</div>
+    <div className="screen screen-programa">
+      <div className="screen-content">
 
         <Programa
-          imagen="/financiamiento/foto-afirmaciones.jpg"
+          nombre="Afirmaciones"
+          imagen="/ritual/calma.jpg"
           imagenPos="50% 40%"
           titulo="Reprograma tu subconsciente"
-          subtitulo="Frases diseñadas para transformar tu mente desde adentro."
+          subtitulo="Frases diseñadas para transformar tu mente desde adentro"
           unidad="sesiones"
           items={afirmaciones}
-          colorNumero="var(--mar-fuerte)"
+          singular="sesión"
           onAbrir={() => onNavigate('afirmacion-detalle')}
         />
 
