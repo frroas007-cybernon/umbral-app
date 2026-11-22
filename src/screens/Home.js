@@ -33,7 +33,7 @@ const ESCENAS = {
 const ORDEN = ['amanecer', 'dia', 'atardecer', 'noche'];
 const NOMBRE_MOMENTO = { amanecer: 'Amanecer', dia: 'Día', atardecer: 'Atardecer', noche: 'Noche' };
 const RECORRIDO_VISTO = 'umbral_recorrido_visto';
-const PASO_MS = 1500;
+const PASO_MS = 1100;
 
 // La primera vez, la escena recorre el día completo y termina en la hora real.
 function debeMostrarRecorrido() {
