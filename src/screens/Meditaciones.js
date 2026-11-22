@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import Programa from '../components/Programa';
 
 const sesiones = [
-  { id: 1, emoji: '🌬️', titulo: 'Respiración, la base de todo', imagen: '/ritual/respiracion.jpg', duracion: '12 min', tipo: 'Libre', free: true, color: 'var(--sol)' },
+  { id: 1, emoji: '🌬️', titulo: 'Respiración, la base de todo', imagen: '/ritual/respiracion.jpg', duracion: '11 min', tipo: 'Libre', free: true, color: 'var(--sol)' },
   { id: 2, emoji: '✨', titulo: 'Imaginación que purifica', imagen: '/ritual/imaginacion.jpg', duracion: '15 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
   { id: 3, emoji: '👁️', titulo: 'Observación que libera', imagen: '/ritual/observacion.jpg', duracion: '18 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
 ];

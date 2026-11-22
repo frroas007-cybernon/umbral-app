@@ -8,10 +8,10 @@ const SESIONES = {
     audio: '/audio1.mp3',
     numero: 1,
     titulo: ['Respiración,', 'la base de todo'],
-    minutos: 12,
+    minutos: 11,
     imagen: '/ritual/respiracion.jpg',
     imagenPos: '55% 55%',
-    desc: 'Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 12 minutos que pueden cambiar tu día.',
+    desc: 'Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 11 minutos que pueden cambiar tu día.',
   },
   2: {
     sesionKey: 'imaginacion',

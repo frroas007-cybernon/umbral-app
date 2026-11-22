@@ -14,7 +14,7 @@ const moods = [
 ];
 
 const PRACTICAS = {
-  respiracion: { nombre: 'Respiración, la base de todo', sub: 'Meditación guiada, 12 min', screen: 'sesion', param: 1, imagen: '/ritual/respiracion.jpg', pos: '55% 55%' },
+  respiracion: { nombre: 'Respiración, la base de todo', sub: 'Meditación guiada, 11 min', screen: 'sesion', param: 1, imagen: '/ritual/respiracion.jpg', pos: '55% 55%' },
   imaginacion: { nombre: 'Imaginación que purifica', sub: 'Meditación guiada, 15 min', screen: 'sesion', param: 2, imagen: '/ritual/imaginacion.jpg', pos: '50% 60%' },
   observacion: { nombre: 'Observación que libera', sub: 'Meditación guiada, 18 min', screen: 'sesion', param: 3, imagen: '/ritual/observacion.jpg', pos: '50% 35%' },
   calma: { nombre: 'Afirmaciones para la calma', sub: 'Afirmaciones, 10 min', screen: 'afirmacion-detalle', param: null, imagen: '/ritual/calma.jpg', pos: '50% 45%' },
