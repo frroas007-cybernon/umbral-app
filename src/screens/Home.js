@@ -148,7 +148,7 @@ function Home({ onNavigate, user }) {
           <div className="escena-velo" aria-hidden="true" />
 
           {recorrido && (
-            <button type="button" className="recorrido" onClick={terminarRecorrido} aria-label="Saltar el recorrido del día">
+            <button type="button" className="recorrido-dia" onClick={terminarRecorrido} aria-label="Saltar el recorrido del día">
               <span className="recorrido-nombre" key={momentoVisible}>{NOMBRE_MOMENTO[momentoVisible]}</span>
               <span className="recorrido-pasos" aria-hidden="true">
                 {ORDEN.map((m, i) => <span key={m} className={i <= pasoRecorrido ? 'hecho' : ''} />)}
