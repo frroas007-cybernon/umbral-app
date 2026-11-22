@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { trackEvent } from '../analytics';
 import NavBar from '../components/NavBar';
-import Cielo, { momentoDelDia, saludoDelDia } from '../components/Cielo';
+import { momentoDelDia, saludoDelDia } from '../components/Cielo';
 import { frases } from '../components/MoodModal';
 import { useRacha } from '../hooks/useRacha';
 
@@ -19,6 +19,22 @@ const PRACTICAS = {
   observacion: { nombre: 'Observación que libera', sub: 'Meditación guiada, 18 min', screen: 'sesion', param: 3, imagen: '/ritual/observacion.jpg', pos: '50% 35%' },
   calma: { nombre: 'Afirmaciones para la calma', sub: 'Afirmaciones, 10 min', screen: 'afirmacion-detalle', param: null, imagen: '/ritual/calma.jpg', pos: '50% 45%' },
   yoga: { nombre: 'Conecta con tu cuerpo', sub: 'Clase de yoga, 11 min', screen: 'yoga-detalle', param: null, imagen: '/yoga2.png', pos: '55% 25%' },
+};
+
+// Foto de fondo según el momento del día. Por ahora todas usan el atardecer
+// real de Reñaca; las otras horas se suman cuando estén listas.
+const ESCENAS = {
+  amanecer: '/inicio/atardecer.jpg',
+  dia: '/inicio/atardecer.jpg',
+  atardecer: '/inicio/atardecer.jpg',
+  noche: '/inicio/atardecer.jpg',
+};
+
+const FRASE_MOMENTO = {
+  amanecer: { titulo: 'El día aún no empieza.', sub: 'Tienes unos minutos antes de que todo se mueva.' },
+  dia: { titulo: 'Haz una pausa.', sub: 'Unos minutos para volver a ti en medio del día.' },
+  atardecer: { titulo: 'Suelta el día.', sub: 'Lo que pasó, ya pasó. Ahora puedes bajar el ritmo.' },
+  noche: { titulo: 'Es hora de bajar el ritmo.', sub: 'Prepara el cuerpo y la mente para descansar.' },
 };
 
 // Sugerencia según el momento del día...
@@ -73,17 +89,41 @@ function Home({ onNavigate, user }) {
     <div className="screen">
       <div className="screen-content">
 
-        <div className="portada">
-          <Cielo fecha={ahora} animado />
-          <div className="portada-texto">
-            <h1 className="portada-saludo">{primerNombre ? `${saludo}, ${primerNombre}` : saludo}</h1>
-            <div className="portada-racha">
+        <section className="escena" aria-label="Inicio">
+          <img className="escena-foto" src={ESCENAS[momento]} alt="" />
+          <div className="escena-velo" aria-hidden="true" />
+
+          <div className="escena-arriba">
+            <div className="escena-saludo">{primerNombre ? `${saludo}, ${primerNombre}` : saludo}</div>
+            <h1 className="escena-titulo">{FRASE_MOMENTO[momento].titulo}</h1>
+            <p className="escena-sub">
               {racha > 0
-                ? `${racha} ${racha === 1 ? 'día' : 'días'} seguidos practicando`
-                : 'Hoy puede ser tu primer día'}
+                ? `${FRASE_MOMENTO[momento].sub} Llevas ${racha} ${racha === 1 ? 'día' : 'días'} seguidos.`
+                : FRASE_MOMENTO[momento].sub}
+            </p>
+          </div>
+
+          <div className="escena-panel">
+            <div className="escena-panel-etiqueta">{eleccion.titulo}</div>
+            <div className="escena-panel-nombre">{practica.nombre}</div>
+            <div className="escena-panel-sub">{practica.sub}</div>
+            <div className="escena-panel-acciones">
+              <button
+                type="button"
+                className="escena-comenzar"
+                onClick={() => {
+                  trackEvent('sugerencia_abierta', { momento, animo: animo || 'ninguno', practica: eleccion.practica });
+                  onNavigate(practica.screen, practica.param);
+                }}
+              >
+                Comenzar
+              </button>
+              <button type="button" className="escena-respirar" onClick={() => onNavigate('respirar')}>
+                Respirar 1 min
+              </button>
             </div>
           </div>
-        </div>
+        </section>
 
         <h2 className="section-title animo-titulo">¿Cómo llegas?</h2>
         <div className="mood-chips">
@@ -99,40 +139,11 @@ function Home({ onNavigate, user }) {
             </button>
           ))}
         </div>
-
-        {frase && <p className="animo-frase" aria-live="polite">{frase}</p>}
-
-        <h2 className="section-title">{eleccion.titulo}</h2>
-        <button
-          type="button"
-          className="sugerencia"
-          onClick={() => {
-            trackEvent('sugerencia_abierta', { momento, animo: animo || 'ninguno', practica: eleccion.practica });
-            onNavigate(practica.screen, practica.param);
-          }}
-        >
-          <img src={practica.imagen} alt="" style={{ objectPosition: practica.pos }} />
-          <span className="sugerencia-cuerpo">
-            <span>
-              <span className="sugerencia-nombre">{practica.nombre}</span>
-              <span className="sugerencia-sub">{practica.sub}</span>
-            </span>
-            <span className="sugerencia-play" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l10.5-6.5z" style={{ fill: 'var(--fondo)' }} /></svg>
-            </span>
-          </span>
-        </button>
-
-        <button type="button" className="respirar-atajo" onClick={() => onNavigate('respirar')}>
-          <svg viewBox="0 0 48 32" width="44" height="30" aria-hidden="true">
-            <path d="M10 24a14 14 0 0 1 28 0" strokeWidth="2.5" style={{ fill: 'none', stroke: 'var(--sol)' }} />
-            <line x1="4" y1="24" x2="44" y2="24" strokeWidth="2.5" strokeLinecap="round" style={{ stroke: 'var(--mar)' }} />
-          </svg>
-          <span>
-            <span className="respirar-atajo-titulo">Un minuto para respirar</span>
-            <span className="respirar-atajo-sub">Seis respiraciones lentas, guiadas</span>
-          </span>
-        </button>
+        {frase && (
+          <p className="animo-frase" aria-live="polite">
+            {frase} Arriba te dejamos una práctica para eso.
+          </p>
+        )}
 
         <h2 className="section-title">Tu práctica</h2>
         <div className="cat-grid">
