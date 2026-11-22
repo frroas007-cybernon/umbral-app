@@ -1,6 +1,6 @@
 import React from 'react';
 
-const frases = {
+export const frases = {
   ansioso: {
     emoji: '😔', label: 'Ansiedad',
     lista: [

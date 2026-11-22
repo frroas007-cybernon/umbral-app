@@ -28,7 +28,7 @@ function posicionSol(fecha) {
 const ESTRELLAS = [[40, 28], [92, 54], [150, 22], [214, 46], [268, 18], [330, 40], [120, 84], [300, 78]];
 
 // Franja de cielo de Inicio: el sol en la posición que tiene ahora mismo.
-function Cielo({ fecha = new Date() }) {
+function Cielo({ fecha = new Date(), animado = false }) {
   const momento = momentoDelDia(fecha);
   const sol = posicionSol(fecha);
   return (
@@ -43,6 +43,7 @@ function Cielo({ fecha = new Date() }) {
         )}
         {sol && (
           <g clipPath="url(#cielo-hz)">
+            <g className={animado ? 'sol-sube' : undefined} style={{ '--desde': `${112 + 40 - sol.y}px` }}>
             <circle cx={sol.x} cy={sol.y} r="20" strokeWidth="3.5" className="sol-cielo" />
             {Array.from({ length: 8 }).map((_, i) => {
               const a = (i / 8) * Math.PI * 2;
@@ -53,6 +54,7 @@ function Cielo({ fecha = new Date() }) {
                   strokeWidth="3" strokeLinecap="round" className="sol-cielo" />
               );
             })}
+            </g>
           </g>
         )}
         <line x1="0" y1="112" x2="380" y2="112" strokeWidth="2.5" className="horizonte" />
