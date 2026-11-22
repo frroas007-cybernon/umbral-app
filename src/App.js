@@ -147,7 +147,7 @@ function App() {
       {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} user={user} />}
       {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} user={user} />}
       {screen === 'yoga' && <Yoga onNavigate={navigate} user={user} />}
-      {screen === 'yoga-detalle' && <YogaDetalle onNavigate={navigate} user={user} />}
+      {screen === 'yoga-detalle' && <YogaDetalle onNavigate={navigate} user={user} claseId={screenParam} />}
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} avatarUrl={avatarUrl} onAvatarChange={setAvatarUrl} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
       {screen === 'editar-perfil' && <EditarPerfil onNavigate={navigate} user={user} />}
       {screen === 'privacy' && <Privacy onNavigate={navigate} />}

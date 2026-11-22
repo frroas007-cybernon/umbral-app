@@ -18,7 +18,7 @@ const PRACTICAS = {
   imaginacion: { nombre: 'Imaginación que purifica', sub: 'Meditación guiada, 15 min', screen: 'sesion', param: 2, imagen: '/ritual/respiracion.webp', pos: '55% 55%' },
   observacion: { nombre: 'Observación que libera', sub: 'Meditación guiada, 18 min', screen: 'sesion', param: 3, imagen: '/ritual/observacion.webp', pos: '50% 35%' },
   calma: { nombre: 'Afirmaciones para la calma', sub: 'Afirmaciones, 10 min', screen: 'afirmacion-detalle', param: null, imagen: '/ritual/calma.webp', pos: '50% 45%' },
-  yoga: { nombre: 'Conecta con tu cuerpo', sub: 'Clase de yoga, 11 min', screen: 'yoga-detalle', param: null, imagen: '/yoga2.webp', pos: '55% 25%' },
+  yoga: { nombre: 'Conecta con tu cuerpo', sub: 'Clase de yoga, 11 min', screen: 'yoga-detalle', param: 1, imagen: '/ritual/yoga-clase-1.webp', pos: '50% 40%' },
   respirar: { nombre: 'Un minuto para respirar', sub: 'Respiración guiada, 1 min', screen: 'respirar', param: null },
 };
 

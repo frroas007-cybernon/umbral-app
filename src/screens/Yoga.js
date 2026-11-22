@@ -3,8 +3,8 @@ import NavBar from '../components/NavBar';
 import Programa from '../components/Programa';
 
 const clases = [
-  { id: 1, emoji: '🧘', titulo: 'Conecta con tu cuerpo', imagen: '/yoga2.webp', duracion: '11 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
-  { id: 2, emoji: '🌀', titulo: 'Movimiento que libera', duracion: '13 min', tipo: 'Próximamente', free: false, color: 'var(--sol)' },
+  { id: 1, emoji: '🧘', titulo: 'Conecta con tu cuerpo', imagen: '/ritual/yoga-clase-1.webp', duracion: '11 min', tipo: 'Libre', free: true, color: 'var(--mar)' },
+  { id: 2, emoji: '🌀', titulo: 'Movimiento que libera', imagen: '/ritual/yoga-clase-2.webp', duracion: '13 min', tipo: 'Próximamente', free: false, color: 'var(--sol)' },
   { id: 3, emoji: '🌳', titulo: 'Equilibrio que sostiene', duracion: '12 min', tipo: 'Próximamente', free: false, color: 'var(--sol)' },
 ];
 
@@ -23,7 +23,7 @@ function Yoga({ onNavigate, user }) {
           unidad="clases"
           items={clases}
           singular="clase"
-          onAbrir={() => onNavigate('yoga-detalle')}
+          onAbrir={(c) => onNavigate('yoga-detalle', c.id)}
         />
 
       </div>
