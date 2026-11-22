@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Volver from './Volver';
+import { proporcionDe, medirProporcion } from '../proporciones';
 
 // Pantalla de un programa (Meditaciones, Afirmaciones, Yoga), con el mismo
 // lenguaje que la sesión: la foto arriba, el nombre entrando sobre ella y el
@@ -18,7 +19,7 @@ function minutos(duracion) {
 }
 
 function Programa({ onVolver, nombre, imagen, imagenPos, titulo, subtitulo, unidad, singular, items, onAbrir }) {
-  const [proporcion, setProporcion] = useState(null);
+  const [proporcion, setProporcion] = useState(() => proporcionDe(imagen));
   const disponibles = items.filter(s => s.free);
   const primera = disponibles[0];
   const total = disponibles.reduce((acc, s) => acc + minutos(s.duracion), 0);
@@ -31,7 +32,7 @@ function Programa({ onVolver, nombre, imagen, imagenPos, titulo, subtitulo, unid
           src={imagen}
           alt=""
           style={{ objectPosition: imagenPos || 'center' }}
-          onLoad={(e) => setProporcion(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
+          onLoad={(e) => medirProporcion(imagen, e.currentTarget, setProporcion)}
         />
         {onVolver && <Volver texto="Inicio" onClick={onVolver} sobreFoto />}
       </div>
