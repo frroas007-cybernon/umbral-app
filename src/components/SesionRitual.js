@@ -17,9 +17,11 @@ function SesionRitual({
   imagen, imagenPos = '50% 50%',
   volverA, volverTexto,
   titulo, meta, desc,
-  audio, videoId,
+  audio, videoId, chips,
 }) {
-  const [modo, setModo] = useState('audio');
+  const tieneAudio = Boolean(audio);
+  const [modo, setModo] = useState(tieneAudio ? 'audio' : 'video');
+  const [videoActivo, setVideoActivo] = useState(tieneAudio);
   const [showModal, setShowModal] = useState(false);
   const [completada, setCompletada] = useState(false);
   const [guardado, setGuardado] = useState(false);
@@ -59,11 +61,18 @@ function SesionRitual({
           {Array.isArray(titulo) ? titulo.map((l, i) => <span key={i}>{l}</span>) : titulo}
         </h1>
         <div className="ritual-meta">{meta}</div>
+        {chips && (
+          <div className="chips ritual-chips">
+            {chips.map((c) => <span key={c} className="chip">{c}</span>)}
+          </div>
+        )}
 
-        <div className="segmento" role="group" aria-label="Cómo quieres practicar">
-          <button type="button" aria-pressed={modo === 'audio'} onClick={() => setModo('audio')}>Escuchar</button>
-          <button type="button" aria-pressed={modo === 'video'} onClick={() => { setModo('video'); trackEvent('video_elegido', { sesion: sesionKey }); }}>Ver video</button>
-        </div>
+        {tieneAudio && videoId && (
+          <div className="segmento" role="group" aria-label="Cómo quieres practicar">
+            <button type="button" aria-pressed={modo === 'audio'} onClick={() => setModo('audio')}>Escuchar</button>
+            <button type="button" aria-pressed={modo === 'video'} onClick={() => { setModo('video'); trackEvent('video_elegido', { sesion: sesionKey }); }}>Ver video</button>
+          </div>
+        )}
 
         {modo === 'audio' ? (
           <Reproductor
@@ -73,10 +82,18 @@ function SesionRitual({
             onPlay={() => trackEvent('audio_reproducido', { sesion: sesionKey })}
             onTermino={() => completar('fin_audio')}
           />
+        ) : !videoActivo ? (
+          <button
+            type="button"
+            className="btn-main"
+            onClick={() => { setVideoActivo(true); trackEvent('video_reproducido', { tipo, sesion: sesionKey }); }}
+          >
+            Comenzar clase
+          </button>
         ) : (
           <div className="video-box">
             <iframe
-              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
+              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1${tieneAudio ? '' : '&autoplay=1'}`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               title={tituloPlano}

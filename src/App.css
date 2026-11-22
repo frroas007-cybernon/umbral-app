@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 
 * {
   margin: 0;
@@ -1012,3 +1012,50 @@ button:focus:not(:focus-visible) { outline: none; }
 .carrusel-texto { position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 1; text-align: left; color: #FFFFFF; display: flex; flex-direction: column; gap: 2px; }
 .carrusel-titulo { font: 500 26px/1.05 'Cormorant Garamond', serif; }
 .carrusel-sub { font-size: 13px; color: rgba(255,255,255,0.88); }
+
+/* TIPOGRAFÍA: dos familias con roles fijos.
+   Cormorant solo para títulos grandes de pantalla (28 px o más) y citas.
+   DM Sans para todo lo demás: nombres de sesiones, secciones, botones, textos. */
+button, input, select, textarea { font-family: inherit; }
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+.section-title, .bloque-titulo { font: 600 20px/1.2 'DM Sans', sans-serif; letter-spacing: -0.01em; color: var(--tinta); }
+.bloque-titulo { margin-bottom: 14px; }
+.program-title, .big-card-title, .cat-card-title, .hoy-title, .perfil-cab .perfil-nombre,
+.respirar-atajo-titulo, .paso-titulo, .sugerencia-nombre, .escena-panel-nombre, .carrusel-titulo {
+  font-family: 'DM Sans', sans-serif; font-weight: 600; letter-spacing: -0.01em;
+}
+.paso-titulo { font-size: 16px; line-height: 1.3; }
+.escena-panel-nombre { font-size: 19px; line-height: 1.25; }
+.carrusel-titulo { font-size: 19px; line-height: 1.2; }
+.perfil-cab .perfil-nombre { font-size: 20px; }
+.paso-vacio { font: 600 16px 'DM Sans', sans-serif; }
+.animo-palabra { font: 500 16px 'DM Sans', sans-serif; letter-spacing: -0.005em; }
+.animo-palabras { gap: 20px; }
+.escena-titulo, .programa-nombre, .ritual-titulo, .respirar-titulo, .racha-titulo, .page-title { letter-spacing: -0.01em; }
+
+/* SUPERFICIES SUAVES: vidrio difuminado y bloques sin bordes duros */
+.escena-panel {
+  background: color-mix(in srgb, var(--superficie) 66%, transparent);
+  -webkit-backdrop-filter: blur(26px) saturate(150%); backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 40px rgba(8, 12, 18, 0.22);
+}
+@media (prefers-color-scheme: dark) {
+  .escena-panel { background: color-mix(in srgb, var(--superficie) 58%, transparent); border-color: rgba(255, 255, 255, 0.10); }
+}
+.escena-respirar { border-color: color-mix(in srgb, var(--tinta) 22%, transparent); }
+.paso, .perfil-lista, .session-row, .hoy-card, .respirar-atajo, .sugerencia {
+  border: none;
+  background: color-mix(in srgb, var(--superficie) 72%, transparent);
+  box-shadow: 0 1px 2px rgba(30, 46, 56, 0.04), 0 10px 30px rgba(30, 46, 56, 0.07);
+}
+.paso.bloqueado { background: color-mix(in srgb, var(--superficie) 32%, transparent); box-shadow: none; }
+.paso-vacio { border-color: color-mix(in srgb, var(--tinta) 18%, transparent); }
+.carrusel-item { box-shadow: 0 10px 30px rgba(8, 12, 18, 0.16); }
+@media (prefers-color-scheme: dark) {
+  .paso, .perfil-lista, .session-row, .hoy-card, .respirar-atajo, .sugerencia { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28); }
+}
+.ritual-chips { margin: -8px 0 20px; }
+.chip { border-color: color-mix(in srgb, var(--tinta) 16%, transparent); }
+.segmento { border-color: color-mix(in srgb, var(--tinta) 14%, transparent); background: color-mix(in srgb, var(--superficie) 50%, transparent); }
+.perfil-fila + .perfil-fila { border-top-color: color-mix(in srgb, var(--tinta) 8%, transparent); }
