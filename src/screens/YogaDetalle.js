@@ -17,6 +17,7 @@ function YogaDetalle({ onNavigate, user }) {
       chips={['Todos los niveles', 'Necesitas un mat']}
       desc="Una clase corta pensada para todos los niveles. Movimientos simples para volver a habitar tu cuerpo y bajar la velocidad de la mente."
       videoId="FyG_JPitzUA"
+      guia={{ nombre: 'Caty', usuario: 'eres_masdeloquecrees', foto: '/ritual/guia-caty.webp' }}
     />
   );
 }

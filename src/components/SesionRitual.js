@@ -17,7 +17,7 @@ function SesionRitual({
   imagen, imagenPos = '50% 50%',
   volverA, volverTexto,
   titulo, meta, desc,
-  audio, videoId, chips,
+  audio, videoId, chips, guia,
 }) {
   const tieneAudio = Boolean(audio);
   const [modo, setModo] = useState(tieneAudio ? 'audio' : 'video');
@@ -102,6 +102,26 @@ function SesionRitual({
         )}
 
         <p className="ritual-desc">{desc}</p>
+
+        {guia && (
+          <a
+            className="guia"
+            href={`https://www.instagram.com/${guia.usuario}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Abrir el Instagram de ${guia.nombre}, @${guia.usuario}`}
+            onClick={() => trackEvent('instagram_guia', { guia: guia.usuario, sesion: sesionKey })}
+          >
+            <img src={guia.foto} alt="" />
+            <span className="guia-texto">
+              <span className="guia-quien">Te guía {guia.nombre}, síguele en Instagram</span>
+              <span className="guia-ig">@{guia.usuario}</span>
+            </span>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path d="M8 16L16 8M10 8h6v6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ fill: 'none', stroke: 'currentColor' }} />
+            </svg>
+          </a>
+        )}
 
         <div className="ritual-acciones">
           <button type="button" className="btn-sec" onClick={() => completar('boton')} disabled={completada}>

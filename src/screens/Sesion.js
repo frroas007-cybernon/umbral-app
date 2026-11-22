@@ -9,8 +9,8 @@ const SESIONES = {
     numero: 1,
     titulo: ['Respiración,', 'la base de todo'],
     minutos: 11,
-    imagen: '/ritual/respiracion.webp',
-    imagenPos: '55% 55%',
+    imagen: '/ritual/imaginacion.webp',
+    imagenPos: '50% 55%',
     desc: 'Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 11 minutos que pueden cambiar tu día.',
   },
   2: {
@@ -20,8 +20,8 @@ const SESIONES = {
     numero: 2,
     titulo: ['Imaginación', 'que purifica'],
     minutos: 15,
-    imagen: '/ritual/imaginacion.webp',
-    imagenPos: '50% 55%',
+    imagen: '/ritual/respiracion.webp',
+    imagenPos: '55% 55%',
     desc: 'Usa la imaginación como herramienta de sanación: visualiza una luz que recorre tu cuerpo y libera lo que ya no necesitas cargar. Basada en los principios de Neville Goddard, Joe Dispenza y Louise Hay.',
   },
   3: {
@@ -55,6 +55,7 @@ function Sesion({ onNavigate, user, sesionId }) {
       desc={ses.desc}
       audio={ses.audio}
       videoId={ses.videoId}
+      guia={{ nombre: 'Francisco', usuario: 'franciscoroa.7', foto: '/ritual/guia-francisco.webp' }}
     />
   );
 }
