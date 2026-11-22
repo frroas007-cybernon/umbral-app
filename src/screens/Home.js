@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { trackEvent } from '../analytics';
 import NavBar from '../components/NavBar';
 import { momentoDelDia, saludoDelDia } from '../components/Cielo';
@@ -24,11 +24,25 @@ const PRACTICAS = {
 // Foto de fondo según el momento del día. Por ahora todas usan el atardecer
 // real de Reñaca; las otras horas se suman cuando estén listas.
 const ESCENAS = {
-  amanecer: '/inicio/atardecer.jpg',
-  dia: '/inicio/atardecer.jpg',
+  amanecer: '/inicio/amanecer.jpg',
+  dia: '/inicio/dia.jpg',
   atardecer: '/inicio/atardecer.jpg',
-  noche: '/inicio/atardecer.jpg',
+  noche: '/inicio/noche.jpg',
 };
+const ORDEN = ['amanecer', 'dia', 'atardecer', 'noche'];
+const NOMBRE_MOMENTO = { amanecer: 'Amanecer', dia: 'Día', atardecer: 'Atardecer', noche: 'Noche' };
+const RECORRIDO_VISTO = 'umbral_recorrido_visto';
+const PASO_MS = 1500;
+
+// La primera vez, la escena recorre el día completo y termina en la hora real.
+function debeMostrarRecorrido() {
+  try {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    return !localStorage.getItem(RECORRIDO_VISTO);
+  } catch (e) {
+    return false;
+  }
+}
 
 const FRASE_MOMENTO = {
   amanecer: { titulo: 'El día aún no empieza.', sub: 'Tienes unos minutos antes de que todo se mueva.' },
@@ -63,11 +77,34 @@ const POR_ANIMO = {
 
 function Home({ onNavigate, user }) {
   const [animo, setAnimo] = useState(null);
+  const [recorrido, setRecorrido] = useState(debeMostrarRecorrido);
+  const [pasoRecorrido, setPasoRecorrido] = useState(0);
+  const temporizador = useRef(null);
   const { racha } = useRacha(user, 'meditacion');
 
   const ahora = useMemo(() => new Date(), []);
   const momento = momentoDelDia(ahora);
   const saludo = saludoDelDia(ahora);
+
+  const terminarRecorrido = () => {
+    clearTimeout(temporizador.current);
+    setRecorrido(false);
+    try { localStorage.setItem(RECORRIDO_VISTO, '1'); } catch (e) { /* sin almacenamiento */ }
+  };
+
+  useEffect(() => {
+    if (!recorrido) return undefined;
+    if (pasoRecorrido >= ORDEN.length) {
+      trackEvent('recorrido_dia_visto');
+      terminarRecorrido();
+      return undefined;
+    }
+    temporizador.current = setTimeout(() => setPasoRecorrido((p) => p + 1), PASO_MS);
+    return () => clearTimeout(temporizador.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recorrido, pasoRecorrido]);
+
+  const momentoVisible = recorrido ? ORDEN[Math.min(pasoRecorrido, ORDEN.length - 1)] : momento;
 
   const frase = useMemo(() => {
     if (!animo) return null;
@@ -96,9 +133,29 @@ function Home({ onNavigate, user }) {
     <div className="screen">
       <div className="screen-content">
 
-        <section className="escena" aria-label="Inicio">
-          <img className="escena-foto" src={ESCENAS[momento]} alt="" />
+        <section className={`escena ${recorrido ? 'en-recorrido' : ''}`} aria-label="Inicio">
+          <div className="escena-fotos">
+            {ORDEN.map((m) => (
+              <img
+                key={m}
+                className={`escena-foto ${m === momentoVisible ? 'visible' : ''}`}
+                src={ESCENAS[m]}
+                alt=""
+                loading={m === momento || recorrido ? 'eager' : 'lazy'}
+              />
+            ))}
+          </div>
           <div className="escena-velo" aria-hidden="true" />
+
+          {recorrido && (
+            <button type="button" className="recorrido" onClick={terminarRecorrido} aria-label="Saltar el recorrido del día">
+              <span className="recorrido-nombre" key={momentoVisible}>{NOMBRE_MOMENTO[momentoVisible]}</span>
+              <span className="recorrido-pasos" aria-hidden="true">
+                {ORDEN.map((m, i) => <span key={m} className={i <= pasoRecorrido ? 'hecho' : ''} />)}
+              </span>
+              <span className="recorrido-saltar">Toca para saltar</span>
+            </button>
+          )}
 
           <div className="escena-arriba">
             <div className="escena-saludo">{primerNombre ? `${saludo}, ${primerNombre}` : saludo}</div>
