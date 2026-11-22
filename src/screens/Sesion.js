@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import CompletadaModal from '../components/CompletadaModal';
-import { useRacha } from '../hooks/useRacha';
-import { trackEvent, trackError } from '../analytics';
-import NavBar from '../components/NavBar';
+import React from 'react';
+import SesionRitual from '../components/SesionRitual';
 
 const SESIONES = {
   1: {
@@ -10,8 +7,10 @@ const SESIONES = {
     videoId: 'AP5qWR0b7s8',
     audio: '/audio1.mp3',
     numero: 1,
-    tituloLinea1: 'Respiración,',
-    tituloLinea2: 'la base de todo',
+    titulo: ['Respiración,', 'la base de todo'],
+    minutos: 12,
+    imagen: '/ritual/respiracion.jpg',
+    imagenPos: '55% 55%',
     desc: 'Aprende a usar la respiración como ancla al momento presente. El primer paso de toda práctica meditativa. 12 minutos que pueden cambiar tu día.',
   },
   2: {
@@ -19,8 +18,10 @@ const SESIONES = {
     videoId: 'djwiUqtJZ1U',
     audio: '/audio2.mp3',
     numero: 2,
-    tituloLinea1: 'Imaginación',
-    tituloLinea2: 'que purifica',
+    titulo: ['Imaginación', 'que purifica'],
+    minutos: 15,
+    imagen: '/ritual/imaginacion.jpg',
+    imagenPos: '50% 55%',
     desc: 'Usa la imaginación como herramienta de sanación: visualiza una luz que recorre tu cuerpo y libera lo que ya no necesitas cargar. Basada en los principios de Neville Goddard, Joe Dispenza y Louise Hay.',
   },
   3: {
@@ -28,116 +29,33 @@ const SESIONES = {
     videoId: 'A-oYWoZX6g8',
     audio: '/audio3.mp3',
     numero: 3,
-    tituloLinea1: 'Observación',
-    tituloLinea2: 'que libera',
+    titulo: ['Observación', 'que libera'],
+    minutos: 18,
+    imagen: '/ritual/observacion.jpg',
+    imagenPos: '50% 40%',
     desc: 'Conviértete en el observador de tus pensamientos y conecta con la conciencia que hay detrás de ellos. Desde ese espacio de calma, usa la imaginación para sentir ya la realidad que quieres crear.',
   },
 };
 
 function Sesion({ onNavigate, user, sesionId }) {
   const ses = SESIONES[sesionId] || SESIONES[1];
-  const [modo, setModo] = useState('video');
-  const [showModal, setShowModal] = useState(false);
-  const [guardado, setGuardado] = useState(false);
-  const { marcarCompletada, guardarRating } = useRacha(user, 'meditacion');
-
-  const handleCompletada = () => {
-    trackEvent('sesion_completada', { tipo: 'meditacion', sesion: ses.sesionKey, modo });
-    marcarCompletada();
-    setShowModal(true);
-  };
-
-  const guardarOffline = async () => {
-    if (guardado) return;
-    try {
-      const cache = await caches.open('umbral-v3');
-      await cache.add(ses.audio);
-      setGuardado(true);
-      trackEvent('audio_guardado_offline', { sesion: ses.sesionKey });
-    } catch (err) {
-      trackError(err, { origen: 'guardarOffline Sesion' });
-    }
-  };
-
   return (
-    <div className="screen">
-      <div className="screen-content" style={{ display: 'flex', flexDirection: 'column' }}>
-
-        <div className="back-btn" onClick={() => onNavigate('meditaciones')}>
-          ← Volver
-        </div>
-
-        {modo === 'video' ? (
-          <>
-            <div className="video-box">
-              <iframe
-                src={`https://www.youtube.com/embed/${ses.videoId}?rel=0&modestbranding=1`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title={`${ses.tituloLinea1} ${ses.tituloLinea2}`}
-              />
-            </div>
-            <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
-            <div className="sess-meta">Sesión {ses.numero} de 3</div>
-            <div className="sess-desc">
-              {ses.desc}
-            </div>
-            <button className="btn-sec" onClick={() => setModo('audio')}>
-              Solo audio
-            </button>
-            <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              Marcar como completada
-            </button>
-          </>
-        ) : (
-          <>
-            <div className="audio-player">
-              <div className="audio-label">Solo audio</div>
-              <audio controls controlsList="nodownload">
-                <source src={ses.audio} type="audio/mpeg" />
-              </audio>
-              <div
-                onClick={guardarOffline}
-                style={{
-                  textAlign: 'center',
-                  marginTop: 12,
-                  fontSize: 12,
-                  color: guardado ? 'var(--tinta-sec)' : 'var(--sol)',
-                  cursor: guardado ? 'default' : 'pointer',
-                  opacity: guardado ? 0.6 : 1
-                }}
-              >
-                {guardado ? 'Audio guardado para escuchar sin conexión' : 'Guardar audio para escuchar sin conexión'}
-              </div>
-            </div>
-
-            <div className="sess-title">{ses.tituloLinea1}<br />{ses.tituloLinea2}</div>
-            <div className="sess-meta">Sesión {ses.numero} de 3</div>
-            <div className="sess-desc">
-              {ses.desc}
-            </div>
-            <button className="btn-sec" onClick={() => setModo('video')}>
-              Ver sesión completa
-            </button>
-            <button className="btn-main" style={{ marginTop: 10 }} onClick={handleCompletada}>
-              Marcar como completada
-            </button>
-          </>
-        )}
-
-      </div>
-
-      <NavBar active="meditar" onNavigate={onNavigate} />
-
-      <CompletadaModal
-        visible={showModal}
-        onClose={() => setShowModal(false)}
-        onConfirm={(rating) => {
-          trackEvent('sesion_rating', { tipo: 'meditacion', sesion: ses.sesionKey, rating });
-          guardarRating(rating);
-        }}
-      />
-    </div>
+    <SesionRitual
+      key={ses.sesionKey}
+      onNavigate={onNavigate}
+      user={user}
+      tipo="meditacion"
+      sesionKey={ses.sesionKey}
+      imagen={ses.imagen}
+      imagenPos={ses.imagenPos}
+      volverA="meditaciones"
+      volverTexto="Meditaciones"
+      titulo={ses.titulo}
+      meta={`Sesión ${ses.numero} de 3, ${ses.minutos} minutos`}
+      desc={ses.desc}
+      audio={ses.audio}
+      videoId={ses.videoId}
+    />
   );
 }
 

@@ -19,6 +19,7 @@ const RUTAS_FIJAS = {
   'editar-perfil': '/perfil/editar',
   login: '/perfil/ingresar',
   privacy: '/perfil/privacidad',
+  respirar: '/respirar',
 };
 
 export function pathDe(screen, param) {

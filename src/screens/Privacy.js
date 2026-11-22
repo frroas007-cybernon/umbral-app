@@ -1,13 +1,12 @@
 import React from 'react';
+import Volver from '../components/Volver';
 
 function Privacy({ onNavigate }) {
   return (
     <div className="screen">
       <div className="screen-content" style={{ paddingBottom: 40 }}>
 
-        <div className="back-btn" onClick={() => onNavigate && onNavigate('home')}>
-          ← Volver
-        </div>
+        <Volver texto="Perfil" onClick={() => onNavigate && onNavigate('perfil')} />
 
         <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 28, color: 'var(--tinta)', marginBottom: 6 }}>
           Política de Privacidad

@@ -3,6 +3,7 @@ import CompletadaModal from '../components/CompletadaModal';
 import { useRacha } from '../hooks/useRacha';
 import { trackEvent } from '../analytics';
 import NavBar from '../components/NavBar';
+import Volver from '../components/Volver';
 
 const VIDEO_ID = 'FyG_JPitzUA';
 
@@ -21,9 +22,7 @@ function YogaDetalle({ onNavigate, user }) {
     <div className="screen">
       <div className="screen-content" style={{ display: 'flex', flexDirection: 'column' }}>
 
-        <button type="button" className="back-btn" style={{ background: 'none', border: 'none', padding: 0, fontFamily: 'inherit' }} onClick={() => onNavigate('yoga')}>
-          ‹ Yoga
-        </button>
+        <Volver texto="Yoga" onClick={() => onNavigate('yoga')} />
 
         <div className="poster">
           {reproduciendo ? (

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Volver from '../components/Volver';
 import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
 
@@ -68,9 +69,7 @@ function EditarPerfil({ onNavigate, user }) {
     <div className="screen">
       <div className="screen-content">
 
-        <div className="back-btn" onClick={() => onNavigate('perfil')}>
-          ← Volver
-        </div>
+        <Volver texto="Perfil" onClick={() => onNavigate('perfil')} />
 
         <div className="page-title">Editar perfil</div>
 

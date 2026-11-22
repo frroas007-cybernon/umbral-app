@@ -5,7 +5,9 @@
 //
 // IMPORTANTE: si se cambia esta lógica, subir el número de versión de CACHE
 // para que 'activate' limpie la caché vieja.
-const CACHE = 'umbral-v4';
+const CACHE = 'umbral-v5';
+// Audios que la persona guardó para escuchar sin conexión: no se borran al actualizar.
+const CACHE_AUDIO = 'umbral-audio';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -26,7 +28,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      Promise.all(keys.filter((k) => k !== CACHE && k !== CACHE_AUDIO).map((k) => caches.delete(k)))
     )
   );
   self.clients.claim();

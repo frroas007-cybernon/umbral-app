@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Volver from '../components/Volver';
 import { supabase } from '../supabase';
 import { trackEvent, trackError } from '../analytics';
 
@@ -88,9 +89,7 @@ function Login({ onNavigate, onLogin }) {
     <div className="screen">
       <div className="screen-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
-        <div className="back-btn" onClick={() => onNavigate('perfil')}>
-          ← Volver
-        </div>
+        <Volver texto="Perfil" onClick={() => onNavigate('perfil')} />
 
         {/* Logo */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20, marginTop: 20 }}>
