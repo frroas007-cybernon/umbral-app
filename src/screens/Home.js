@@ -46,10 +46,10 @@ function debeMostrarRecorrido() {
 }
 
 const CARRUSEL = [
-  { titulo: 'Meditaciones', sub: '3 sesiones guiadas', screen: 'meditaciones', imagen: '/ritual/observacion.webp', pos: '50% 35%' },
-  { titulo: 'Afirmaciones', sub: 'Frases para la calma', screen: 'afirmaciones', imagen: '/ritual/calma.webp', pos: '50% 40%' },
-  { titulo: 'Yoga', sub: 'Clases cortas', screen: 'yoga', imagen: '/yoga2.webp', pos: '58% 30%' },
-  { titulo: 'Respirar', sub: 'Un minuto, guiado', screen: 'respirar', imagen: '/ritual/respiracion.webp', pos: '60% 50%' },
+  { titulo: 'Meditaciones', sub: '3 sesiones guiadas', screen: 'meditaciones', imagen: '/carrusel/meditaciones.webp' },
+  { titulo: 'Afirmaciones', sub: 'Frases para la calma', screen: 'afirmaciones', imagen: '/carrusel/afirmaciones.webp' },
+  { titulo: 'Yoga', sub: 'Clases cortas', screen: 'yoga', imagen: '/carrusel/yoga.webp' },
+  { titulo: 'Respirar', sub: 'Un minuto, guiado', screen: 'respirar', imagen: '/carrusel/respirar.webp' },
 ];
 
 // Sugerencia según el momento del día...
@@ -236,7 +236,7 @@ function Home({ onNavigate, user }) {
           <div className="carrusel">
             {CARRUSEL.map(c => (
               <button key={c.titulo} type="button" className="carrusel-item" onClick={() => onNavigate(c.screen)}>
-                <img src={c.imagen.replace('.webp', '-s.webp')} alt="" loading="lazy" decoding="async" style={{ objectPosition: c.pos }} />
+                <img src={c.imagen} alt="" loading="lazy" decoding="async" width="720" height="960" />
                 <span className="carrusel-texto">
                   <span className="carrusel-titulo">{c.titulo}</span>
                   <span className="carrusel-sub">{c.sub}</span>
