@@ -39,6 +39,7 @@ function Afirmaciones({ onNavigate, user }) {
       <div className="screen-content">
 
         <Programa
+          onVolver={() => onNavigate('home')}
           nombre="Afirmaciones"
           imagen="/ritual/calma.webp"
           imagenPos="50% 40%"

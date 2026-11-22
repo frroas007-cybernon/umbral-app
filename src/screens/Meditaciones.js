@@ -14,9 +14,10 @@ function Meditaciones({ onNavigate, user }) {
       <div className="screen-content">
 
         <Programa
+          onVolver={() => onNavigate('home')}
           nombre="Meditaciones"
-          imagen="/ritual/roca.webp"
-          imagenPos="45% 60%"
+          imagen="/ritual/respiracion.webp"
+          imagenPos="62% 55%"
           titulo="Comienza a meditar"
           subtitulo="Tu punto de partida hacia la calma"
           unidad="sesiones"
