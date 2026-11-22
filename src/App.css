@@ -1115,3 +1115,9 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 .animo-sigue-etiqueta { font-size: 13px; opacity: 0.8; }
 .animo-sigue-nombre { font: 600 16px 'DM Sans', sans-serif; }
 @media (prefers-reduced-motion: reduce) { .animo-tarjeta { animation: none; } }
+
+/* Cabeceras con la forma de su foto: no se estira una foto horizontal para llenar un espacio alto */
+.ritual-hero { max-height: min(46vh, 380px); min-height: 200px; }
+.programa-hero { max-height: min(40vh, 320px); min-height: 200px; }
+.ritual-hero img, .programa-hero img, .escena-foto { image-rendering: auto; }
+.ritual-cuerpo { margin-top: -36px; }
