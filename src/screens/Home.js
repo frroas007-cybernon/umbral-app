@@ -37,6 +37,13 @@ const FRASE_MOMENTO = {
   noche: { titulo: 'Es hora de bajar el ritmo.', sub: 'Prepara el cuerpo y la mente para descansar.' },
 };
 
+const CARRUSEL = [
+  { titulo: 'Meditaciones', sub: '3 sesiones guiadas', screen: 'meditaciones', imagen: '/ritual/observacion.jpg', pos: '50% 35%' },
+  { titulo: 'Afirmaciones', sub: 'Frases para la calma', screen: 'afirmaciones', imagen: '/ritual/calma.jpg', pos: '50% 40%' },
+  { titulo: 'Yoga', sub: 'Clases cortas', screen: 'yoga', imagen: '/yoga2.png', pos: '58% 30%' },
+  { titulo: 'Respirar', sub: 'Un minuto, guiado', screen: 'respirar', imagen: '/ritual/respiracion.jpg', pos: '60% 50%' },
+];
+
 // Sugerencia según el momento del día...
 const POR_MOMENTO = {
   amanecer: { titulo: 'Para empezar el día', practica: 'respiracion' },
@@ -125,50 +132,38 @@ function Home({ onNavigate, user }) {
           </div>
         </section>
 
-        <h2 className="section-title animo-titulo">¿Cómo llegas?</h2>
-        <div className="mood-chips">
-          {moods.map(m => (
-            <button
-              key={m.key}
-              type="button"
-              className={`mood-chip ${animo === m.key ? 'selected' : ''}`}
-              aria-pressed={animo === m.key}
-              onClick={() => elegirAnimo(m.key)}
-            >
-              {m.label}
-            </button>
-          ))}
-        </div>
-        {frase && (
-          <p className="animo-frase" aria-live="polite">
-            {frase} Arriba te dejamos una práctica para eso.
-          </p>
-        )}
+        <section className="animo" aria-labelledby="animo-titulo">
+          <h2 id="animo-titulo" className="bloque-titulo">¿Cómo llegas?</h2>
+          <div className="animo-palabras">
+            {moods.map(m => (
+              <button
+                key={m.key}
+                type="button"
+                className="animo-palabra"
+                aria-pressed={animo === m.key}
+                onClick={() => elegirAnimo(m.key)}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+          {frase && <p className="animo-cita" aria-live="polite">{frase}</p>}
+        </section>
 
-        <h2 className="section-title">Tu práctica</h2>
-        <div className="cat-grid">
-          <button type="button" className="cat-card" onClick={() => onNavigate('meditaciones')}>
-            <img src="/financiamiento/foto-meditacion-roca-final.jpg" alt="" style={{ objectPosition: '45% 60%' }} />
-            <span className="cat-card-body">
-              <span className="cat-card-title">Meditaciones</span>
-              <span className="cat-card-sub">3 sesiones</span>
-            </span>
-          </button>
-          <button type="button" className="cat-card" onClick={() => onNavigate('afirmaciones')}>
-            <img src="/ritual/calma.jpg" alt="" style={{ objectPosition: '50% 40%' }} />
-            <span className="cat-card-body">
-              <span className="cat-card-title">Afirmaciones</span>
-              <span className="cat-card-sub">1 sesión, 2 en camino</span>
-            </span>
-          </button>
-        </div>
-        <button type="button" className="cat-card wide" onClick={() => onNavigate('yoga')}>
-          <img src="/yoga2.png" alt="" style={{ objectPosition: '55% 20%' }} />
-          <span className="cat-card-body">
-            <span className="cat-card-title">Clases de yoga</span>
-            <span className="cat-card-sub">Mueve tu cuerpo con intención</span>
-          </span>
-        </button>
+        <section aria-labelledby="practica-titulo">
+          <h2 id="practica-titulo" className="bloque-titulo">Tu práctica</h2>
+          <div className="carrusel">
+            {CARRUSEL.map(c => (
+              <button key={c.titulo} type="button" className="carrusel-item" onClick={() => onNavigate(c.screen)}>
+                <img src={c.imagen} alt="" style={{ objectPosition: c.pos }} />
+                <span className="carrusel-texto">
+                  <span className="carrusel-titulo">{c.titulo}</span>
+                  <span className="carrusel-sub">{c.sub}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
 
       </div>
 

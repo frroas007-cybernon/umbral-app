@@ -972,3 +972,43 @@ button:focus:not(:focus-visible) { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   .escena-foto, .escena-saludo, .escena-titulo, .escena-sub, .escena-panel { animation: none; }
 }
+
+/* INICIO bajo la escena: sin cajas, en el mismo lenguaje de la foto */
+.escena::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 56px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0), var(--fondo));
+}
+.escena-panel { z-index: 1; }
+.bloque-titulo { font: 500 28px/1.1 'Cormorant Garamond', serif; color: var(--tinta); margin: 0 0 12px; }
+.animo { margin: 20px 0 32px; }
+.animo-palabras {
+  display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none;
+  margin: 0 -20px; padding: 0 20px 2px;
+}
+.animo-palabras::-webkit-scrollbar { display: none; }
+.animo-palabra {
+  flex-shrink: 0; min-height: 44px; padding: 0; border: none; background: none; cursor: pointer;
+  font: 500 22px 'Cormorant Garamond', serif; color: var(--tinta-sec);
+  border-bottom: 2px solid transparent; transition: color .2s ease, border-color .2s ease;
+}
+.animo-palabra[aria-pressed="true"] { color: var(--tinta); border-bottom-color: var(--sol); }
+.animo-cita { font: 500 22px/1.35 'Cormorant Garamond', serif; color: var(--tinta); margin: 16px 0 0; max-width: 340px; }
+
+.carrusel {
+  display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  margin: 0 -20px 24px; padding: 0 20px; scroll-padding-left: 20px;
+}
+.carrusel::-webkit-scrollbar { display: none; }
+.carrusel-item {
+  position: relative; flex: 0 0 62%; max-width: 240px; aspect-ratio: 3 / 4; padding: 0; border: none;
+  border-radius: 22px; overflow: hidden; cursor: pointer; scroll-snap-align: start; background: #0E1418;
+}
+.carrusel-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.carrusel-item:active img { transform: scale(1.04); }
+.carrusel-item::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,12,18,0) 45%, rgba(8,12,18,0.72) 100%);
+}
+.carrusel-texto { position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 1; text-align: left; color: #FFFFFF; display: flex; flex-direction: column; gap: 2px; }
+.carrusel-titulo { font: 500 26px/1.05 'Cormorant Garamond', serif; }
+.carrusel-sub { font-size: 13px; color: rgba(255,255,255,0.88); }
