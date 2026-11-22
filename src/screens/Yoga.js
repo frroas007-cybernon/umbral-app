@@ -14,6 +14,7 @@ function Yoga({ onNavigate, user }) {
       <div className="screen-content">
 
         <Programa
+          onVolver={() => onNavigate('home')}
           nombre="Yoga"
           imagen="/yoga2.webp"
           imagenPos="55% 20%"

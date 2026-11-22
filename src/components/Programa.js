@@ -1,4 +1,5 @@
 import React from 'react';
+import Volver from './Volver';
 
 // Pantalla de un programa (Meditaciones, Afirmaciones, Yoga), con el mismo
 // lenguaje que la sesión: la foto arriba, el nombre entrando sobre ella y el
@@ -16,7 +17,7 @@ function minutos(duracion) {
   return isNaN(n) ? 0 : n;
 }
 
-function Programa({ nombre, imagen, imagenPos, titulo, subtitulo, unidad, singular, items, onAbrir }) {
+function Programa({ onVolver, nombre, imagen, imagenPos, titulo, subtitulo, unidad, singular, items, onAbrir }) {
   const disponibles = items.filter(s => s.free);
   const primera = disponibles[0];
   const total = disponibles.reduce((acc, s) => acc + minutos(s.duracion), 0);
@@ -26,6 +27,7 @@ function Programa({ nombre, imagen, imagenPos, titulo, subtitulo, unidad, singul
     <div className="programa">
       <div className="programa-hero">
         <img src={imagen} alt="" style={{ objectPosition: imagenPos || 'center' }} />
+        {onVolver && <Volver texto="Inicio" onClick={onVolver} sobreFoto />}
       </div>
 
       <div className="programa-cuerpo">

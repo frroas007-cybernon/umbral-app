@@ -1093,3 +1093,4 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 .guia-quien { font: 600 15px 'DM Sans', sans-serif; }
 .guia-ig { font-size: 14px; color: var(--tinta-sec); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .guia svg { color: var(--tinta-sec); flex-shrink: 0; }
+.volver-foto { z-index: 2; }
