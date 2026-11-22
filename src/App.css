@@ -1121,3 +1121,8 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 .programa-hero { max-height: min(40vh, 320px); min-height: 200px; }
 .ritual-hero img, .programa-hero img, .escena-foto { image-rendering: auto; }
 .ritual-cuerpo { margin-top: -36px; }
+
+/* Safari: la cabecera siempre ocupa todo el ancho; la proporción solo fija el alto */
+.ritual-hero { width: 100%; }
+.programa-hero { width: calc(100% + 40px); }
+.ritual-hero img, .programa-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
