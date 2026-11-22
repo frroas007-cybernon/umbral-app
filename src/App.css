@@ -1139,34 +1139,33 @@ button.guia { width: 100%; border: none; cursor: pointer; text-align: left; font
 .compartir { margin-top: -12px; }
 .compartir-icono { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--sol) 16%, transparent); color: var(--tinta); }
 
-/* Transiciones entre pantallas */
+/* Transiciones entre pantallas.
+   Primero la pantalla actual se apaga, y recién después aparece la nueva:
+   nunca se ven las dos superpuestas. Al entrar a algo, la nueva sube apenas;
+   al volver, baja apenas. Es lento a propósito, como una respiración. */
 .nav { view-transition-name: nav-principal; }
-::view-transition-group(root) { animation-duration: 380ms; animation-timing-function: cubic-bezier(.22,.8,.24,1); }
-::view-transition-old(root),
-::view-transition-new(root) { animation-duration: 340ms; animation-timing-function: cubic-bezier(.22,.8,.24,1); }
-/* Mismo nivel: fundido suave */
-::view-transition-old(root) { animation-name: vt-salir; animation-duration: 220ms; }
-::view-transition-new(root) { animation-name: vt-entrar; }
-/* Hacia adentro: la nueva llega desde la derecha, la anterior se corre un poco */
-[data-transicion="adentro"]::view-transition-old(root) { animation-name: vt-salir-izq; animation-duration: 200ms; }
-[data-transicion="adentro"]::view-transition-new(root) { animation-name: vt-entrar-der; }
-/* Volver: al revés */
-[data-transicion="afuera"]::view-transition-old(root) { animation-name: vt-salir-der; animation-duration: 200ms; }
-[data-transicion="afuera"]::view-transition-new(root) { animation-name: vt-entrar-izq; }
+::view-transition-old(root) {
+  animation: 140ms cubic-bezier(.4,0,1,1) both vt-apagar;
+}
+::view-transition-new(root) {
+  animation: 360ms cubic-bezier(0,0,.2,1) 140ms both vt-encender;
+}
+[data-transicion="adentro"]::view-transition-new(root) { animation-name: vt-encender-subir; }
+[data-transicion="afuera"]::view-transition-new(root) { animation-name: vt-encender-bajar; }
+/* La barra de abajo no se mueve; si la pantalla nueva no la tiene, se apaga con el resto */
 ::view-transition-group(nav-principal) { animation: none; }
-::view-transition-old(nav-principal) { animation: none; opacity: 0; }
-::view-transition-new(nav-principal) { animation: none; }
+::view-transition-old(nav-principal):only-child { animation: 140ms both vt-apagar; }
+::view-transition-new(nav-principal):only-child { animation: 360ms 140ms both vt-encender; }
+::view-transition-old(nav-principal), ::view-transition-new(nav-principal) { animation: none; }
 
-@keyframes vt-entrar { from { opacity: 0; transform: scale(.985); } }
-@keyframes vt-salir { to { opacity: 0; } }
-@keyframes vt-entrar-der { from { opacity: 0; transform: translateX(40px); } }
-@keyframes vt-salir-izq { to { opacity: 0; transform: translateX(-24px); } }
-@keyframes vt-entrar-izq { from { opacity: 0; transform: translateX(-40px); } }
-@keyframes vt-salir-der { to { opacity: 0; transform: translateX(40px); } }
+@keyframes vt-apagar { to { opacity: 0; } }
+@keyframes vt-encender { from { opacity: 0; } }
+@keyframes vt-encender-subir { from { opacity: 0; transform: translateY(14px); } }
+@keyframes vt-encender-bajar { from { opacity: 0; transform: translateY(-10px); } }
 
 /* Navegadores sin View Transitions: la pantalla nueva aparece con un fundido */
 @supports not (view-transition-name: a) {
-  .screen { animation: vt-entrar 300ms cubic-bezier(.22,.8,.24,1); }
+  .screen { animation: vt-encender 300ms cubic-bezier(0,0,.2,1); }
 }
 @media (prefers-reduced-motion: reduce) {
   .screen { animation: none; }

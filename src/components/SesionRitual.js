@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CompletadaModal from './CompletadaModal';
 import Reproductor from './Reproductor';
 import Volver from './Volver';
+import { proporcionDe, medirProporcion } from '../proporciones';
 import { useRacha } from '../hooks/useRacha';
 import { trackEvent, trackError } from '../analytics';
 
@@ -25,7 +26,7 @@ function SesionRitual({
   const [showModal, setShowModal] = useState(false);
   const [completada, setCompletada] = useState(false);
   const [guardado, setGuardado] = useState(false);
-  const [proporcion, setProporcion] = useState(null);
+  const [proporcion, setProporcion] = useState(() => proporcionDe(imagen));
   const [copiado, setCopiado] = useState(false);
   const { marcarCompletada, guardarRating } = useRacha(user, tipo);
 
@@ -81,7 +82,7 @@ function SesionRitual({
           src={imagen}
           alt=""
           style={{ objectPosition: imagenPos }}
-          onLoad={(e) => setProporcion(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
+          onLoad={(e) => medirProporcion(imagen, e.currentTarget, setProporcion)}
         />
         <Volver texto={volverTexto} onClick={() => onNavigate(volverA)} sobreFoto />
       </div>

@@ -68,6 +68,23 @@ function conTransicion(desde, hacia, cambiar) {
   }
 }
 
+// Espera (máximo 180 ms) a que las fotos visibles de la pantalla nueva estén
+// cargadas, para que entre completa y no con fotos apareciendo a medias.
+function fotosListas() {
+  const alto = window.innerHeight;
+  const fotos = [...document.querySelectorAll('.screen img, .programa img')]
+    .filter((img) => !img.complete && img.getBoundingClientRect().top < alto);
+  const cargas = fotos.map((img) => new Promise((ok) => {
+    img.addEventListener('load', ok, { once: true });
+    img.addEventListener('error', ok, { once: true });
+  }));
+  const limite = new Promise((ok) => setTimeout(ok, 180));
+  return Promise.race([Promise.all(cargas), limite])
+    // Un respiro para que React aplique la proporción de la foto recién medida.
+    // (Aquí no sirve requestAnimationFrame: el navegador no pinta durante la transición.)
+    .then(() => new Promise((ok) => setTimeout(ok, 16)));
+}
+
 function transicionar(desde, hacia, cambiar) {
   const raiz = document.documentElement;
   if (!document.startViewTransition || sinMovimiento()) {
@@ -77,7 +94,10 @@ function transicionar(desde, hacia, cambiar) {
   const a = PROFUNDIDAD[desde] ?? 1;
   const b = PROFUNDIDAD[hacia] ?? 1;
   raiz.dataset.transicion = b > a ? 'adentro' : b < a ? 'afuera' : 'lado';
-  const t = document.startViewTransition(() => flushSync(cambiar));
+  const t = document.startViewTransition(async () => {
+    flushSync(cambiar);
+    await fotosListas();
+  });
   t.finished.finally(() => { delete raiz.dataset.transicion; });
 }
 
