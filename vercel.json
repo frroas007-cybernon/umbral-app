@@ -21,6 +21,46 @@
       "destination": "/eliminar-cuenta.html"
     },
     {
+      "source": "/meditaciones",
+      "destination": "/compartir/meditaciones.html"
+    },
+    {
+      "source": "/meditaciones/respiracion-la-base-de-todo",
+      "destination": "/compartir/meditaciones--respiracion-la-base-de-todo.html"
+    },
+    {
+      "source": "/meditaciones/imaginacion-que-purifica",
+      "destination": "/compartir/meditaciones--imaginacion-que-purifica.html"
+    },
+    {
+      "source": "/meditaciones/observacion-que-libera",
+      "destination": "/compartir/meditaciones--observacion-que-libera.html"
+    },
+    {
+      "source": "/afirmaciones",
+      "destination": "/compartir/afirmaciones.html"
+    },
+    {
+      "source": "/afirmaciones/calma",
+      "destination": "/compartir/afirmaciones--calma.html"
+    },
+    {
+      "source": "/yoga",
+      "destination": "/compartir/yoga.html"
+    },
+    {
+      "source": "/yoga/conecta-con-tu-cuerpo",
+      "destination": "/compartir/yoga--conecta-con-tu-cuerpo.html"
+    },
+    {
+      "source": "/yoga/movimiento-que-libera",
+      "destination": "/compartir/yoga--movimiento-que-libera.html"
+    },
+    {
+      "source": "/respirar",
+      "destination": "/compartir/respirar.html"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
