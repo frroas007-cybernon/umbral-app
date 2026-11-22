@@ -25,6 +25,7 @@ function SesionRitual({
   const [showModal, setShowModal] = useState(false);
   const [completada, setCompletada] = useState(false);
   const [guardado, setGuardado] = useState(false);
+  const [proporcion, setProporcion] = useState(null);
   const { marcarCompletada, guardarRating } = useRacha(user, tipo);
 
   const completar = (origen) => {
@@ -51,8 +52,13 @@ function SesionRitual({
 
   return (
     <div className="screen ritual">
-      <div className="ritual-hero">
-        <img src={imagen} alt="" style={{ objectPosition: imagenPos }} />
+      <div className="ritual-hero" style={proporcion ? { aspectRatio: proporcion, height: 'auto' } : undefined}>
+        <img
+          src={imagen}
+          alt=""
+          style={{ objectPosition: imagenPos }}
+          onLoad={(e) => setProporcion(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
+        />
         <Volver texto={volverTexto} onClick={() => onNavigate(volverA)} sobreFoto />
       </div>
 

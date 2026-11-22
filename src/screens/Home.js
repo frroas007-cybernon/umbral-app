@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { trackEvent } from '../analytics';
 import NavBar from '../components/NavBar';
 import { momentoDelDia, saludoDelDia } from '../components/Cielo';
-import { frases } from '../components/MoodModal';
+import { TARJETAS_ANIMO, fraseDelDia } from '../contenido';
 import { useRacha } from '../hooks/useRacha';
 
 const moods = [
@@ -19,6 +19,7 @@ const PRACTICAS = {
   observacion: { nombre: 'Observación que libera', sub: 'Meditación guiada, 18 min', screen: 'sesion', param: 3, imagen: '/ritual/observacion.webp', pos: '50% 35%' },
   calma: { nombre: 'Afirmaciones para la calma', sub: 'Afirmaciones, 10 min', screen: 'afirmacion-detalle', param: null, imagen: '/ritual/calma.webp', pos: '50% 45%' },
   yoga: { nombre: 'Conecta con tu cuerpo', sub: 'Clase de yoga, 11 min', screen: 'yoga-detalle', param: null, imagen: '/yoga2.webp', pos: '55% 25%' },
+  respirar: { nombre: 'Un minuto para respirar', sub: 'Respiración guiada, 1 min', screen: 'respirar', param: null },
 };
 
 // Foto de fondo según el momento del día. Por ahora todas usan el atardecer
@@ -43,13 +44,6 @@ function debeMostrarRecorrido() {
     return false;
   }
 }
-
-const FRASE_MOMENTO = {
-  amanecer: { titulo: 'El día aún no empieza.', sub: 'Tienes unos minutos antes de que todo se mueva.' },
-  dia: { titulo: 'Haz una pausa.', sub: 'Unos minutos para volver a ti en medio del día.' },
-  atardecer: { titulo: 'Suelta el día.', sub: 'Lo que pasó, ya pasó. Ahora puedes bajar el ritmo.' },
-  noche: { titulo: 'Es hora de bajar el ritmo.', sub: 'Prepara el cuerpo y la mente para descansar.' },
-};
 
 const CARRUSEL = [
   { titulo: 'Meditaciones', sub: '3 sesiones guiadas', screen: 'meditaciones', imagen: '/ritual/observacion.webp', pos: '50% 35%' },
@@ -106,14 +100,20 @@ function Home({ onNavigate, user }) {
 
   const momentoVisible = recorrido ? ORDEN[Math.min(pasoRecorrido, ORDEN.length - 1)] : momento;
 
-  const frase = useMemo(() => {
+  const frasePortada = fraseDelDia(momento, ahora);
+
+  // Al elegir un ánimo aparece una de sus 4 tarjetas, al azar.
+  const tarjeta = useMemo(() => {
     if (!animo) return null;
-    const lista = frases[animo].lista;
+    const lista = TARJETAS_ANIMO[animo];
     return lista[Math.floor(Math.random() * lista.length)];
   }, [animo]);
 
-  const eleccion = animo ? POR_ANIMO[animo] : POR_MOMENTO[momento];
+  const eleccion = animo
+    ? { titulo: POR_ANIMO[animo].titulo, practica: tarjeta.sigue }
+    : POR_MOMENTO[momento];
   const practica = PRACTICAS[eleccion.practica];
+  const practicaTarjeta = tarjeta ? PRACTICAS[tarjeta.sigue] : null;
 
   const elegirAnimo = (key) => {
     const nuevo = animo === key ? null : key;
@@ -159,11 +159,11 @@ function Home({ onNavigate, user }) {
 
           <div className="escena-arriba">
             <div className="escena-saludo">{primerNombre ? `${saludo}, ${primerNombre}` : saludo}</div>
-            <h1 className="escena-titulo">{FRASE_MOMENTO[momento].titulo}</h1>
+            <h1 className="escena-titulo">{frasePortada.titulo}</h1>
             <p className="escena-sub">
               {racha > 0
-                ? `${FRASE_MOMENTO[momento].sub} Llevas ${racha} ${racha === 1 ? 'día' : 'días'} seguidos.`
-                : FRASE_MOMENTO[momento].sub}
+                ? `${frasePortada.sub} Llevas ${racha} ${racha === 1 ? 'día' : 'días'} seguidos.`
+                : frasePortada.sub}
             </p>
           </div>
 
@@ -204,7 +204,31 @@ function Home({ onNavigate, user }) {
               </button>
             ))}
           </div>
-          {frase && <p className="animo-cita" aria-live="polite">{frase}</p>}
+          {tarjeta && (
+            <div className="animo-tarjeta" aria-live="polite" key={tarjeta.nombra}>
+              <p className="animo-cita">{tarjeta.nombra}</p>
+              <div className="animo-practica">
+                <div className="animo-practica-etiqueta">Prueba ahora, menos de un minuto</div>
+                <p>{tarjeta.practica}</p>
+              </div>
+              <button
+                type="button"
+                className="animo-sigue"
+                onClick={() => {
+                  trackEvent('tarjeta_animo_sigue', { mood: animo, practica: tarjeta.sigue });
+                  onNavigate(practicaTarjeta.screen, practicaTarjeta.param);
+                }}
+              >
+                <span>
+                  <span className="animo-sigue-etiqueta">Después, sigue con</span>
+                  <span className="animo-sigue-nombre">{practicaTarjeta.nombre}</span>
+                </span>
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M9.5 5.5L16 12l-6.5 6.5" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ fill: 'none', stroke: 'currentColor' }} />
+                </svg>
+              </button>
+            </div>
+          )}
         </section>
 
         <section aria-labelledby="practica-titulo">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Volver from './Volver';
 
 // Pantalla de un programa (Meditaciones, Afirmaciones, Yoga), con el mismo
@@ -18,6 +18,7 @@ function minutos(duracion) {
 }
 
 function Programa({ onVolver, nombre, imagen, imagenPos, titulo, subtitulo, unidad, singular, items, onAbrir }) {
+  const [proporcion, setProporcion] = useState(null);
   const disponibles = items.filter(s => s.free);
   const primera = disponibles[0];
   const total = disponibles.reduce((acc, s) => acc + minutos(s.duracion), 0);
@@ -25,8 +26,13 @@ function Programa({ onVolver, nombre, imagen, imagenPos, titulo, subtitulo, unid
 
   return (
     <div className="programa">
-      <div className="programa-hero">
-        <img src={imagen} alt="" style={{ objectPosition: imagenPos || 'center' }} />
+      <div className="programa-hero" style={proporcion ? { aspectRatio: proporcion, height: 'auto' } : undefined}>
+        <img
+          src={imagen}
+          alt=""
+          style={{ objectPosition: imagenPos || 'center' }}
+          onLoad={(e) => setProporcion(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
+        />
         {onVolver && <Volver texto="Inicio" onClick={onVolver} sobreFoto />}
       </div>
 
