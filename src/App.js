@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useRef, Suspense, use } from 'react';
+import { flushSync } from 'react-dom';
 import './App.css';
 import Home from './screens/Home';
 
@@ -9,18 +10,76 @@ import { identifyUser, resetUser, trackPageview, trackEvent } from './analytics'
 import { pathDe, pantallaDe } from './routes';
 
 // Las pantallas que no son el Inicio se cargan aparte, para que la app abra más rápido.
-const Meditaciones = lazy(() => import('./screens/Meditaciones'));
-const Sesion = lazy(() => import('./screens/Sesion'));
-const Afirmaciones = lazy(() => import('./screens/Afirmaciones'));
-const AfirmacionDetalle = lazy(() => import('./screens/AfirmacionDetalle'));
-const Yoga = lazy(() => import('./screens/Yoga'));
-const YogaDetalle = lazy(() => import('./screens/YogaDetalle'));
-const Perfil = lazy(() => import('./screens/Perfil'));
-const EditarPerfil = lazy(() => import('./screens/EditarPerfil'));
-const Privacy = lazy(() => import('./screens/Privacy'));
-const Login = lazy(() => import('./screens/Login'));
-const CompletarPerfil = lazy(() => import('./screens/CompletarPerfil'));
-const Respirar = lazy(() => import('./screens/Respirar'));
+// Una vez descargada, una pantalla se muestra al instante (sin pasar por Suspense),
+// así la transición nunca captura una pantalla vacía.
+function perezoso(cargarModulo) {
+  let modulo = null;
+  let promesa = null;
+  const cargar = () => promesa || (promesa = cargarModulo().then((m) => { modulo = m; return m; }));
+  function Pantalla(props) {
+    const m = modulo || use(cargar());
+    const Componente = m.default;
+    return <Componente {...props} />;
+  }
+  Pantalla.cargar = cargar;
+  return Pantalla;
+}
+
+const Meditaciones = perezoso(() => import('./screens/Meditaciones'));
+const Sesion = perezoso(() => import('./screens/Sesion'));
+const Afirmaciones = perezoso(() => import('./screens/Afirmaciones'));
+const AfirmacionDetalle = perezoso(() => import('./screens/AfirmacionDetalle'));
+const Yoga = perezoso(() => import('./screens/Yoga'));
+const YogaDetalle = perezoso(() => import('./screens/YogaDetalle'));
+const Perfil = perezoso(() => import('./screens/Perfil'));
+const EditarPerfil = perezoso(() => import('./screens/EditarPerfil'));
+const Privacy = perezoso(() => import('./screens/Privacy'));
+const Login = perezoso(() => import('./screens/Login'));
+const CompletarPerfil = perezoso(() => import('./screens/CompletarPerfil'));
+const Respirar = perezoso(() => import('./screens/Respirar'));
+
+const PANTALLAS = {
+  meditaciones: Meditaciones, sesion: Sesion, afirmaciones: Afirmaciones,
+  'afirmacion-detalle': AfirmacionDetalle, yoga: Yoga, 'yoga-detalle': YogaDetalle,
+  perfil: Perfil, 'editar-perfil': EditarPerfil, privacy: Privacy, login: Login, respirar: Respirar,
+};
+
+// Transición entre pantallas. Ir hacia adentro (de una sección a una clase)
+// desliza la nueva pantalla desde la derecha; volver la desliza desde la izquierda;
+// moverse entre secciones del mismo nivel es un fundido. Usa View Transitions
+// cuando el navegador la tiene; si no, la pantalla nueva solo aparece con un fundido.
+const PROFUNDIDAD = {
+  home: 0,
+  meditaciones: 1, afirmaciones: 1, yoga: 1, perfil: 1, respirar: 1,
+  sesion: 2, 'afirmacion-detalle': 2, 'yoga-detalle': 2, 'editar-perfil': 2, privacy: 2, login: 2,
+};
+
+function sinMovimiento() {
+  try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+}
+
+function conTransicion(desde, hacia, cambiar) {
+  const pantalla = PANTALLAS[hacia];
+  if (pantalla) {
+    // Primero se asegura la descarga de la pantalla; si falla, se cambia igual.
+    pantalla.cargar().then(() => transicionar(desde, hacia, cambiar), () => cambiar());
+  } else {
+    transicionar(desde, hacia, cambiar);
+  }
+}
+
+function transicionar(desde, hacia, cambiar) {
+  const raiz = document.documentElement;
+  if (!document.startViewTransition || sinMovimiento()) {
+    cambiar();
+    return;
+  }
+  const a = PROFUNDIDAD[desde] ?? 1;
+  const b = PROFUNDIDAD[hacia] ?? 1;
+  raiz.dataset.transicion = b > a ? 'adentro' : b < a ? 'afuera' : 'lado';
+  const t = document.startViewTransition(() => flushSync(cambiar));
+  t.finished.finally(() => { delete raiz.dataset.transicion; });
+}
 
 // Pantalla inicial según la URL con que se abre la app (ej. un enlace compartido).
 // Una URL desconocida lleva al inicio.
@@ -32,6 +91,8 @@ if (!pantallaDe(window.location.pathname)) {
 function App() {
   const [screen, setScreen] = useState(inicial.screen);
   const [screenParam, setScreenParam] = useState(inicial.param);
+  const pantallaActual = useRef(inicial.screen);
+  pantallaActual.current = screen;
   const [modalMood, setModalMood] = useState(null);
   const [showSplash] = useState(false);
   const [user, setUser] = useState(null);
@@ -86,8 +147,10 @@ function App() {
 
   const navigate = (dest, param = null) => {
     if (dest === screen && param === screenParam) return; // ya estamos ahí
-    setScreen(dest);
-    setScreenParam(param);
+    conTransicion(screen, dest, () => {
+      setScreen(dest);
+      setScreenParam(param);
+    });
     const nuevoPath = pathDe(dest, param);
     if (nuevoPath !== window.location.pathname) {
       window.history.pushState({ screen: dest, param }, '', nuevoPath);
@@ -99,11 +162,8 @@ function App() {
   // Después de abrir, se precargan las demás pantallas sin bloquear el Inicio.
   useEffect(() => {
     const precargar = () => [
-      () => import('./screens/Meditaciones'), () => import('./screens/Sesion'),
-      () => import('./screens/Afirmaciones'), () => import('./screens/AfirmacionDetalle'),
-      () => import('./screens/Yoga'), () => import('./screens/YogaDetalle'),
-      () => import('./screens/Perfil'), () => import('./screens/Respirar'),
-    ].forEach((cargar) => cargar().catch(() => {}));
+      Meditaciones, Sesion, Afirmaciones, AfirmacionDetalle, Yoga, YogaDetalle, Perfil, Respirar,
+    ].forEach((p) => p.cargar().catch(() => {}));
     const t = setTimeout(precargar, 2500);
     return () => clearTimeout(t);
   }, []);
@@ -112,8 +172,10 @@ function App() {
   useEffect(() => {
     const onPopState = () => {
       const destino = pantallaDe(window.location.pathname) || { screen: 'home', param: null };
-      setScreen(destino.screen);
-      setScreenParam(destino.param);
+      conTransicion(pantallaActual.current, destino.screen, () => {
+        setScreen(destino.screen);
+        setScreenParam(destino.param);
+      });
       trackPageview(destino.screen);
     };
     window.addEventListener('popstate', onPopState);
