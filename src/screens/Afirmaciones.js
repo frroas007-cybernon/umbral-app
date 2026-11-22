@@ -6,7 +6,7 @@ const afirmaciones = [
   {
     id: 1,
     emoji: '🌊',
-    titulo: 'Calma', imagen: '/ritual/calma.jpg',
+    titulo: 'Calma', imagen: '/ritual/calma.webp',
     duracion: '10 min',
     tipo: 'Libre',
     free: true,
@@ -40,7 +40,7 @@ function Afirmaciones({ onNavigate, user }) {
 
         <Programa
           nombre="Afirmaciones"
-          imagen="/ritual/calma.jpg"
+          imagen="/ritual/calma.webp"
           imagenPos="50% 40%"
           titulo="Reprograma tu subconsciente"
           subtitulo="Frases diseñadas para transformar tu mente desde adentro"

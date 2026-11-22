@@ -8,7 +8,7 @@ function AfirmacionDetalle({ onNavigate, user }) {
       user={user}
       tipo="afirmacion"
       sesionKey="calma"
-      imagen="/ritual/calma.jpg"
+      imagen="/ritual/calma.webp"
       imagenPos="50% 40%"
       volverA="afirmaciones"
       volverTexto="Afirmaciones"

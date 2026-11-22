@@ -8,7 +8,7 @@ function YogaDetalle({ onNavigate, user }) {
       user={user}
       tipo="yoga"
       sesionKey="conecta-cuerpo"
-      imagen="/yoga2.png"
+      imagen="/yoga2.webp"
       imagenPos="58% 30%"
       volverA="yoga"
       volverTexto="Yoga"

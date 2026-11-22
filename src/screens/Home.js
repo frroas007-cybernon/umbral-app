@@ -14,20 +14,20 @@ const moods = [
 ];
 
 const PRACTICAS = {
-  respiracion: { nombre: 'Respiración, la base de todo', sub: 'Meditación guiada, 11 min', screen: 'sesion', param: 1, imagen: '/ritual/respiracion.jpg', pos: '55% 55%' },
-  imaginacion: { nombre: 'Imaginación que purifica', sub: 'Meditación guiada, 15 min', screen: 'sesion', param: 2, imagen: '/ritual/imaginacion.jpg', pos: '50% 60%' },
-  observacion: { nombre: 'Observación que libera', sub: 'Meditación guiada, 18 min', screen: 'sesion', param: 3, imagen: '/ritual/observacion.jpg', pos: '50% 35%' },
-  calma: { nombre: 'Afirmaciones para la calma', sub: 'Afirmaciones, 10 min', screen: 'afirmacion-detalle', param: null, imagen: '/ritual/calma.jpg', pos: '50% 45%' },
-  yoga: { nombre: 'Conecta con tu cuerpo', sub: 'Clase de yoga, 11 min', screen: 'yoga-detalle', param: null, imagen: '/yoga2.png', pos: '55% 25%' },
+  respiracion: { nombre: 'Respiración, la base de todo', sub: 'Meditación guiada, 11 min', screen: 'sesion', param: 1, imagen: '/ritual/respiracion.webp', pos: '55% 55%' },
+  imaginacion: { nombre: 'Imaginación que purifica', sub: 'Meditación guiada, 15 min', screen: 'sesion', param: 2, imagen: '/ritual/imaginacion.webp', pos: '50% 60%' },
+  observacion: { nombre: 'Observación que libera', sub: 'Meditación guiada, 18 min', screen: 'sesion', param: 3, imagen: '/ritual/observacion.webp', pos: '50% 35%' },
+  calma: { nombre: 'Afirmaciones para la calma', sub: 'Afirmaciones, 10 min', screen: 'afirmacion-detalle', param: null, imagen: '/ritual/calma.webp', pos: '50% 45%' },
+  yoga: { nombre: 'Conecta con tu cuerpo', sub: 'Clase de yoga, 11 min', screen: 'yoga-detalle', param: null, imagen: '/yoga2.webp', pos: '55% 25%' },
 };
 
 // Foto de fondo según el momento del día. Por ahora todas usan el atardecer
 // real de Reñaca; las otras horas se suman cuando estén listas.
 const ESCENAS = {
-  amanecer: '/inicio/amanecer.jpg',
-  dia: '/inicio/dia.jpg',
-  atardecer: '/inicio/atardecer.jpg',
-  noche: '/inicio/noche.jpg',
+  amanecer: '/inicio/amanecer.webp',
+  dia: '/inicio/dia.webp',
+  atardecer: '/inicio/atardecer.webp',
+  noche: '/inicio/noche.webp',
 };
 const ORDEN = ['amanecer', 'dia', 'atardecer', 'noche'];
 const NOMBRE_MOMENTO = { amanecer: 'Amanecer', dia: 'Día', atardecer: 'Atardecer', noche: 'Noche' };
@@ -52,10 +52,10 @@ const FRASE_MOMENTO = {
 };
 
 const CARRUSEL = [
-  { titulo: 'Meditaciones', sub: '3 sesiones guiadas', screen: 'meditaciones', imagen: '/ritual/observacion.jpg', pos: '50% 35%' },
-  { titulo: 'Afirmaciones', sub: 'Frases para la calma', screen: 'afirmaciones', imagen: '/ritual/calma.jpg', pos: '50% 40%' },
-  { titulo: 'Yoga', sub: 'Clases cortas', screen: 'yoga', imagen: '/yoga2.png', pos: '58% 30%' },
-  { titulo: 'Respirar', sub: 'Un minuto, guiado', screen: 'respirar', imagen: '/ritual/respiracion.jpg', pos: '60% 50%' },
+  { titulo: 'Meditaciones', sub: '3 sesiones guiadas', screen: 'meditaciones', imagen: '/ritual/observacion.webp', pos: '50% 35%' },
+  { titulo: 'Afirmaciones', sub: 'Frases para la calma', screen: 'afirmaciones', imagen: '/ritual/calma.webp', pos: '50% 40%' },
+  { titulo: 'Yoga', sub: 'Clases cortas', screen: 'yoga', imagen: '/yoga2.webp', pos: '58% 30%' },
+  { titulo: 'Respirar', sub: 'Un minuto, guiado', screen: 'respirar', imagen: '/ritual/respiracion.webp', pos: '60% 50%' },
 ];
 
 // Sugerencia según el momento del día...
@@ -212,7 +212,7 @@ function Home({ onNavigate, user }) {
           <div className="carrusel">
             {CARRUSEL.map(c => (
               <button key={c.titulo} type="button" className="carrusel-item" onClick={() => onNavigate(c.screen)}>
-                <img src={c.imagen} alt="" style={{ objectPosition: c.pos }} />
+                <img src={c.imagen.replace('.webp', '-s.webp')} alt="" loading="lazy" decoding="async" style={{ objectPosition: c.pos }} />
                 <span className="carrusel-texto">
                   <span className="carrusel-titulo">{c.titulo}</span>
                   <span className="carrusel-sub">{c.sub}</span>

@@ -47,7 +47,7 @@ function Programa({ nombre, imagen, imagenPos, titulo, subtitulo, unidad, singul
             <li key={s.id}>
               {s.free ? (
                 <button type="button" className="paso" onClick={() => onAbrir(s)}>
-                  <img className="paso-foto" src={s.imagen} alt="" style={{ objectPosition: s.imagenPos || 'center' }} />
+                  <img className="paso-foto" src={s.imagen.replace('.webp', '-s.webp')} loading="lazy" decoding="async" alt="" style={{ objectPosition: s.imagenPos || 'center' }} />
                   <span className="paso-info">
                     <span className="paso-titulo">{s.titulo}</span>
                     <span className="paso-meta">{Unidad} {i + 1}, {s.duracion}</span>
