@@ -1,23 +1,53 @@
 import React from 'react';
 import SesionRitual from '../components/SesionRitual';
 
-function YogaDetalle({ onNavigate, user }) {
+const CATY = { nombre: 'Caty', usuario: 'eres_masdeloquecrees', foto: '/ritual/guia-caty.webp' };
+
+// Clases de yoga. Para sumar una nueva: sus datos aquí, su dirección en routes.js
+// (YOGA_SLUG) y "free: true" en la lista de Yoga.
+export const CLASES_YOGA = {
+  1: {
+    sesionKey: 'conecta-cuerpo',
+    titulo: ['Conecta', 'con tu cuerpo'],
+    minutos: 11,
+    imagen: '/ritual/yoga-clase-1.webp',
+    imagenPos: '50% 40%',
+    chips: ['Todos los niveles', 'Necesitas un mat'],
+    desc: 'Una clase corta pensada para todos los niveles. Movimientos simples para volver a habitar tu cuerpo y bajar la velocidad de la mente.',
+    videoId: 'FyG_JPitzUA',
+  },
+  2: {
+    sesionKey: 'movimiento-libera',
+    titulo: ['Movimiento', 'que libera'],
+    minutos: 13,
+    imagen: '/ritual/yoga-clase-2.webp',
+    imagenPos: '50% 40%',
+    chips: ['Todos los niveles', 'Necesitas un mat'],
+    desc: 'Una clase de 13 minutos para soltar lo que el cuerpo viene cargando. Movimientos fluidos guiados por la respiración, para liberar tensión acumulada y terminar más liviano.',
+    videoId: 'ijBlLG8kNf4',
+  },
+};
+
+function YogaDetalle({ onNavigate, user, claseId }) {
+  const numero = CLASES_YOGA[claseId] ? Number(claseId) : 1;
+  const clase = CLASES_YOGA[numero];
   return (
     <SesionRitual
+      key={clase.sesionKey}
       onNavigate={onNavigate}
       user={user}
       tipo="yoga"
-      sesionKey="conecta-cuerpo"
-      imagen="/yoga2.webp"
-      imagenPos="58% 30%"
+      sesionKey={clase.sesionKey}
+      imagen={clase.imagen}
+      imagenPos={clase.imagenPos}
       volverA="yoga"
       volverTexto="Yoga"
-      titulo={['Conecta', 'con tu cuerpo']}
-      meta="Clase 1 de 3, 11 minutos"
-      chips={['Todos los niveles', 'Necesitas un mat']}
-      desc="Una clase corta pensada para todos los niveles. Movimientos simples para volver a habitar tu cuerpo y bajar la velocidad de la mente."
-      videoId="FyG_JPitzUA"
-      guia={{ nombre: 'Caty', usuario: 'eres_masdeloquecrees', foto: '/ritual/guia-caty.webp' }}
+      titulo={clase.titulo}
+      meta={`Clase ${numero} de 3, ${clase.minutos} minutos`}
+      chips={clase.chips}
+      desc={clase.desc}
+      videoId={clase.videoId}
+      guia={CATY}
     />
   );
 }

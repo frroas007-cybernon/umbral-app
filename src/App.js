@@ -1,23 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import './App.css';
 import Home from './screens/Home';
-import Meditaciones from './screens/Meditaciones';
-import Sesion from './screens/Sesion';
-import Afirmaciones from './screens/Afirmaciones';
-import AfirmacionDetalle from './screens/AfirmacionDetalle';
-import Yoga from './screens/Yoga';
-import YogaDetalle from './screens/YogaDetalle';
-import Perfil from './screens/Perfil';
-import EditarPerfil from './screens/EditarPerfil';
-import Privacy from './screens/Privacy';
-import Login from './screens/Login';
-import Respirar from './screens/Respirar';
-import CompletarPerfil from './screens/CompletarPerfil';
+
 import MoodModal from './components/MoodModal';
 import Splash from './components/Splash';
 import { supabase } from './supabase';
 import { identifyUser, resetUser, trackPageview, trackEvent } from './analytics';
 import { pathDe, pantallaDe } from './routes';
+
+// Las pantallas que no son el Inicio se cargan aparte, para que la app abra más rápido.
+const Meditaciones = lazy(() => import('./screens/Meditaciones'));
+const Sesion = lazy(() => import('./screens/Sesion'));
+const Afirmaciones = lazy(() => import('./screens/Afirmaciones'));
+const AfirmacionDetalle = lazy(() => import('./screens/AfirmacionDetalle'));
+const Yoga = lazy(() => import('./screens/Yoga'));
+const YogaDetalle = lazy(() => import('./screens/YogaDetalle'));
+const Perfil = lazy(() => import('./screens/Perfil'));
+const EditarPerfil = lazy(() => import('./screens/EditarPerfil'));
+const Privacy = lazy(() => import('./screens/Privacy'));
+const Login = lazy(() => import('./screens/Login'));
+const CompletarPerfil = lazy(() => import('./screens/CompletarPerfil'));
+const Respirar = lazy(() => import('./screens/Respirar'));
 
 // Pantalla inicial según la URL con que se abre la app (ej. un enlace compartido).
 // Una URL desconocida lleva al inicio.
@@ -30,7 +33,7 @@ function App() {
   const [screen, setScreen] = useState(inicial.screen);
   const [screenParam, setScreenParam] = useState(inicial.param);
   const [modalMood, setModalMood] = useState(null);
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash] = useState(false);
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [needsProfile, setNeedsProfile] = useState(null);
@@ -93,9 +96,15 @@ function App() {
     trackPageview(dest);
   };
 
-  // El splash aparece solo al abrir la app, no al cambiar de pantalla.
+  // Después de abrir, se precargan las demás pantallas sin bloquear el Inicio.
   useEffect(() => {
-    const t = setTimeout(() => setShowSplash(false), 1200);
+    const precargar = () => [
+      () => import('./screens/Meditaciones'), () => import('./screens/Sesion'),
+      () => import('./screens/Afirmaciones'), () => import('./screens/AfirmacionDetalle'),
+      () => import('./screens/Yoga'), () => import('./screens/YogaDetalle'),
+      () => import('./screens/Perfil'), () => import('./screens/Respirar'),
+    ].forEach((cargar) => cargar().catch(() => {}));
+    const t = setTimeout(precargar, 2500);
     return () => clearTimeout(t);
   }, []);
 
@@ -123,19 +132,22 @@ function App() {
 
   if (needsProfile) return (
     <div className="app">
-      <CompletarPerfil user={user} onComplete={() => setNeedsProfile(false)} />
+      <Suspense fallback={<Splash visible />}>
+        <CompletarPerfil user={user} onComplete={() => setNeedsProfile(false)} />
+      </Suspense>
     </div>
   );
 
   return (
     <div className="app">
+      <Suspense fallback={<div className="screen" />}>
       {screen === 'home' && <Home onNavigate={navigate} onMood={setModalMood} user={user} avatarUrl={avatarUrl} />}
       {screen === 'meditaciones' && <Meditaciones onNavigate={navigate} user={user} />}
       {screen === 'sesion' && <Sesion onNavigate={navigate} user={user} sesionId={screenParam} />}
       {screen === 'afirmaciones' && <Afirmaciones onNavigate={navigate} user={user} />}
       {screen === 'afirmacion-detalle' && <AfirmacionDetalle onNavigate={navigate} user={user} />}
       {screen === 'yoga' && <Yoga onNavigate={navigate} user={user} />}
-      {screen === 'yoga-detalle' && <YogaDetalle onNavigate={navigate} user={user} />}
+      {screen === 'yoga-detalle' && <YogaDetalle onNavigate={navigate} user={user} claseId={screenParam} />}
       {screen === 'perfil' && <Perfil onNavigate={navigate} user={user} avatarUrl={avatarUrl} onAvatarChange={setAvatarUrl} onLogout={() => { trackEvent('logout'); supabase.auth.signOut(); setUser(null); }} />}
       {screen === 'editar-perfil' && <EditarPerfil onNavigate={navigate} user={user} />}
       {screen === 'privacy' && <Privacy onNavigate={navigate} />}
@@ -149,6 +161,7 @@ function App() {
           }}
         />
       )}
+      </Suspense>
       <MoodModal mood={modalMood} onClose={() => setModalMood(null)} />
       <Splash visible={showSplash} />
     </div>

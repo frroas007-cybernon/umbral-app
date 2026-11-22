@@ -26,6 +26,7 @@ function SesionRitual({
   const [completada, setCompletada] = useState(false);
   const [guardado, setGuardado] = useState(false);
   const [proporcion, setProporcion] = useState(null);
+  const [copiado, setCopiado] = useState(false);
   const { marcarCompletada, guardarRating } = useRacha(user, tipo);
 
   const completar = (origen) => {
@@ -49,6 +50,29 @@ function SesionRitual({
   };
 
   const tituloPlano = Array.isArray(titulo) ? titulo.join(' ') : titulo;
+
+  // Compartir: siempre el enlace público de esta pantalla (también desde la app instalada).
+  const compartir = async () => {
+    const url = `https://www.umbralapp.lat${window.location.pathname}`;
+    const texto = `${tituloPlano}, en Umbral`;
+    trackEvent('clase_compartida', { tipo, sesion: sesionKey });
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: texto, text: `Te comparto esta práctica: ${texto}`, url });
+        return;
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch (e) {
+      window.prompt('Copia este enlace:', url);
+      return;
+    }
+    setCopiado(true);
+    setTimeout(() => setCopiado(false), 2500);
+  };
 
   return (
     <div className="screen ritual">
@@ -128,6 +152,18 @@ function SesionRitual({
             </svg>
           </a>
         )}
+
+        <button type="button" className="guia compartir" onClick={compartir}>
+          <span className="compartir-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22">
+              <path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 13v5.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V13" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ fill: 'none', stroke: 'currentColor' }} />
+            </svg>
+          </span>
+          <span className="guia-texto">
+            <span className="guia-quien">{copiado ? 'Enlace copiado' : 'Compartir esta práctica'}</span>
+            <span className="guia-ig">{copiado ? 'Pégalo donde quieras enviarlo' : 'Envía el enlace directo a quien quieras'}</span>
+          </span>
+        </button>
 
         <div className="ritual-acciones">
           <button type="button" className="btn-sec" onClick={() => completar('boton')} disabled={completada}>
