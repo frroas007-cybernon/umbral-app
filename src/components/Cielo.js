@@ -1,11 +1,42 @@
 import React from 'react';
 
-// El momento del día según la hora local.
+// Salida y puesta de sol en Viña del Mar para una fecha, en la hora local del
+// teléfono (aproximación solar estándar, error de un par de minutos). Así el
+// atardecer llega en verano y en invierno a la hora en que de verdad se ve.
+const LATITUD = -33.02;
+const LONGITUD = -71.55;
+const RAD = Math.PI / 180;
+
+export function solDelDia(fecha = new Date()) {
+  const inicio = Date.UTC(fecha.getFullYear(), 0, 0);
+  const dia = Math.floor((Date.UTC(fecha.getFullYear(), fecha.getMonth(), fecha.getDate()) - inicio) / 86400000);
+  const g = (2 * Math.PI / 365) * (dia - 1);
+  const ecuacion = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g)
+    - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+  const declinacion = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g)
+    - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g)
+    - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+  const angulo = Math.acos(Math.cos(90.833 * RAD) / (Math.cos(LATITUD * RAD) * Math.cos(declinacion))
+    - Math.tan(LATITUD * RAD) * Math.tan(declinacion)) / RAD;
+  // Minutos desde la medianoche UTC; se pasan a la hora local de esa fecha.
+  const salidaUTC = 720 - 4 * (LONGITUD + angulo) - ecuacion;
+  const puestaUTC = 720 - 4 * (LONGITUD - angulo) - ecuacion;
+  const base = Date.UTC(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+  const aLocal = (min) => {
+    const d = new Date(base + min * 60000);
+    return d.getHours() + d.getMinutes() / 60;
+  };
+  return { salida: aLocal(salidaUTC), puesta: aLocal(puestaUTC) };
+}
+
+// El momento del día según la luz real: el amanecer rodea la salida del sol,
+// el atardecer la hora dorada y la puesta, y después es de noche.
 export function momentoDelDia(fecha = new Date()) {
   const h = fecha.getHours() + fecha.getMinutes() / 60;
-  if (h >= 5 && h < 8) return 'amanecer';
-  if (h >= 8 && h < 18) return 'dia';
-  if (h >= 18 && h < 21) return 'atardecer';
+  const { salida, puesta } = solDelDia(fecha);
+  if (h >= salida - 0.5 && h < salida + 1.5) return 'amanecer';
+  if (h >= salida + 1.5 && h < puesta - 1.5) return 'dia';
+  if (h >= puesta - 1.5 && h < puesta + 0.75) return 'atardecer';
   return 'noche';
 }
 
