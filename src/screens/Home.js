@@ -76,7 +76,20 @@ function Home({ onNavigate, user }) {
   const temporizador = useRef(null);
   const { racha } = useRacha(user, 'meditacion');
 
-  const ahora = useMemo(() => new Date(), []);
+  // La hora se revisa al volver a la app y cada minuto, para que la foto y el
+  // saludo sigan al día aunque la app haya quedado abierta.
+  const [ahora, setAhora] = useState(() => new Date());
+  useEffect(() => {
+    const actualizar = () => { if (!document.hidden) setAhora(new Date()); };
+    document.addEventListener('visibilitychange', actualizar);
+    window.addEventListener('focus', actualizar);
+    const t = setInterval(actualizar, 60000);
+    return () => {
+      document.removeEventListener('visibilitychange', actualizar);
+      window.removeEventListener('focus', actualizar);
+      clearInterval(t);
+    };
+  }, []);
   const momento = momentoDelDia(ahora);
   const saludo = saludoDelDia(ahora);
 
